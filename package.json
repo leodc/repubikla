@@ -1,8 +1,8 @@
 {
-  "name": "workspace",
+  "name": "Repubikla",
   "version": "1.0.0",
-  "description": "Repubikla - Beta ======================",
-  "main": "cartoDB.js",
+  "description": "Beta",
+  "main": "repubikla.js",
   "dependencies": {
     "body-parser": "^1.15.2",
     "cartodb": "^0.4.0",
