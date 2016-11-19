@@ -13,6 +13,9 @@
     "socket.io": "^1.5.1"
   },
   "devDependencies": {},
+  "scripts": {
+    "start": "node repubikla.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leodc/repubikla.git"
