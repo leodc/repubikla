@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <!--     Movil
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        -->
+
+        <title>Repubikla</title>
+        <link rel="icon" href="resources/img/logo_clean.png">
+        
+        <!-- Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+        <!-- Bootstrap-datarangepicker -->
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
+        <!-- Bootstrap-social -->
+        <link rel="stylesheet" href="resources/plugins/bootstrap.social/bootstrap-social.css" />
+        <!-- Bootstrap-slider -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/css/bootstrap-slider.min.css" />
+        
+        <!-- Font Awesome --> 
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+        
+        <!-- Leaflet -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+        <!-- Leaflet-PruneCluster -->
+        <link rel="stylesheet" href="resources/plugins/leaflet.PruneCluster/LeafletStyleSheet.css">
+        <!-- Leaflet-EasyButton -->
+        <link rel="stylesheet" href="resources/plugins/leaflet.EasyButton/easyButton.css">
+        <!-- Leaflet-GeoSearch --> 
+        <link rel="stylesheet" href="resources/plugins/leaflet.GeoSearch/css/l.geosearch.css">
+        <!-- Leaflet-Draw-->
+        <link rel="stylesheet" href="resources/plugins/leaflet.draw/leaflet.draw.css" />
+        <!-- Leaflet-Locate control-->
+        <link rel="stylesheet" href="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.css" />
+        
+        <link rel="stylesheet" href="resources/css/app.css" />
+        
+        <script>
+            window.twttr = (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0],
+                    t = window.twttr || {};
+                
+                if (d.getElementById(id)) return t;
+                
+                js = d.createElement(s);
+                js.id = id;
+                js.src = "https://platform.twitter.com/widgets.js";
+                fjs.parentNode.insertBefore(js, fjs);
+                
+                t._e = [];
+                t.ready = function(f) {
+                    t._e.push(f);
+                };
+                
+                return t;
+            }(document, "script", "twitter-wjs"));
+        </script>
+        
+        <script>
+            (function(d, s, id) {
+                var js, fjs = d.getElementsByTagName(s)[0];
+                if (d.getElementById(id)) return;
+                js = d.createElement(s); js.id = id;
+                js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.7";
+                fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));
+        </script>
+    </head>
+
+    <body>
+        <!-- Navigation bar -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand">
+                        <img alt="Brand" src="resources/img/logo_clean.png" width="40">
+                    </a>
+                </div>
+                
+                
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    
+                    <ul class="nav navbar-nav">
+                        <!-- About us -->
+                        <li><a data-toggle="modal" href="#modalAbout">¿Qué es?</a></li>
+                        
+                        <!-- Tools -->
+                        <li class="dropdown" id="dropdownTools">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Herramientas de dibujo <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" id="drawPoint"><img src="resources/img/icons/point.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar punto</span></a></li>
+                                <li><a href="#" id="drawRoute"><img src="resources/img/icons/route.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar ruta</span></a></li>
+                                <li><a href="#" id="drawZone" ><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar zona</span></a></li>
+                            </ul>
+                        </li>
+                        <li><button type="button" class="btn btn-danger navbar-btn" data-placement="bottom" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No" id="buttonCancelDraw" >Cancelar dibujo</button></li>
+                        
+                        
+                        <!-- Download -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descargar información <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/points" data-file-name="repubikla-puntos.json">&nbsp;Puntos</a></li>
+                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/routes" data-file-name="repubikla-rutas.json">&nbsp;Rutas</a></li>
+                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/zones" data-file-name="repubikla-zonas.json">&nbsp;Zonas</a></li>
+                                <li class="divider"></li>
+                                <li><a href="https://repubikla.carto.com/datasets" target="_blank"><span class="glyphicon glyphicon-circle-arrow-right"></span>&nbsp;&nbsp;Ver datasets en CARTO</a></li>
+                            </ul>
+                        </li>
+                        
+                        <li><a href="https://repubikla.carto.com/maps" target="_blank">Mapas temáticos</a></li>
+                    </ul>
+                    
+                    <!-- Right -->
+                    <ul class="nav navbar-nav navbar-right hidden-xs">
+                        <!-- facebook -->
+                        <li>
+                            <div class="content" style="margin-top:15px;">
+                                <div id="fb-root"></div>
+                                <div class="fb-like" data-href="https://www.facebook.com/repubikla" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
+                            </div>
+                        </li>
+                        
+                        <!-- twitter -->
+                        <li>
+                            <div class="content" style="margin-top:15px;">
+                                &nbsp;<a class="twitter-follow-button" href="https://twitter.com/repubikla">Follow @Repubikla</a>
+                            </div>
+                        </li>
+                        <li>
+                            <a href="#openSourceDialog" data-toggle="modal"><img src="resources/img/open-source-logo.png" height="20">&nbsp;Licencia</a>
+                        </li>
+                    </ul>
+                    
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        
+        
+        <!-- Content -->
+        <div class="container" id="mapContainer">
+            <div id="map"></div>
+        </div>
+        
+        
+        
+        <!-- Modals -->
+        
+        <!-- About -->
+        <div id="modalAbout" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Repubikla</h4>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="content">
+                            <!-- modal tabs -->
+                            <ul class="nav nav-tabs nav-justified" id="aboutTabs">
+                                <!-- about tab -->
+                                <li class="active"><a href="#about" data-toggle="tab">Acerca del proyecto</a></li>
+                                <!-- us tab -->
+                                <li><a href="#us" data-toggle="tab"><i class="fa fa-users"></i>&nbsp;Nosotros</a></li>
+                                <!-- how tab -->
+                                <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;¿Cómo funciona?</a></li>
+                            </ul>
+                            
+                            <!-- modal tabs content -->
+                            <div class="tab-content" id="aboutTabsContent">
+                                
+                                <!-- about tab -->
+                                <div class="tab-pane fade active in" id="about" >
+                                    <div class="row">
+                                        <img src="resources/img/logo_clean.png" alt="Repubikla" class="img-responsive col-sm-3 col-md-4"></img>
+                                        <p class="text-justify col-sm-9 col-md-8">Repubikla es una herramienta mexicana independiente que surge de la comunidad Openstreetmap México, en proceso de desarrollo, para la creación y la centralización de datos sobre la movilidad no motorizada, en cualquier parte del mundo. Repubikla.org es la plataforma de mapeo que alimentan los mismos ciudadanos.</p>
+                                        <p class="text-justify col-sm-12 col-md-8">Su objetivo es complementar una información oficial insuficiente sobre la movilidad no motorizada y empoderar los ciudadanos en la creación de información, mediante una base de datos que se fortalece cada día por todos y para todos. El resultado es un diagnóstico sobre el volumen y la diversidad de los desplazamientos ciclistas, la intermodalidad, la movilidad en grupo, la infraestructura, la siniestralidad y la inseguridad en el espacio público.</p>
+                                    </div>
+                                    <p class="text-justify">Los tomadores de decisión y la sociedad civil quedan dotados de una herramienta de diagnóstico para impulsar y diseñar mejores condiciones para una movilidad sustentable y segura.</p>
+                                    <p class="text-justify">En un futuro Repubikla se vinculará con aplicaciones para smartphone y alimentará herramientas de ayuda para la movilidad de los individuos.</p>
+                                    <p class="text-justify">Las noticias sobre el proyecto se publican <a href="http://www.openstreetmap.mx/repubikla/" target="_blank">aquí.</a></p>
+                                    <p class="text-justify">Contactanos en <a href="mailto:comments@repubikla.org?Subject=Contacto" target="_top">comments@repubikla.org</a> o en nuestras redes sociales: 
+                                        <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/repubikla?lang=es">
+                                            <span class="fa fa-twitter"></span>
+                                        </a>
+                                        &nbsp;
+                                        <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/repubikla">
+                                            <span class="fa fa-facebook"></span>
+                                        </a>
+                                    </p>
+                                </div>
+                                
+                                <!-- us tab -->
+                                <div class="tab-pane fade" id="us" >
+                                    <div class="row">
+                                        <p class="text-justify col-sm-12 col-md-12">Somos una propuesta comunitaria para construir un sistema nervioso de movilidad en las ciudades. Somos un laboratorio y experimento ciudadano para generar soluciones voluntarias en el ámbito de la creación de datos públicos abiertos, que ayuden a mejorar las políticas públicas.</p>
+                                        <p class="text-justify col-sm-12 col-md-12">Actualmente impulsamos la participación, movilización y activación ciudadana, así como del sector público y privado; esto con la finalidad de crear un foro de reflexión metodológica que busque una permanente colaboración con la academia, dependencias de gobierno, instituciones de estadística, geografía, y la ciudadanía.</p>
+                                        <p class="text-justify col-sm-12 col-md-12">De esta forma y con una colaboración evolutiva y abierta, nos convertimos en sensores de movilidad activa por medio de la recolección y del análisis de datos, impulsando soluciones al rezago de datos públicos abiertos de calidad.</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- how tab -->
+                                <div id="disclaimer" class="tab-pane fade">
+                                    <p>Sobre un mapa detallado de OpenStreetMap, los usuarios ingresan el dibujo de sus recorridos frecuentes, los puntos y las zonas donde señalan una información relevante respecto a su experiencia urbana. La información es ingresada mediante formularios sintéticos, con una parte predefinida y con la posibilidad de aportar campos personalizados. La información personalizada aparecerá automáticamente como columnas independientes al momento de descargar la base de datos.</p>
+                                    <p>Georeferenciada y acumulativa, la información permite en un instante generar mapas y descargar los datos.</p>
+                                    <p>La plataforma de mapeo es solo uno de los insumos de Repubikla. Se conectará también con aplicaciones existentes en el mercado, vinculando el conjunto a la misma base de datos dinámica y descargable.</p>
+                                    <div class="row">
+                                        <img src="resources/img/diagrama sistema.png" alt="Repubikla" class="img-responsive col-md-6 col-md-offset-3"></img>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        
+        
+        <!-- Point -->
+        <div id="pointDataDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cuéntanos acerca del punto que deseas agregar</h4>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="content">
+                            <div class="row">
+                                
+                                
+                                <form id="formPointData">
+                                    <div class="col-sm-6 right-separator">
+                                        <div class="form-group-sm">
+                                            <label for="newPointMotivo">¿Qué indica este punto?</label>
+                                            <select id="newPointMotivo" class="form-control">
+                                                <option value='Cruce peligroso'>Cruce peligroso</option>
+                                                <option value='Diseño urbano peligroso'>Diseño urbano peligroso</option>
+                                                <option value='Condiciones peligrosas'>Condiciones peligrosas</option>
+                                                <option value='Bicicleta blanca'>Bicicleta blanca</option>
+                                                <optgroup label="Suceso">
+                                                    <option value='Asalto'>Asalto</option>
+                                                    <option value='Accidente'>Accidente</option>
+                                                    <option value='Robo de bicicleta en estacionamiento'>Robo de bicicleta en estacionamiento</option>
+                                                    <option value='Robo de bicicleta estacionada en la calle'>Robo de bicicleta estacionada en la calle</option>
+                                                </optgroup>
+                                                <optgroup label="Invasión de ciclovía o carril confinado por:">
+                                                    <option value='Vehículos estacionados en carril confinado'>Vehículos estacionados</option>
+                                                    <option value='Vehículos en movimiento en carril confinado'>Vehículos en movimiento</option>
+                                                    <option value='Comercio en carril confinado'>Comercio</option>
+                                                    <option value='Otro'>Otro</option>
+                                                </optgroup>
+                                                <optgroup label="Bikefriendly">
+                                                    <option value='Comercio/Servicio Bikefriendly'>Comercio/Servicio Bikefriendly</option>
+                                                    <option value='Colectivo/Punto de encuentro'>Colectivo/Punto de encuentro</option>
+                                                </optgroup>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fecha">Fecha</label>    
+                                            <!--<input type="text" name="fecha" id="fecha" class="form-control"/>-->
+                                            <div id="fecha" class="pull-left input-sm col-sm-6" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
+                                                <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
+                                                <span id="newPointDate"></span> <b class="caret"></b>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="newPointComment">Comentario</label>
+                                            <textarea id='newPointComment' class='form-control' rows='4' placeholder='Indica información puntual para caracterizar con mayor profundidad el elemento'></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6" style="border-left:1px solid black;">
+                                        <h4>Información personalizada</h4>
+                                        <p>Agrega tantos pares como necesites, si no ocupas alguno solo déjalo vacío.</p>
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Categoría</th>
+                                                    <th>Valor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="pointCustomInfo">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control input-sm newPointValue" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo" data-rule-idName="true" >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class='form-control input-sm newPointValue' type='text'>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-default pull-right btn-sm addCustomRow" target="pointCustomInfo"  additional-class="newPointValue">Añadir categoría</button>
+                                    </div>
+                                </form>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submitPointData">Aceptar</button>
+                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        
+        <!-- Legend -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="legendDialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Acerca del mapa</h4>
+                    </div>
+                    
+                    <div class="modal-body" id="legendContent">
+                    </div>
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /. Legend modal -->
+        
+        
+        
+        <!-- Open source -->
+        <div class="modal fade" tabindex="-1" role="dialog" id="openSourceDialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Licencia</h4>
+                    </div>
+                    
+                    <div class="modal-body" id="legendContent">
+                        <p>Repubikla es una iniciativa open source con una <a href="https://opensource.org/licenses/MIT" target="_blank">licencia MIT</a>, si deseas consultar o descargar el código lo puedes hacer en nuestro <a href="https://github.com/leodc/repubikla" target="_blank">github <i class="fa fa-github" aria-hidden="true"></i>.</a></p>
+                        <p>Además queremos hacer mención de los frameworks y plugins creados por la comunidad open source y que implementamos en el desarrollo.</p>
+                        <ul>
+                            <li><a href="http://leafletjs.com/" target="_blank">Leaflet</a></li>
+                            <ul>
+                                <li><a href="https://github.com/Leaflet/Leaflet.draw" target="_blank">Draw</a></li>
+                                <li><a href="https://github.com/CliffCloud/Leaflet.EasyButton" target="_blank">EasyButton</a></li>
+                                <li><a href="https://github.com/smeijer/L.GeoSearch" target="_blank">GeoSearch</a></li>
+                                <li><a href="https://github.com/SINTEF-9012/PruneCluster" target="_blank">PruneCluster</a></li>
+                                <li><a href="https://github.com/domoritz/leaflet-locatecontrol" target="_blank">LocateControl</a></li>
+                                <li><a href="https://github.com/Leaflet/Leaflet.Editable/tree/leaflet0.7" target="_blank">Editable</a></li>
+                            </ul>
+                            <li><a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></li>
+                            <ul>
+                                <li><a href="https://github.com/dangrossman/bootstrap-daterangepicker" target="_blank">DataRangePicker</a></li>
+                                <li><a href="https://github.com/lipis/bootstrap-social" target="_blank">Social</a></li>
+                                <li><a href="https://github.com/seiyria/bootstrap-slider" target="_blank">Slider</a></li>
+                                <li><a href="https://github.com/mistic100/Bootstrap-Confirmation" target="_blank">Confirmation</a></li>
+                            </ul>
+                            <li><a href="https://github.com/FortAwesome/Font-Awesome" target="_blank">FontAwesome</a></li>
+                            <li><a href="https://github.com/eligrey/FileSaver.js" target="_blank">FileSaver</a></li>
+                            <li><a href="https://github.com/moment/moment" target="_blank">Moment</a></li>
+                        </ul>
+                    </div>
+                
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /. Legend modal -->
+        
+        
+        <!-- Loading -->
+        <div class="modal fade" tabindex="-1" role="dialog"  id="chargingDialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <h4>Cargando...</h4>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+                                <span class="sr-only">Cargando...</span>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        
+        
+        <!-- Route -->
+        <div id="routeDataDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cuéntanos acerca de la ruta que deseas agregar</h4>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="content">
+                            <div class="row">
+                                
+                                
+                                <form id="formRouteData">
+                                    <div class="col-sm-6 right-separator">
+                                        
+                                        <!-- motivo -->
+                                        <div class="form-group-sm">
+                                            <label for="newRouteMotivo">¿Cúal fue el motivo principal del recorrido?</label>
+                                            <select id="newRouteMotivo" class="form-control">
+                                                <option value='ir_trabajo'>Ir al trabajo</option>
+                                        		<option value='casa'>Regreso a casa</option>
+                                        		<option value='trabajo'>Desplazamientos de trabajo</option>
+                                        		<option value='estudios'>Estudios</option>
+                                        		<option value='visitas'>Visitas</option>
+                                        		<option value='compras'>Compras</option>
+                                        		<option value='turismo'>Paseo, turismo</option>
+                                        		<option value='deporte'>Deporte</option>
+                                        		<option value='comida'>Comida</option>
+                                        		<option value='otra'>Otra actividad</option>
+                                            </select>
+                                        </div>
+                                        
+                                        <!-- tiempo -->
+                                        <div class="form-group">
+                                            <label for="timeNewRoute">Tiempo del recorrido (minutos)</label>    
+                                            <input type="number" id="timeNewRoute" class="form-control input-sm" min="1" value="30" data-msg-required="Campo necesario" data-msg-number="Número invalido" required/>
+                                        </div>
+                                        
+                                        <!-- frecuencia -->
+                                        <div class="form-group">
+                                            <label for="frequencyNewRoute">Frecuencia del recorrido: </label>    
+                                            <span id="frequencyNewRouteSliderLabel">Una vez por semana</span>
+                                            <input id="frequencyNewRoute" data-slider-id='frequencyNewRouteSlider' type="text" data-slider-min="1" data-slider-max="13" data-slider-step="1" data-slider-value="4"/>
+                                        </div>
+                                        
+                                        
+                                        <!-- checkbox -->
+                                        <div class="form-group">
+                                            <label>Califica esta ruta, en su mayoría es:</label>
+                                            <div class="checkbox">
+                                                <label for='calificacion_1'><input type='checkbox' id='calificacion_1' class="routeCheckData">Rápida y conectada</label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for='calificacion_2'><input type='checkbox' id='calificacion_2' class="routeCheckData">Segura</label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for='calificacion_3'><input type='checkbox' id='calificacion_3' class="routeCheckData">Agradable y cómoda</label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for='calificacion_4'><input type='checkbox' id='calificacion_4' class="routeCheckData">La única que puedo tomar</label>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- acompañantes -->
+                                        <div class="form-group">
+                                            <label for="newRouteCompanions">Número de personas con las que haces este recorrido</label>    
+                                            <input type="number" id="newRouteCompanions" data-msg-number="Número invalido" class="form-control input-sm" min="0" value="0"/>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label for='transporte'><input type='checkbox' id='transporte'  class="routeCheckData">Usé transporte público antes o después de la ruta.</label>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label for='publica'><input type='checkbox' id='publica'  class="routeCheckData">Hice la ruta en bicicleta pública.</label>
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <div class="form-group">
+                                            <label for="newRouteComment">Comentario</label>
+                                            <textarea id='newRouteComment' class='form-control' rows='4' placeholder='Indica información puntual para caracterizar con mayor profundidad el elemento'></textarea>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-6" style="border-left:1px solid black;">
+                                        <h4>Información personalizada</h4>
+                                        <p>Agrega tantos pares como necesites, si no ocupas alguno solo déjalo vacío.</p>
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Categoría</th>
+                                                    <th>Valor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="routeCustomInfo">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control input-sm newRouteValue" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo" data-rule-idName="true" >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class='form-control input-sm newRouteValue' type='text'>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-default pull-right btn-sm addCustomRow" target="routeCustomInfo" additional-class="newRouteValue" >Añadir categoría</button>
+                                    </div>
+                                </form>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submitRouteData">Aceptar</button>
+                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        
+        <!-- Zones -->
+        <div id="zonesDataDialog" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-lg">
+            
+                <!-- Modal content-->
+                <div class="modal-content">
+                    
+                    <!-- Header -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Cuéntanos acerca de la zona que deseas agregar</h4>
+                    </div>
+                    
+                    <!-- Body -->
+                    <div class="modal-body">
+                        <div class="content">
+                            <div class="row">
+                                
+                                <form id="formZoneData">
+                                    <div class="col-sm-6 right-separator">
+                                        <label>¿Qué características quieres señalar de esta área?</label>
+                                        <!-- checkbox -->
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='agradable' id='newZoneagradable' class="zoneCheckData">Agradable (paisaje urbano, ambiente, vegetación)</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='desagradable' id='newZonedesagradable' class="zoneCheckData">Desagradable, hostil</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='comoda' id='newZonecomoda' class="zoneCheckData">Cómoda, con buen diseño de calles y mobiliario</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='incomoda' id='newZoneincomoda' class="zoneCheckData">Incomoda, con mal diseño de calles y mobiliario</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='comercios' id='newZonecomercios' class="zoneCheckData">Con concentración de comercios y servicios útiles</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='conectada' id='newZoneconectada' class="zoneCheckData">Bien conectada (diseño de cruces, fases semafóricas)</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='no_conectada' id='newZoneno_conectada' class="zoneCheckData">Mal conectada</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='insegura' id='newZoneinsegura' class="zoneCheckData">Insegura (a nivel personal)</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='no_iluminada' id='newZoneno_iluminada' class="zoneCheckData">Mal iluminada</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='transito' id='newZonetransito' class="zoneCheckData">Tránsito confuso y peligroso</label><br>
+                                            </div>
+                                            <div class="checkbox">
+                                                <label><input type='checkbox' value='no_mantenimiento' id='newZoneno_mantenimiento' class="zoneCheckData">Mal mantenimiento (pavimento, instalaciones)</label><br><br>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="form-group">
+                                            <label for="newZoneComment">Comentario</label>
+                                            <textarea id='newZoneComment' class='form-control' rows='4' placeholder='Indica información puntual para caracterizar con mayor profundidad el elemento'></textarea>
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="col-sm-6" style="border-left:1px solid black;">
+                                        <h4>Información personalizada</h4>
+                                        <p>Agrega tantos pares como necesites, si no ocupas alguno solo déjalo vacío.</p>
+                                        <table class="table table-striped table-sm">
+                                            <thead>
+                                                <tr>
+                                                    <th>Categoría</th>
+                                                    <th>Valor</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="zoneCustomInfo">
+                                                <tr>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class="form-control input-sm newZoneValue" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo" data-rule-idName="true" >
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-group">
+                                                            <div class="input-group">
+                                                                <input class='form-control input-sm newZoneValue' type='text'>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <button class="btn btn-default pull-right btn-sm addCustomRow" target="zoneCustomInfo" additional-class="newZoneValue" >Añadir categoría</button>
+                                    </div>
+                                </form>
+                                
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" id="submitZoneData">Aceptar</button>
+                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+                    </div>
+                </div>
+            
+            </div>
+        </div>
+        
+        
+        <script src="resources/js/utils.js"></script>
+        
+        <!--    Moment    -->
+        <script src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        
+        <!-- jQuery -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+        <script>
+            /*global $*/$("#buttonCancelDraw").hide();
+        </script>
+        
+        <!-- FileSaver -->
+        <script src="resources/plugins/fileSaver/FileSaver.min.js"></script>
+        
+        <!-- jQuery-validator -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.js"></script>
+        
+        <!-- socket.io -->
+        <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
+        
+        <!-- Bootstrap -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+        <!--Bootstrap-datarangepicker-->
+        <script src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+        <!--Bootstrap-slider-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/bootstrap-slider.min.js"></script>
+        <!--Bootstrap-confirmation-->
+        <script src="resources/plugins/bootstrap.confirmation/bootstrap-confirmation.js"></script>
+        
+        <!-- Notify -->
+        <script src="resources/plugins/notify/notify.min.js"></script>
+        
+        <!-- Leaflet -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+        <!-- MapQuest Tiles -->
+        <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=ZJanp0xBDpPMOLftzxBrG1tzmNtsjPWF"></script>
+        <!-- Leaflet.PruneCluster -->
+        <script src="resources/plugins/leaflet.PruneCluster/PruneCluster.js"></script>
+        <!-- Leaflet-EasyButton -->
+        <script src="resources/plugins/leaflet.EasyButton/easyButton.js"></script>
+        <!--Draw-->
+        <script src="resources/plugins/leaflet.draw/leaflet.draw-src.js"></script>
+        <!--GeoSearch-->
+        <script src="resources/plugins/leaflet.GeoSearch/js/l.control.geosearch.js"></script>
+        <script src="resources/plugins/leaflet.GeoSearch/js/l.geosearch.provider.openstreetmap.js"></script>
+        <!-- Locate control-->
+        <script src="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.js" charset="utf-8"></script>
+        <!-- Editable-->
+        <script src="resources/plugins/leaflet.Editable/leaflet.Editable.js"></script>
+        
+        <script src="resources/js/socket.js"></script>
+        <script src="resources/js/app.js"></script>
+        <script src="resources/js/point.js"></script>
+        <script src="resources/js/route.js"></script>
+        <script src="resources/js/zone.js"></script>
+        <script src="resources/js/map.js"></script>
+    </body>
+</html>
