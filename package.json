@@ -4,27 +4,24 @@
   "description": "Repubikla - Beta ======================",
   "main": "cartoDB.js",
   "dependencies": {
-    "body-parser": "^1.15.0",
+    "body-parser": "^1.15.2",
     "cartodb": "^0.4.0",
     "config": "^1.24.0",
-    "express": "^4.13.4",
+    "express": "^4.14.0",
     "geojson-validation": "^0.1.6",
     "path": "^0.12.7",
     "socket.io": "^1.5.1"
   },
   "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/leodc/repubikla_api.git"
+    "url": "git+https://github.com/leodc/repubikla.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Leo",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/leodc/repubikla_api/issues"
+    "url": "https://github.com/leodc/repubikla/issues"
   },
-  "homepage": "https://github.com/leodc/repubikla_api#readme"
+  "homepage": "https://github.com/leodc/repubikla#readme"
 }
