@@ -162,7 +162,7 @@ function userLocationView(map){
 
 
 $(function(){
-    window.baseUrl = "http://repubikla.org/";
+    window.baseUrl = "https://repubikla.herokuapp.com/";
     
     var map = initMap("map");
     window.map = map;

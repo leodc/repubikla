@@ -110,7 +110,7 @@ $(function(){
         
         
     });
-    window.apiBaseUrl="http://www.dadevop.com:22345/api/v1";
+    
 });
 
 window.startDraw = function(type){

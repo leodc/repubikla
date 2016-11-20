@@ -16,13 +16,16 @@
   "scripts": {
     "start": "node repubikla.js"
   },
+  "engines": {
+    "node": "4.6.1"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leodc/repubikla.git"
   },
   "keywords": [],
   "author": "Leo",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/leodc/repubikla/issues"
   },
