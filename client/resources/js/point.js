@@ -1,5 +1,5 @@
 window.pointDictionary = [
-    "Accidente",
+    "Incidente vial",
     "Asalto",
     "Robo de bicicleta en estacionamiento",
     "Robo de bicicleta estacionada en la calle",
@@ -74,7 +74,7 @@ function buildPointPopup(properties, suffix){
  * */
 window.getPointCategory = function(type){
     
-    var darkred = ["Accidente", "Asalto"];
+    var darkred = ["Incidente vial", "Asalto"];
     var red = ["Robo de bicicleta en estacionamiento", "Robo de bicicleta estacionada en la calle"];
     var black = ["Bicicleta blanca"];
     var lightred = ["Cruce peligroso", "Diseño urbano peligroso", "Condiciones peligrosas"];
