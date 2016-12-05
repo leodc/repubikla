@@ -11,7 +11,8 @@ window.pointDictionary = [
     "Colectivo/Punto de encuentro",
     "Vehículos estacionados en carril confinado",
     "Vehículos en movimiento en carril confinado",
-    "Comercio en carril confinado"
+    "Comercio en carril confinado",
+    "Invasión recurrente de banqueta"
 ];
 
 var categorys = ["point-dark-red", "point-red", "point-black", "point-lightred", "point-purple", "point-orange", "point-other"];
@@ -79,7 +80,7 @@ window.getPointCategory = function(type){
     var black = ["Bicicleta blanca"];
     var lightred = ["Cruce peligroso", "Diseño urbano peligroso", "Condiciones peligrosas"];
     var purple = ["Comercio/Servicio Bikefriendly", "Colectivo/Punto de encuentro"];
-    var orange = ["Vehículos estacionados en carril confinado", "Vehículos en movimiento en carril confinado", "Comercio en carril confinado"];
+    var orange = ["Vehículos estacionados en carril confinado", "Vehículos en movimiento en carril confinado", "Comercio en carril confinado", "Invasión recurrente de banqueta"];
     
     if( darkred.indexOf(type) > - 1 ){
         return "point-dark-red";
@@ -219,8 +220,8 @@ $(function(){
             window.drawLayer.clearLayers();
             window.drawLayer.addLayer(drawPoint);
             
-    		$('#pointDataDialog').modal('show');
-    	});
+            $('#pointDataDialog').modal('show');
+        });
     });
     
     
@@ -416,7 +417,6 @@ function cancelNewPoint(){
     $("#newPointComment").val("");
     $('.newPointValue').val("");
     $(".addedRow").remove();
-    $("#fecha").trigger("updateDate");
 }
 
 /* global $ L PruneClusterForLeaflet PruneCluster*/
