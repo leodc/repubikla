@@ -111,9 +111,9 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descargar información <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/points" data-file-name="repubikla-puntos.json">&nbsp;Puntos</a></li>
-                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/routes" data-file-name="repubikla-rutas.json">&nbsp;Rutas</a></li>
-                                <li><a href="#" class="downloadButtons" data-target="https://repubikla-api-leodc.c9users.io/api/v1/zones" data-file-name="repubikla-zonas.json">&nbsp;Zonas</a></li>
+                                <li><button class="btn btn-link" onclick="window.downloadPoints();"><img src="resources/img/icons/point.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar punto</span></button></li>
+                                <li><button class="btn btn-link" onclick="window.downloadRoutes();"><img src="resources/img/icons/route.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar ruta</span></button></li>
+                                <li><button class="btn btn-link" onclick="window.downloadZones();"><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar zona</span></button></li>
                                 <li class="divider"></li>
                                 <li><a href="https://repubikla.carto.com/datasets" target="_blank"><span class="glyphicon glyphicon-circle-arrow-right"></span>&nbsp;&nbsp;Ver datasets en CARTO</a></li>
                             </ul>

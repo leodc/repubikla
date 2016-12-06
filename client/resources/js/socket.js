@@ -37,3 +37,36 @@ socket.on("insertedPoint", function (geojson) {
 socket.on("insertedRoute", function (geojson) {
     window.insertedRoute(geojson);
 });
+
+window.downloadPoints = function(){
+    socket.emit("downloadPoints");
+};
+
+window.downloadRoutes = function(){
+    socket.emit("downloadRoutes");
+};
+
+window.downloadZones = function(){
+    socket.emit("downloadZones");
+};
+
+socket.on("downloadPoints", function(geojson){
+    sendFile(geojson, "repubikla-puntos.json");
+});
+
+socket.on("downloadRoutes", function(geojson){
+    sendFile(geojson, "repubikla-rutas.json");
+});
+
+socket.on("downloadZones", function(geojson){
+    sendFile(geojson, "repubikla-zonas.json");
+});
+
+function sendFile(geojson, filename){
+    var text = JSON.stringify(geojson);
+    
+    var file = new File([text], filename, { type: "application/json;charset=utf-8" });
+    saveAs(file);
+}
+
+/*global $ moment L saveAs File*/
