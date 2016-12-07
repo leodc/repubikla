@@ -69,4 +69,4 @@ function sendFile(geojson, filename){
     saveAs(file);
 }
 
-/*global $ moment L saveAs File*/
+/*global L saveAs File*/

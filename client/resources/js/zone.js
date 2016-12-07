@@ -176,10 +176,6 @@ $(function(){
         window.hideRouteLayer();
         map.removeLayer(zoneLayer);
         
-    	L.drawLocal.draw.handlers.polygon.tooltip.start = "Inicia el dibujo con un clic.";
-    	L.drawLocal.draw.handlers.polygon.tooltip.cont = "Da clic para continuar el dibujo.";
-    	L.drawLocal.draw.handlers.polygon.tooltip.end = "Da clic en el nimer punto para terminar el dibujo.";
-    
     	drawAux = new L.Draw.Polygon(map, {
 			shapeOptions: {
                 color: 'black'
@@ -187,7 +183,7 @@ $(function(){
             allowIntersection: false,
             drawError: {
                 color: '#e1e100',
-                message: '<strong>Error:<strong> No puedes continuar tu dibujo en ese punto.'
+                message: '<strong>Error:</strong> No puedes continuar tu dibujo en ese punto.'
             },
 		});
 		
@@ -199,11 +195,14 @@ $(function(){
             }
             
             window.drawLayer.clearLayers();
-    		drawZone = L.polygon(e.layer.getLatLngs()).addTo(window.drawLayer);
-    		drawZone.enableEdit();
+    		drawZone = new L.polygon(e.layer.getLatLngs());
+    		drawZone.editing.enable();
+    		
     		drawZone.setStyle({
     		    dashArray: "5, 5"
     		});
+    		
+    		drawZone.addTo(window.drawLayer);
     		
             $("#zonesDataDialog").modal("show");
     	});

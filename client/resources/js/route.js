@@ -259,10 +259,6 @@ $(function(){
         window.hideZonesLayer();
         map.removeLayer(routeLayer);
         
-    	L.drawLocal.draw.handlers.polyline.tooltip.start = "Inicia el dibujo con un clic.";
-    	L.drawLocal.draw.handlers.polyline.tooltip.cont = "Da clic para continuar el dibujo.";
-    	L.drawLocal.draw.handlers.polyline.tooltip.end = "Da clic en el ultimo punto para terminar el dibujo.";
-    
     	drawAux = new L.Draw.Polyline(map, {
 			shapeOptions: {
                 color: 'black',
@@ -276,15 +272,13 @@ $(function(){
                 return;
             }
             
-            window.drawLayer.clearLayers();
-    		drawRoute = L.polyline(e.layer.getLatLngs()).addTo(window.drawLayer);
-    		drawRoute.enableEdit();
-    		drawRoute.setStyle({
-    		    dashArray: "5, 5"
-    		});
+            drawRoute = new L.Polyline(e.layer.getLatLngs());
+            drawRoute.editing.enable();
+            drawRoute.addTo(window.drawLayer);
     		
             $("#routeDataDialog").modal("show");
     	});
+    	
     });
     
     $('#formRouteData').validate({
