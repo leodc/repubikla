@@ -2,6 +2,8 @@ var motivosId =    ["ir_trabajo", "casa", "trabajo", "estudios", "visita", "comp
 var motivosText =  ["Ir al trabajo", "Regreso a casa", "Desplazamientos de trabajo", "Estudios", "Visitas", "Compras", "Paseo, turismo", "Deporte", "Comida", "Otra actividad"];
 
 function parseMotivo(expression){
+    
+    /**
     var indexAux = motivosId.indexOf(expression);
     if(indexAux > -1){
         return motivosText[indexAux];
@@ -13,6 +15,9 @@ function parseMotivo(expression){
     }
     
     return "";
+    */
+    
+    return expression;
 }
 
 
@@ -26,25 +31,26 @@ function parseFrecuencia(target){
             return "Tres veces al mes";
         case 4:
             return "Una vez por semana";
-        case 8:
+        case 5:
             return "Dos veces por semana";
-        case 12:
+        case 6:
             return "Tres veces por semana";
-        case 16:
+        case 7:
             return "Cuatro veces por semana";
-        case 20:
+        case 8:
             return "Cinco veces por semana";
-        case 24:
+        case 9:
             return "Seis veces por semana";
-        case 30:
+        case 10:
             return "Siete veces por semana";
-        case 60:
+        case 11:
             return "Dos veces al día";
-        case 90:
+        case 12:
             return "Tres veces al día";
-        case 120:
+        case 13:
             return "Cuatro veces al día";
         default:
+            console.error("Error: frecuency not found - ", target);
             return "";
     }
 }

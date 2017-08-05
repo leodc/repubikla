@@ -58,32 +58,32 @@ $(function(){
         var name = (Math.random() * 100000).toString();
         
         var html = "";
-		html +=	'<tr class="addedRow">';
-		html +=	'<td>';
-		html +=	'    <div class="form-group">';
-		html +=	'        <div class="input-group">';
-		html +=	'            <input class="form-control input-sm ' + $(this).attr("additional-class") + '" name="' + name + '" data-rule-idName="true" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo">';
-		html +=	'        </div>';
-		html +=	'    </div>';
-		html +=	'</td>';
-		html +=	'<td>';
-		html +=	'    <div class="form-group">';
-		html +=	'        <div class="input-group">';
-		html +=	'            <input class="form-control input-sm ' + $(this).attr("additional-class") + '" type="text">';
-		html +=	'        </div>';
-		html +=	'    </div>';
-		html +=	'</td>';
-		html +=	'</tr>';
+        html += '<tr class="addedRow">';
+        html += '<td>';
+        html += '    <div class="form-group">';
+        html += '        <div class="input-group">';
+        html += '            <input class="form-control input-sm ' + $(this).attr("additional-class") + '" name="' + name + '" data-rule-idName="true" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo">';
+        html += '        </div>';
+        html += '    </div>';
+        html += '</td>';
+        html += '<td>';
+        html += '    <div class="form-group">';
+        html += '        <div class="input-group">';
+        html += '            <input class="form-control input-sm ' + $(this).attr("additional-class") + '" type="text">';
+        html += '        </div>';
+        html += '    </div>';
+        html += '</td>';
+        html += '</tr>';
         
         $("#" + $(this).attr("target")).append(html);
     });
     
     $('#frequencyNewRoute').slider({
-    	tooltip: "hide"
+        tooltip: "hide"
     });
     
     $("#frequencyNewRoute").on("slide", function(slideEvt) {
-    	$("#frequencyNewRouteSliderLabel").text(getSliderText(slideEvt.value));
+        $("#frequencyNewRouteSliderLabel").text(getSliderText(slideEvt.value));
     });
     
     $('[data-toggle=confirmation]').confirmation({
@@ -110,7 +110,7 @@ $(function(){
         
         
     });
-    
+    window.apiBaseUrl="http://www.dadevop.com:22345/api/v1";
 });
 
 window.startDraw = function(type){

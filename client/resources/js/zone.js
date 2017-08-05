@@ -176,36 +176,53 @@ $(function(){
         window.hideRouteLayer();
         map.removeLayer(zoneLayer);
         
-    	drawAux = new L.Draw.Polygon(map, {
-			shapeOptions: {
+        L.drawLocal.draw.handlers.polygon.tooltip.start = "Inicia el dibujo con un clic.";
+        L.drawLocal.draw.handlers.polygon.tooltip.cont = "Da clic para continuar el dibujo.";
+        L.drawLocal.draw.handlers.polygon.tooltip.end = "Da clic en el nimer punto para terminar el dibujo.";
+    
+        drawAux = new L.Draw.Polygon(map, {
+            shapeOptions: {
                 color: 'black'
             },
             allowIntersection: false,
             drawError: {
                 color: '#e1e100',
-                message: '<strong>Error:</strong> No puedes continuar tu dibujo en ese punto.'
+                message: '<strong>Error:<strong> No puedes continuar tu dibujo en ese punto.'
             },
-		});
-		
-		drawAux.enable();
+        });
         
-    	map.on('draw:created', function (e) {
-    	    if( e.layerType !== "polygon" ){
+        drawAux.enable();
+        
+        map.on('draw:created', function (e) {
+            if( e.layerType !== "polygon" ){
                 return;
             }
             
             window.drawLayer.clearLayers();
-    		drawZone = new L.polygon(e.layer.getLatLngs());
-    		drawZone.editing.enable();
-    		
-    		drawZone.setStyle({
-    		    dashArray: "5, 5"
-    		});
-    		
-    		drawZone.addTo(window.drawLayer);
-    		
-            $("#zonesDataDialog").modal("show");
-    	});
+            drawZone = L.polygon(e.layer.getLatLngs()).addTo(window.drawLayer);
+            drawZone.enableEdit();
+            drawZone.setStyle({
+                dashArray: "5, 5"
+            });
+            
+            var bounds = drawZone.getBounds();
+            window.map.fitBounds(bounds);
+            
+            var html = "Asegúrate que tu dibujo sea correcto, cuando estés listo presiona siguiente.";
+            html += "<div align='center'><button class='btn btn-default btn-sm' id='nextButtonZones'>Siguiente</button></div>";
+            
+            var popup = L.popup({
+                    closeButton: false,
+                    autoClose: false,
+                    closeOnClick: false
+                }).setLatLng({lng: bounds.getCenter().lng, lat: bounds.getNorthWest().lat+0.00005})
+                .setContent(html)
+                .openOn(map);
+                
+            $("#nextButtonZones").click(function(){
+                $("#zonesDataDialog").modal("show");
+            });
+        });
     });
     
     
@@ -299,10 +316,10 @@ $(function(){
             setTimeout(function(){
                 drawZone.bindPopup(popup).openPopup();
                 
-            	$("#submitZone").click(function(evt){
-            	    $(this).button('save');
-            	    
-            	    var geojson = drawZone.toGeoJSON();
+                $("#submitZone").click(function(evt){
+                    $(this).button('save');
+                    
+                    var geojson = drawZone.toGeoJSON();
     
                     for(var key in newZoneData ){
                         geojson.properties[key] = newZoneData[key];

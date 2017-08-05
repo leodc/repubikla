@@ -28,36 +28,6 @@ window.motivosProperties = {
     },
     "Otra actividad":{
         color: "#3b3eac"
-    },
-    "ir_trabajo":{
-        color: "#3366cc"
-    },
-    "casa":{
-        color: "#ff9900"
-    },
-    "trabajo":{
-        color: "#990099"
-    },
-    "estudios":{
-        color: "#dd4477"
-    },
-    "visitas":{
-        color: "#66aa00"
-    },
-    "compras":{
-        color: "#b82e2e"
-    },
-    "turismo":{
-        color: "#316395"
-    },
-    "deporte":{
-        color: "#994499"
-    },
-    "comida":{
-        color: "#22aa99"
-    },
-    "otra":{
-        color: "#3b3eac"
     }
 };
 
@@ -82,10 +52,13 @@ function getRouteStyle (motivo, sharedRoute){
 function buildRoutePopup(properties, suffix){
     var excluded = ["comment","the_geom","cartodb_id","the_geom_webmercator","created_at","updated_at","geojson", "date","gid"];
     
-    var cleanBody = true;
+    var bodyPreffix = "<br><br><b>Esta ruta es: </b>";
+    
     var topItems = "";
-    var bodyItems = "<br><br><b>Esta ruta es: </b>";
+    var bodyItems = bodyPreffix;
     var footItems = "<br>";
+    
+    
     for(var key in properties ){
         if( excluded.indexOf(key) < 0 ){
             switch(key){
@@ -102,32 +75,26 @@ function buildRoutePopup(properties, suffix){
                 case "ruta_rapida":
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> Rápida y conectada";
-                        cleanBody = false;
                     break;
                 case "ruta_segura":
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> Segura";
-                        cleanBody = false;
                     break;
                 case "ruta_amigable":
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> Agradable y cómoda";
-                        cleanBody = false;
                     break;
                 case "ruta_neutral": 
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> La única que puedo tomar";
-                        cleanBody = false;
                     break;
                 case "ruta_multimodal":
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> Multimodal";
-                        cleanBody = false;
                     break;
                 case "ruta_bicipublica":
                     if(properties[key])
                         bodyItems += "<br><i class='fa fa-check-circle-o' aria-hidden='true'></i> Hecha en bicicleta pública";
-                        cleanBody = false;
                     break;
                 case "ruta_acompanantes":
                     topItems += "<br><b>Número de personas que hacen este recorrido: </b>" + (properties[key] + 1);
@@ -139,9 +106,7 @@ function buildRoutePopup(properties, suffix){
         }
     }
     
-    if( cleanBody ){
-        bodyItems = "";
-    }
+    bodyItems = (bodyItems===bodyPreffix) ? "":bodyItems;
     
     if(suffix) {
         return topItems + bodyItems + footItems + suffix;
@@ -259,26 +224,57 @@ $(function(){
         window.hideZonesLayer();
         map.removeLayer(routeLayer);
         
-    	drawAux = new L.Draw.Polyline(map, {
-			shapeOptions: {
+        L.drawLocal.draw.handlers.polyline.tooltip.start = "Inicia el dibujo con un clic.";
+        L.drawLocal.draw.handlers.polyline.tooltip.cont = "Da clic para continuar el dibujo.";
+        L.drawLocal.draw.handlers.polyline.tooltip.end = "Da clic en el ultimo punto para terminar el dibujo.";
+    
+        drawAux = new L.Draw.Polyline(map, {
+            shapeOptions: {
                 color: 'black',
                 dashArray: "5, 5"
             }
-		});
-		drawAux.enable();
+        });
+        drawAux.enable();
         
-    	map.on('draw:created', function (e) {
-    	    if( e.layerType !== "polyline" ){
+        map.on('draw:created', function (e) {
+            if( e.layerType !== "polyline" ){
                 return;
             }
             
-            drawRoute = new L.Polyline(e.layer.getLatLngs());
-            drawRoute.editing.enable();
-            drawRoute.addTo(window.drawLayer);
-    		
-            $("#routeDataDialog").modal("show");
-    	});
-    	
+            window.drawLayer.clearLayers();
+            drawRoute = L.polyline(e.layer.getLatLngs()).addTo(window.drawLayer);
+            drawRoute.enableEdit();
+            drawRoute.setStyle({
+                dashArray: "5, 5"
+            });
+            
+            var bounds = drawRoute.getBounds();
+            window.map.fitBounds(bounds);
+            
+            var html = "Asegúrate que tu dibujo sea correcto, cuando estés listo presiona siguiente.";
+            html += "<div align='center'><button class='btn btn-default btn-sm' id='nextButtonRoutes'>Siguiente</button></div>";
+            
+            var popup = L.popup({
+                    closeButton: false,
+                    autoClose: false,
+                    closeOnClick: false
+                }).setLatLng({lng: bounds.getCenter().lng, lat: bounds.getNorthWest().lat+0.00005})
+                .setContent(html)
+                .openOn(map);
+            
+            
+            $("#nextButtonRoutes").click(function(){
+                $("#routeDataDialog").modal("show");
+            });
+            
+            /*
+            var popupListener = function(){
+                drawRoute.openPopup();
+            };
+            
+            drawRoute.on("popupclose", popupListener);
+            */
+        });
     });
     
     $('#formRouteData').validate({
@@ -341,7 +337,7 @@ $(function(){
                 }
             }
             
-            var html = "<div style='margin-top: 5px;'><button class='btn btn-primary btn-sm' data-save-text='Guardando...' id='submitRoute'>Aceptar</button>&nbsp;<button class='btn btn-default btn-sm' data-toggle='modal' data-target='#routeDataDialog'>Modificar datos</button></div>";
+            var html = "<div style='margin-top: 5px;'><button class='btn btn-primary btn-sm' data-save-text='Guardando...' id='submitRoute'>Aceptar</button>&nbsp;<button class='btn btn-default btn-sm' data-toggle='modal' data-target='#routeDataDialog' onClick='console.log(\"asd\")'>Modificar datos</button></div>";
             
             var style = getRouteStyle(newRouteData.ruta_motivo);
             style.dashArray = "5, 5";
@@ -361,10 +357,10 @@ $(function(){
             setTimeout(function(){
                 drawRoute.openPopup();
                 
-            	$("#submitRoute").click(function(evt){
-            	    $(this).button('save');
-            	    
-            	    var geojson = drawRoute.toGeoJSON();
+                $("#submitRoute").click(function(evt){
+                    $(this).button('save');
+                    
+                    var geojson = drawRoute.toGeoJSON();
                     geojson.geometry.type = "MultiLineString";
                     
                     var coords = geojson.geometry.coordinates;

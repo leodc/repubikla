@@ -8,6 +8,10 @@ var routesUtils = require("./utils/routesUtils.js");
 var sql = new cartoDB.SQL({user: config.get('user'), api_key: config.get('api_key')});
 
 
+//var routesTableName = "rutas_copy_leo";
+var routesTableName = "rutas";
+
+
 var getPoints = function(callback){
     sql.execute("SELECT ST_X(the_geom) as lng, ST_Y(the_geom) as lat,comment,cartodb_id as id,date,type FROM puntos").done(function(data) {
         var json;
@@ -45,7 +49,7 @@ var getPoints = function(callback){
 
 
 var getRoutes = function(callback){
-    sql.execute("SELECT *,ST_AsGeoJSON(the_geom) as geojson FROM rutas").done(function(data) {
+    sql.execute("SELECT *,ST_AsGeoJSON(the_geom) as geojson FROM " + routesTableName).done(function(data) {
         
         var propertiesValues = ["ruta_tiempo","ruta_rapida","ruta_segura","ruta_amigable","ruta_neutral","ruta_acompanantes","ruta_bicipublica","ruta_multimodal"];
         var properties;
@@ -59,7 +63,10 @@ var getRoutes = function(callback){
         for(var i = 0; i < data.rows.length; i++){
             json = data.rows[i];
             properties = buildProperties(json.comment);
-            properties.ruta_motivo = routesUtils.parseMotivo(json.ruta_motivo);
+            
+            //properties.ruta_motivo = routesUtils.parseMotivo(json.ruta_motivo);
+            properties.ruta_motivo = json.ruta_motivo;
+            
             properties.ruta_frecuencia = routesUtils.parseFrecuencia(json.ruta_frecuencia);
             properties.date = json.created_at.substring(0,10);
             properties.gid = json.cartodb_id;
@@ -115,7 +122,7 @@ var getZones = function(callback){
 
 
 var getRoutesDf = function(res){
-    sql.execute("SELECT *,ST_AsGeoJSON(the_geom) as geojson FROM rutas WHERE ST_Contains((SELECT the_geom from dfcontorno), the_geom)").done(function(data) {
+    sql.execute("SELECT *,ST_AsGeoJSON(the_geom) as geojson FROM " + routesTableName + " WHERE ST_Contains((SELECT the_geom from dfcontorno), the_geom)").done(function(data) {
         
         var propertiesValues = ["ruta_tiempo","ruta_rapida","ruta_segura","ruta_amigable","ruta_neutral","ruta_acompanantes","ruta_bicipublica","ruta_multimodal","cartodb_id"];
         var features = [];
@@ -124,7 +131,10 @@ var getRoutesDf = function(res){
         for(var i = 0; i < data.rows.length; i++){
             json = data.rows[i];
             properties = buildProperties(json.comment);
-            properties.ruta_motivo = routesUtils.parseMotivo(json.ruta_motivo);
+            
+            //properties.ruta_motivo = routesUtils.parseMotivo(json.ruta_motivo);
+            properties.ruta_motivo = json.ruta_motivo;
+            
             properties.ruta_frecuencia = routesUtils.parseFrecuencia(json.ruta_frecuencia);
             properties.date = json.created_at.substring(0,10);
             
@@ -213,11 +223,11 @@ function insertPoint(point, callback){
         
         
         var query = "INSERT INTO puntos(the_geom,date,type,comment) VALUES (ST_SetSRID(ST_GeomFromGeoJSON('";
-    	query += JSON.stringify(geojson.geometry) + "'),4326),'" + geojson.properties.date + "','" + geojson.properties.type + "','" + comment + "')";
-    	query += " RETURNING cartodb_id";
-    	console.log(query);
-    	
-    	sql.execute(query).done(function(data) {
+        query += JSON.stringify(geojson.geometry) + "'),4326),'" + geojson.properties.date + "','" + geojson.properties.type + "','" + comment + "')";
+        query += " RETURNING cartodb_id";
+        console.log(query);
+        
+        sql.execute(query).done(function(data) {
             geojson.properties.gid = data.rows[0].cartodb_id;
             
             console.log("inserted point", geojson.properties.gid);
@@ -274,14 +284,14 @@ function insertRoute(route, callback){
         
         var comment = propertiesToline(properties);
         
-        var query = "INSERT INTO rutas(the_geom,ruta_motivo,ruta_tiempo,ruta_frecuencia,ruta_acompanantes,ruta_rapida,ruta_segura,ruta_amigable,ruta_neutral,ruta_bicipublica,ruta_multimodal,comment) VALUES ";
+        var query = "INSERT INTO " + routesTableName + "(the_geom,ruta_motivo,ruta_tiempo,ruta_frecuencia,ruta_acompanantes,ruta_rapida,ruta_segura,ruta_amigable,ruta_neutral,ruta_bicipublica,ruta_multimodal,comment) VALUES ";
         query += "(ST_SetSRID(ST_GeomFromGeoJSON('" + JSON.stringify(route.geometry) + "'),4326),'" + ruta_motivo + "'," + ruta_tiempo + "," + ruta_frecuencia + "," + ruta_acompanantes + "," + values.join(",");
         query += ",'" + comment + "')";
-    	query += " RETURNING cartodb_id";
-    	
-    	geojson.properties = propertiesAux;
-    	
-    	sql.execute(query).done(function(data) {
+        query += " RETURNING cartodb_id";
+        
+        geojson.properties = propertiesAux;
+        
+        sql.execute(query).done(function(data) {
             geojson.properties.gid = data.rows[0].cartodb_id;
             
             callback(geojson);
@@ -329,10 +339,10 @@ function insertZone(zone, callback){
         var query = "INSERT INTO zonas(the_geom, zona_agradable,zona_comercio,zona_comoda,zona_conectada,zona_desagradable,zona_incomoda,zona_insegura,zona_no_conectada,zona_no_iluminada,zona_no_mantenimiento,zona_transito,comment) VALUES ";
         query += "(ST_SetSRID(ST_GeomFromGeoJSON('" + JSON.stringify(zone.geometry) + "'),4326)," + values.join(",");
         query += ",'" + comment + "')";
-    	query += " RETURNING cartodb_id";
-    	
-    	geojson.properties = propertiesAux;
-    	sql.execute(query).done(function(data) {
+        query += " RETURNING cartodb_id";
+        
+        geojson.properties = propertiesAux;
+        sql.execute(query).done(function(data) {
             geojson.properties.gid = data.rows[0].cartodb_id;
             
             callback(geojson);

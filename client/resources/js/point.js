@@ -204,6 +204,8 @@ $(function(){
         window.hideRouteLayer();
         map.removeLayer(pruneCluster);
         
+        L.drawLocal.draw.handlers.marker.tooltip.start = "Ahora solo da clic donde quieras posicionar el marcador.";
+        
         drawAux = new L.Draw.Marker(map, {});
         drawAux.enable();
         
@@ -405,7 +407,7 @@ window.paintPoints = function(featureCollection){
     
     if(window.getUrlParameter('r') || window.getUrlParameter('z')) return;
     
-    map.addLayer(pruneCluster);
+    map.addLayer((pruneCluster));
 };
 
 function cancelNewPoint(){

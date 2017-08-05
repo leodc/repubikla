@@ -26,19 +26,19 @@ io.on('connection', function(socket){
         socket.emit("getZones", featureCollection);
     });
     
-    socket.on("downloadPoints", function(){
+    socket.on("downloadPoints", function(type){
         cartodb.getPoints(function(featureCollection){
             socket.emit("downloadPoints", featureCollection);
         });
     });
     
-    socket.on("downloadRoutes", function(geojson){
+    socket.on("downloadRoutes", function(type){
         cartodb.getRoutes(function(featureCollection){
             socket.emit("downloadRoutes", featureCollection);
         });
     });
     
-    socket.on("downloadZones", function(geojson){
+    socket.on("downloadZones", function(type){
         cartodb.getZones(function(featureCollection){
             socket.emit("downloadZones", featureCollection);
         });

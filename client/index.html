@@ -24,7 +24,7 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
         
         <!-- Leaflet -->
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
         <!-- Leaflet-PruneCluster -->
         <link rel="stylesheet" href="resources/plugins/leaflet.PruneCluster/LeafletStyleSheet.css">
         <!-- Leaflet-EasyButton -->
@@ -32,7 +32,7 @@
         <!-- Leaflet-GeoSearch --> 
         <link rel="stylesheet" href="resources/plugins/leaflet.GeoSearch/css/l.geosearch.css">
         <!-- Leaflet-Draw-->
-        <link rel="stylesheet" href="resources/plugins/leaflet.draw/src/leaflet.draw.css" />
+        <link rel="stylesheet" href="resources/plugins/leaflet.draw/leaflet.draw.css" />
         <!-- Leaflet-Locate control-->
         <link rel="stylesheet" href="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.css" />
         
@@ -140,9 +140,6 @@
                         </li>
                         <li>
                             <a href="https://github.com/leodc/repubikla" target="_blank"><i class="fa fa-github" aria-hidden="true"></i>&nbsp;Nuestro github</a>
-                            <!--
-                            <a href="#openSourceDialog" data-toggle="modal"><img src="resources/img/open-source-logo.png" height="20">&nbsp;Licencia</a>
-                            -->
                         </li>
                     </ul>
                     
@@ -283,7 +280,6 @@
                                                     <option value='Comercio en carril confinado'>Comercio</option>
                                                     <option value='Otro'>Otro</option>
                                                 </optgroup>
-                                                <option value='Invasión recurrente de banqueta'>Invasión recurrente de banqueta</option>
                                                 <optgroup label="Bikefriendly">
                                                     <option value='Comercio/Servicio Bikefriendly'>Comercio/Servicio Bikefriendly</option>
                                                     <option value='Colectivo/Punto de encuentro'>Colectivo/Punto de encuentro</option>
@@ -343,7 +339,7 @@
                     
                     <!-- Footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="submitPointData">Aceptar</button>
+                        <button type="button" class="btn btn-primary" id="submitPointData">Siguiente</button>
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
                     </div>
                 </div>
@@ -363,51 +359,6 @@
                     </div>
                     
                     <div class="modal-body" id="legendContent">
-                    </div>
-                
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /. Legend modal -->
-        
-        
-        
-        <!-- Open source -->
-        <div class="modal fade" tabindex="-1" role="dialog" id="openSourceDialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Licencia</h4>
-                    </div>
-                    
-                    <div class="modal-body" id="legendContent">
-                        <p>Repubikla es una iniciativa open source con una <a href="https://opensource.org/licenses/MIT" target="_blank">licencia MIT</a>, si deseas consultar o descargar el código lo puedes hacer en nuestro <a href="https://github.com/leodc/repubikla" target="_blank">github <i class="fa fa-github" aria-hidden="true"></i>.</a></p>
-                        <p>Además queremos hacer mención de los frameworks y plugins creados por la comunidad open source y que implementamos en el desarrollo.</p>
-                        <ul>
-                            <li><a href="http://leafletjs.com/" target="_blank">Leaflet</a></li>
-                            <ul>
-                                <li><a href="https://github.com/Leaflet/Leaflet.draw" target="_blank">Draw</a></li>
-                                <li><a href="https://github.com/CliffCloud/Leaflet.EasyButton" target="_blank">EasyButton</a></li>
-                                <li><a href="https://github.com/smeijer/L.GeoSearch" target="_blank">GeoSearch</a></li>
-                                <li><a href="https://github.com/SINTEF-9012/PruneCluster" target="_blank">PruneCluster</a></li>
-                                <li><a href="https://github.com/domoritz/leaflet-locatecontrol" target="_blank">LocateControl</a></li>
-                                <li><a href="https://github.com/Leaflet/Leaflet.Editable/tree/leaflet0.7" target="_blank">Editable</a></li>
-                            </ul>
-                            <li><a href="http://getbootstrap.com/" target="_blank">Bootstrap</a></li>
-                            <ul>
-                                <li><a href="https://github.com/dangrossman/bootstrap-daterangepicker" target="_blank">DataRangePicker</a></li>
-                                <li><a href="https://github.com/lipis/bootstrap-social" target="_blank">Social</a></li>
-                                <li><a href="https://github.com/seiyria/bootstrap-slider" target="_blank">Slider</a></li>
-                                <li><a href="https://github.com/mistic100/Bootstrap-Confirmation" target="_blank">Confirmation</a></li>
-                            </ul>
-                            <li><a href="https://github.com/FortAwesome/Font-Awesome" target="_blank">FontAwesome</a></li>
-                            <li><a href="https://github.com/eligrey/FileSaver.js" target="_blank">FileSaver</a></li>
-                            <li><a href="https://github.com/moment/moment" target="_blank">Moment</a></li>
-                        </ul>
                     </div>
                 
                     <div class="modal-footer">
@@ -461,16 +412,16 @@
                                         <div class="form-group-sm">
                                             <label for="newRouteMotivo">¿Cúal fue el motivo principal del recorrido?</label>
                                             <select id="newRouteMotivo" class="form-control">
-                                                <option value='ir_trabajo'>Ir al trabajo</option>
-                                                <option value='casa'>Regreso a casa</option>
-                                                <option value='trabajo'>Desplazamientos de trabajo</option>
-                                                <option value='estudios'>Estudios</option>
-                                                <option value='visitas'>Visitas</option>
-                                                <option value='compras'>Compras</option>
-                                                <option value='turismo'>Paseo, turismo</option>
-                                                <option value='deporte'>Deporte</option>
-                                                <option value='comida'>Comida</option>
-                                                <option value='otra'>Otra actividad</option>
+                                                <option value='Ir al trabajo'>Ir al trabajo</option>
+                                                <option value='Regreso a casa'>Regreso a casa</option>
+                                                <option value='Desplazamientos de trabajo'>Desplazamientos de trabajo</option>
+                                                <option value='Estudios'>Estudios</option>
+                                                <option value='Visitas'>Visitas</option>
+                                                <option value='Compras'>Compras</option>
+                                                <option value='Paseo, turismo'>Paseo, turismo</option>
+                                                <option value='Deporte'>Deporte</option>
+                                                <option value='Comida'>Comida</option>
+                                                <option value='Otra actividad'>Otra actividad</option>
                                             </select>
                                         </div>
                                         
@@ -567,8 +518,15 @@
                     
                     <!-- Footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="submitRouteData">Aceptar</button>
+                        <button type="button" class="btn btn-primary" id="submitRouteData">Siguiente</button>
+                        
+                        <!--
+                        <button type="button" class="btn btn-default" onClick="$('#routeDataDialog').modal('hide')">Regresar al dibujo</button>
+                        -->
+                        
+                        <!--
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+                        -->
                     </div>
                 </div>
             
@@ -680,8 +638,11 @@
                     
                     <!-- Footer -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" id="submitZoneData">Aceptar</button>
+                        <button type="button" class="btn btn-primary" id="submitZoneData">Siguiente</button>
+                        
+                        <!--
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+                        -->
                     </div>
                 </div>
             
@@ -699,6 +660,9 @@
         <script>
             /*global $*/$("#buttonCancelDraw").hide();
         </script>
+        
+        <!-- shape -->
+        <script src="https://unpkg.com/shp-write@latest/shpwrite.js"></script>
         
         <!-- FileSaver -->
         <script src="resources/plugins/fileSaver/FileSaver.min.js"></script>
@@ -722,38 +686,23 @@
         <script src="resources/plugins/notify/notify.min.js"></script>
         
         <!-- Leaflet -->
-        <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
         <!-- MapQuest Tiles -->
         <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=ZJanp0xBDpPMOLftzxBrG1tzmNtsjPWF"></script>
         <!-- Leaflet.PruneCluster -->
         <script src="resources/plugins/leaflet.PruneCluster/PruneCluster.js"></script>
         <!-- Leaflet-EasyButton -->
         <script src="resources/plugins/leaflet.EasyButton/easyButton.js"></script>
-        <!-- Leaflet.Draw -->
-        <script src="resources/plugins/leaflet.draw/src/Leaflet.draw.js"></script>
-        <script src="resources/plugins/leaflet.draw/src/Leaflet.Draw.Event.js"></script>
-        <script src="resources/plugins/leaflet.draw/src/Tooltip.js"></script>
-    
-    	<script src="resources/plugins/leaflet.draw/src/ext/TouchEvents.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/ext/GeometryUtil.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/ext/LineUtil.Intersect.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/ext/Polyline.Intersect.js"></script>
-    	
-    	<script src="resources/plugins/leaflet.draw/src/draw/handler/Draw.Feature.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/draw/handler/Draw.Marker.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/draw/handler/Draw.Polyline.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/draw/handler/Draw.Polygon.js"></script>
-        
-    	<script src="resources/plugins/leaflet.draw/src/edit/handler/Edit.Marker.js"></script>
-    	<script src="resources/plugins/leaflet.draw/src/edit/handler/Edit.Poly.js"></script>
+        <!--Draw-->
+        <script src="resources/plugins/leaflet.draw/leaflet.draw-src.js"></script>
         <!--GeoSearch-->
         <script src="resources/plugins/leaflet.GeoSearch/js/l.control.geosearch.js"></script>
         <script src="resources/plugins/leaflet.GeoSearch/js/l.geosearch.provider.openstreetmap.js"></script>
         <!-- Locate control-->
         <script src="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.js" charset="utf-8"></script>
-        <!-- Editable
+        <!-- Editable-->
         <script src="resources/plugins/leaflet.Editable/leaflet.Editable.js"></script>
-        -->
+        
         <script src="resources/js/socket.js"></script>
         <script src="resources/js/app.js"></script>
         <script src="resources/js/point.js"></script>

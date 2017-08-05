@@ -14,7 +14,7 @@ function initMap(id){
     });
     
     // mapquest
-	var mapQuestTiles = MQ.mapLayer();
+    var mapQuestTiles = MQ.mapLayer();
     
     
     var map = L.map(id, {
@@ -22,7 +22,8 @@ function initMap(id){
         zoom: 3,
         minZoom: 3,
         maxZoom: 18,
-        layers: mapQuestTiles, mapboxTiles
+        layers: mapQuestTiles, mapboxTiles,
+        editable: true
     });
     
     var collapse = ( $(window).width() < 768 ) ? true:false;
@@ -30,6 +31,13 @@ function initMap(id){
     window.layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}, {collapsed: collapse}).addTo(map);
     window.drawLayer = L.featureGroup().addTo(map);
     
+    // Initialise the draw control and pass it the FeatureGroup of editable layers (but not to the map)
+    new L.Control.Draw({
+        edit: {
+            featureGroup: window.drawLayer
+        }
+    });
+
     map.on("popupclose", function(){
         if(window.routeShared){
             window.routeShared = false;
