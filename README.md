@@ -8,11 +8,7 @@ The news of the project are published [here.](http://www.openstreetmap.mx/repubi
 ##### Our full set of maps and data can be found in: https://repubikla.cartodb.com/maps
 
 
-### Run
-To run you need to create config/default.json in the top level of the app, the file shold contain the next variables:
-
-{
-    "user": carto username, 
-    "api_key": carto api key,
-    "base_url": base url of the project
-}
+### Requirements
+Environment variables:
+-CARTO_USER
+-CARTO_API_KEY
