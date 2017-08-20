@@ -5,8 +5,8 @@ html, body, #mapContainer {
   padding: 0;
 }
 
-body { 
-    padding-top: 50px; 
+body {
+    padding-top: 50px;
 }
 
 #map {
@@ -62,4 +62,7 @@ textarea {
 }
 #frequencyNewRouteSlider .slider-selection {
   background: #BABABA;
+}
+.btn:focus {
+  outline: none;
 }

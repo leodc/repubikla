@@ -351,6 +351,7 @@ window.paintPoints = function(featureCollection){
         marker.data.icon = L.divIcon({className: "leaflet-div-icon-point " + category});
         marker.data.popup = buildPointPopup(geojson.properties);
         marker.category = categorys.indexOf(category);
+        marker.data.type = geojson.properties.type;
 
         pruneCluster.RegisterMarker(marker);
         if(featureCollection.features[i].properties.gid === Number(p)){

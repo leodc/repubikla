@@ -107,31 +107,37 @@ window.paintZones = function(featureCollection){
 
     var sharedZone = Number(window.getUrlParameter('z'));
 
-    zoneLayer = new L.layerGroup();
-    window.layerControl.addOverlay(zoneLayer,"Zonas");
-
-    var geojson;
-    for(var i = 0; i < featureCollection.features.length; i++){
-        geojson = featureCollection.features[i];
-
-        var lngLat = geojson.geometry.coordinates[0];
-        var latLng = [];
-
-        for(var j = 0; j < lngLat.length; j++){
-            latLng.push([lngLat[j][1],lngLat[j][0]]);
+    zoneLayer = L.geoJSON(featureCollection, {
+        style: function (feature) {
+            return getZoneStyle(feature.properties);
         }
+    }).bindPopup(function (layer) {
+        return buildZonePopup(layer.feature.properties);
+    });
 
-        var polygon = L.polygon(latLng,getZoneStyle(geojson.properties)).addTo(zoneLayer);
-        polygon.bindPopup(buildZonePopup(geojson.properties));
+    if(sharedZone){
+        console.log("searching for zone...", sharedZone);
 
-        if(sharedZone === Number(geojson.properties.gid)) {
-            map.fitBounds(polygon.getBounds());
-            map.addLayer(zoneLayer);
+        var layers = zoneLayer.getLayers();
+        var layer;
+        for(var i = 0; i < layers.length; i++ ){
+            layer = layers[i];
 
-            polygon.bringToFront();
-            polygon.openPopup();
+            if(sharedZone === Number(layer.feature.properties.gid)) {
+                map.fitBounds(layer.getBounds());
+                map.addLayer(zoneLayer);
+
+                layer
+                    .bringToFront()
+                    .bindPopup(buildZonePopup(layer.feature.properties))
+                    .openPopup();
+
+                break;
+            }
         }
     }
+
+    window.layerControl.addOverlay(zoneLayer,"Zonas");
 };
 
 
@@ -276,6 +282,7 @@ window.filterZones = function(zones){
             fill: false,
             stroke: false
         };
+
         properties = layer.feature.properties;
 
         propertySearch:

@@ -50,6 +50,11 @@ function initMap(id){
         showMarker: false
     });
 
+    sidebarFilter = L.control.sidebar('sidebarFilter', {
+        closeButton: true,
+        position: 'left'
+    });
+
     // legend
     var legendControl = L.easyButton({
         states: [
@@ -58,19 +63,12 @@ function initMap(id){
                 icon:      '<b>L</b>',
                 title:     'Leyenda',
                 onClick: function(btn, map) {
+                    sidebarFilter.hide();
                     $('#legendDialog').modal('show');
                 }
             }
         ]
     });
-
-
-    sidebarFilter = L.control.sidebar('sidebarFilter', {
-        closeButton: true,
-        position: 'left'
-    });
-
-
 
     var drawControl = buildDrawControl();
 
@@ -132,6 +130,8 @@ function buildDrawControl(){
     };
 
     map.on(L.Draw.Event.DRAWSTART, function(e){
+        sidebarFilter.hide();
+        
         drawLayer.clearLayers();
 
         window.hideZonesLayer();
