@@ -3,14 +3,14 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        
+
         <!--     Movil
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         -->
 
         <title>Repubikla</title>
         <link rel="icon" href="resources/img/logo_clean.png">
-        
+
         <!-- Bootstrap -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
         <!-- Bootstrap-datarangepicker -->
@@ -19,46 +19,50 @@
         <link rel="stylesheet" href="resources/plugins/bootstrap.social/bootstrap-social.css" />
         <!-- Bootstrap-slider -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/css/bootstrap-slider.min.css" />
-        
-        <!-- Font Awesome --> 
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-        
+        <!-- Bootstrap-select -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/css/bootstrap-select.min.css">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
         <!-- Leaflet -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
         <!-- Leaflet-PruneCluster -->
         <link rel="stylesheet" href="resources/plugins/leaflet.PruneCluster/LeafletStyleSheet.css">
         <!-- Leaflet-EasyButton -->
         <link rel="stylesheet" href="resources/plugins/leaflet.EasyButton/easyButton.css">
-        <!-- Leaflet-GeoSearch --> 
+        <!-- Leaflet-GeoSearch -->
         <link rel="stylesheet" href="resources/plugins/leaflet.GeoSearch/css/l.geosearch.css">
         <!-- Leaflet-Draw-->
-        <link rel="stylesheet" href="resources/plugins/leaflet.draw/leaflet.draw.css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.10/leaflet.draw.css" />
         <!-- Leaflet-Locate control-->
-        <link rel="stylesheet" href="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.css" />
-        
+        <link rel="stylesheet" href="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.css" />
+        <!-- Leaflet-sidebar-->
+        <link rel="stylesheet" href="resources/plugins/leaflet.sidebar/L.Control.Sidebar.css" />
+
         <link rel="stylesheet" href="resources/css/app.css" />
-        
+
         <script>
             window.twttr = (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0],
                     t = window.twttr || {};
-                
+
                 if (d.getElementById(id)) return t;
-                
+
                 js = d.createElement(s);
                 js.id = id;
                 js.src = "https://platform.twitter.com/widgets.js";
                 fjs.parentNode.insertBefore(js, fjs);
-                
+
                 t._e = [];
                 t.ready = function(f) {
                     t._e.push(f);
                 };
-                
+
                 return t;
             }(document, "script", "twitter-wjs"));
         </script>
-        
+
         <script>
             (function(d, s, id) {
                 var js, fjs = d.getElementsByTagName(s)[0];
@@ -73,7 +77,7 @@
     <body>
         <!-- Navigation bar -->
         <nav class="navbar navbar-default navbar-fixed-top">
-            
+
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -87,26 +91,26 @@
                         <img alt="Brand" src="resources/img/logo_clean.png" width="40">
                     </a>
                 </div>
-                
-                
+
+
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    
+
                     <ul class="nav navbar-nav">
                         <!-- About us -->
                         <li><a data-toggle="modal" href="#modalAbout">¿Qué es?</a></li>
-                        
+
                         <!-- Tools -->
-                        <li class="dropdown" id="dropdownTools">
+                        <!-- <li class="dropdown" id="dropdownTools">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Herramientas de dibujo <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="#" id="drawPoint"><img src="resources/img/icons/point.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar punto</span></a></li>
                                 <li><a href="#" id="drawRoute"><img src="resources/img/icons/route.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar ruta</span></a></li>
                                 <li><a href="#" id="drawZone" ><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar zona</span></a></li>
                             </ul>
-                        </li>
-                        <li><button type="button" class="btn btn-danger navbar-btn" data-placement="bottom" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No" id="buttonCancelDraw" >Cancelar dibujo</button></li>
-                        
-                        
+                        </li> -->
+                        <!-- <li><button type="button" class="btn btn-danger navbar-btn" data-placement="bottom" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No" id="buttonCancelDraw" >Cancelar dibujo</button></li> -->
+
+
                         <!-- Download -->
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descargar información <span class="caret"></span></a>
@@ -118,10 +122,12 @@
                                 <li><a href="https://repubikla.carto.com/datasets" target="_blank"><span class="glyphicon glyphicon-circle-arrow-right"></span>&nbsp;&nbsp;Ver datasets en CARTO</a></li>
                             </ul>
                         </li>
-                        
+
                         <li><a href="https://repubikla.carto.com/maps" target="_blank">Mapas temáticos</a></li>
+
+                        <!-- <li><button type="button" class="btn btn-link navbar-btn" onClick="showFilters()">Filtrar información</button></li> -->
                     </ul>
-                    
+
                     <!-- Right -->
                     <ul class="nav navbar-nav navbar-right hidden-xs">
                         <!-- facebook -->
@@ -131,7 +137,7 @@
                                 <div class="fb-like" data-href="https://www.facebook.com/repubikla" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
                             </div>
                         </li>
-                        
+
                         <!-- twitter -->
                         <li>
                             <div class="content" style="margin-top:15px;">
@@ -142,34 +148,34 @@
                             <a href="https://github.com/leodc/repubikla" target="_blank"><i class="fa fa-github" aria-hidden="true"></i>&nbsp;Nuestro github</a>
                         </li>
                     </ul>
-                    
+
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
         </nav>
-        
-        
+
+
         <!-- Content -->
         <div class="container" id="mapContainer">
             <div id="map"></div>
         </div>
-        
-        
-        
+
+
+
         <!-- Modals -->
-        
+
         <!-- About -->
         <div id="modalAbout" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-            
+
                 <!-- Modal content-->
                 <div class="modal-content">
-                    
+
                     <!-- Header -->
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Repubikla</h4>
                     </div>
-                    
+
                     <!-- Body -->
                     <div class="modal-body">
                         <div class="content">
@@ -182,10 +188,10 @@
                                 <!-- how tab -->
                                 <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;¿Cómo funciona?</a></li>
                             </ul>
-                            
+
                             <!-- modal tabs content -->
                             <div class="tab-content" id="aboutTabsContent">
-                                
+
                                 <!-- about tab -->
                                 <div class="tab-pane fade active in" id="about" >
                                     <div class="row">
@@ -196,7 +202,7 @@
                                     <p class="text-justify">Los tomadores de decisión y la sociedad civil quedan dotados de una herramienta de diagnóstico para impulsar y diseñar mejores condiciones para una movilidad sustentable y segura.</p>
                                     <p class="text-justify">En un futuro Repubikla se vinculará con aplicaciones para smartphone y alimentará herramientas de ayuda para la movilidad de los individuos.</p>
                                     <p class="text-justify">Las noticias sobre el proyecto se publican <a href="http://www.openstreetmap.mx/repubikla/" target="_blank">aquí.</a></p>
-                                    <p class="text-justify">Contactanos en <a href="mailto:comments@repubikla.org?Subject=Contacto" target="_top">comments@repubikla.org</a> o en nuestras redes sociales: 
+                                    <p class="text-justify">Contactanos en <a href="mailto:comments@repubikla.org?Subject=Contacto" target="_top">comments@repubikla.org</a> o en nuestras redes sociales:
                                         <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/repubikla?lang=es">
                                             <span class="fa fa-twitter"></span>
                                         </a>
@@ -206,7 +212,7 @@
                                         </a>
                                     </p>
                                 </div>
-                                
+
                                 <!-- us tab -->
                                 <div class="tab-pane fade" id="us" >
                                     <div class="row">
@@ -215,7 +221,7 @@
                                         <p class="text-justify col-sm-12 col-md-12">De esta forma y con una colaboración evolutiva y abierta, nos convertimos en sensores de movilidad activa por medio de la recolección y del análisis de datos, impulsando soluciones al rezago de datos públicos abiertos de calidad.</p>
                                     </div>
                                 </div>
-                                
+
                                 <!-- how tab -->
                                 <div id="disclaimer" class="tab-pane fade">
                                     <p>Sobre un mapa detallado de OpenStreetMap, los usuarios ingresan el dibujo de sus recorridos frecuentes, los puntos y las zonas donde señalan una información relevante respecto a su experiencia urbana. La información es ingresada mediante formularios sintéticos, con una parte predefinida y con la posibilidad de aportar campos personalizados. La información personalizada aparecerá automáticamente como columnas independientes al momento de descargar la base de datos.</p>
@@ -228,37 +234,37 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div>
-            
+
             </div>
         </div>
-        
-        
-        
+
+
+
         <!-- Point -->
         <div id="pointDataDialog" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-            
+
                 <!-- Modal content-->
                 <div class="modal-content">
-                    
+
                     <!-- Header -->
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Cuéntanos acerca del punto que deseas agregar</h4>
                     </div>
-                    
+
                     <!-- Body -->
                     <div class="modal-body">
                         <div class="content">
                             <div class="row">
-                                
-                                
+
+
                                 <form id="formPointData">
                                     <div class="col-sm-6 right-separator">
                                         <div class="form-group-sm">
@@ -287,7 +293,7 @@
                                             </select>
                                         </div>
                                         <div class="form-group">
-                                            <label for="fecha">Fecha</label>    
+                                            <label for="fecha">Fecha</label>
                                             <!--<input type="text" name="fecha" id="fecha" class="form-control"/>-->
                                             <div id="fecha" class="pull-left input-sm col-sm-6" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc; width: 100%">
                                                 <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>&nbsp;
@@ -331,44 +337,44 @@
                                         <button class="btn btn-default pull-right btn-sm addCustomRow" target="pointCustomInfo"  additional-class="newPointValue">Añadir categoría</button>
                                     </div>
                                 </form>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submitPointData">Siguiente</button>
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
                     </div>
                 </div>
-            
+
             </div>
         </div>
-        
-        
+
+
         <!-- Legend -->
         <div class="modal fade" tabindex="-1" role="dialog" id="legendDialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    
+
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         <h4 class="modal-title">Acerca del mapa</h4>
                     </div>
-                    
+
                     <div class="modal-body" id="legendContent">
                     </div>
-                
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
                     </div>
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /. Legend modal -->
-        
-        
+
+
         <!-- Loading -->
         <div class="modal fade" tabindex="-1" role="dialog"  id="chargingDialog">
             <div class="modal-dialog" role="document">
@@ -384,30 +390,30 @@
                 </div><!-- /.modal-content -->
             </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
-        
-        
+
+
         <!-- Route -->
         <div id="routeDataDialog" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-            
+
                 <!-- Modal content-->
                 <div class="modal-content">
-                    
+
                     <!-- Header -->
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Cuéntanos acerca de la ruta que deseas agregar</h4>
                     </div>
-                    
+
                     <!-- Body -->
                     <div class="modal-body">
                         <div class="content">
                             <div class="row">
-                                
-                                
+
+
                                 <form id="formRouteData">
                                     <div class="col-sm-6 right-separator">
-                                        
+
                                         <!-- motivo -->
                                         <div class="form-group-sm">
                                             <label for="newRouteMotivo">¿Cúal fue el motivo principal del recorrido?</label>
@@ -424,21 +430,21 @@
                                                 <option value='Otra actividad'>Otra actividad</option>
                                             </select>
                                         </div>
-                                        
+
                                         <!-- tiempo -->
                                         <div class="form-group">
-                                            <label for="timeNewRoute">Tiempo del recorrido (minutos)</label>    
+                                            <label for="timeNewRoute">Tiempo del recorrido (minutos)</label>
                                             <input type="number" id="timeNewRoute" class="form-control input-sm" min="1" value="30" data-msg-required="Campo necesario" data-msg-number="Número invalido" required/>
                                         </div>
-                                        
+
                                         <!-- frecuencia -->
                                         <div class="form-group">
-                                            <label for="frequencyNewRoute">Frecuencia del recorrido: </label>    
+                                            <label for="frequencyNewRoute">Frecuencia del recorrido: </label>
                                             <span id="frequencyNewRouteSliderLabel">Una vez por semana</span>
                                             <input id="frequencyNewRoute" data-slider-id='frequencyNewRouteSlider' type="text" data-slider-min="1" data-slider-max="13" data-slider-step="1" data-slider-value="4"/>
                                         </div>
-                                        
-                                        
+
+
                                         <!-- checkbox -->
                                         <div class="form-group">
                                             <label>Califica esta ruta, en su mayoría es:</label>
@@ -455,13 +461,13 @@
                                                 <label for='calificacion_4'><input type='checkbox' id='calificacion_4' class="routeCheckData">La única que puedo tomar</label>
                                             </div>
                                         </div>
-                                        
+
                                         <!-- acompañantes -->
                                         <div class="form-group">
-                                            <label for="newRouteCompanions">Número de personas con las que haces este recorrido</label>    
+                                            <label for="newRouteCompanions">Número de personas con las que haces este recorrido</label>
                                             <input type="number" id="newRouteCompanions" data-msg-number="Número invalido" class="form-control input-sm" min="0" value="0"/>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <div class="checkbox">
                                                 <label for='transporte'><input type='checkbox' id='transporte'  class="routeCheckData">Usé transporte público antes o después de la ruta.</label>
@@ -470,13 +476,13 @@
                                                 <label for='publica'><input type='checkbox' id='publica'  class="routeCheckData">Hice la ruta en bicicleta pública.</label>
                                             </div>
                                         </div>
-                                        
-                                        
+
+
                                         <div class="form-group">
                                             <label for="newRouteComment">Comentario</label>
                                             <textarea id='newRouteComment' class='form-control' rows='4' placeholder='Indica información puntual para caracterizar con mayor profundidad el elemento'></textarea>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-sm-6" style="border-left:1px solid black;">
                                         <h4>Información personalizada</h4>
@@ -510,48 +516,49 @@
                                         <button class="btn btn-default pull-right btn-sm addCustomRow" target="routeCustomInfo" additional-class="newRouteValue" >Añadir categoría</button>
                                     </div>
                                 </form>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submitRouteData">Siguiente</button>
-                        
+                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
+
                         <!--
                         <button type="button" class="btn btn-default" onClick="$('#routeDataDialog').modal('hide')">Regresar al dibujo</button>
                         -->
-                        
+
                         <!--
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
                         -->
                     </div>
                 </div>
-            
+
             </div>
         </div>
-        
-        
+
+
         <!-- Zones -->
         <div id="zonesDataDialog" class="modal fade" role="dialog">
             <div class="modal-dialog modal-lg">
-            
+
                 <!-- Modal content-->
                 <div class="modal-content">
-                    
+
                     <!-- Header -->
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Cuéntanos acerca de la zona que deseas agregar</h4>
                     </div>
-                    
+
                     <!-- Body -->
                     <div class="modal-body">
                         <div class="content">
                             <div class="row">
-                                
+
                                 <form id="formZoneData">
                                     <div class="col-sm-6 right-separator">
                                         <label>¿Qué características quieres señalar de esta área?</label>
@@ -591,12 +598,12 @@
                                                 <label><input type='checkbox' value='no_mantenimiento' id='newZoneno_mantenimiento' class="zoneCheckData">Mal mantenimiento (pavimento, instalaciones)</label><br><br>
                                             </div>
                                         </div>
-                                        
+
                                         <div class="form-group">
                                             <label for="newZoneComment">Comentario</label>
                                             <textarea id='newZoneComment' class='form-control' rows='4' placeholder='Indica información puntual para caracterizar con mayor profundidad el elemento'></textarea>
                                         </div>
-                                        
+
                                     </div>
                                     <div class="col-sm-6" style="border-left:1px solid black;">
                                         <h4>Información personalizada</h4>
@@ -630,49 +637,105 @@
                                         <button class="btn btn-default pull-right btn-sm addCustomRow" target="zoneCustomInfo" additional-class="newZoneValue" >Añadir categoría</button>
                                     </div>
                                 </form>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
-                    
+
                     <!-- Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submitZoneData">Siguiente</button>
-                        
+                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
                         <!--
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
                         -->
                     </div>
                 </div>
-            
+
             </div>
         </div>
-        
-        
+
+        <!-- sidebar -->
+
+        <div id="sidebarFilter">
+            <h1>Filtrar información</h1>
+
+            <label for="pointTypeFilter">Mostrar puntos de tipo: </label>
+            <select class="selectpicker" id="pointTypeFilter"  multiple data-selected-text-format="count > 3" data-width="100%" data-actions-box="true" data-count-selected-text="{0} items seleccionados" data-deselect-all-text='Desmarcar todos' data-select-all-text="Marcar todos" data-none-selected-text="No mostrar puntos">
+                <option value="Incidente vial">Incidente vial</option>
+                <option value="Asalto">Asalto</option>
+                <option value="Robo de bicicleta en estacionamiento">Robo de bicicleta en estacionamiento</option>
+                <option value="Robo de bicicleta estacionada en la calle">Robo de bicicleta estacionada en la calle</option>
+                <option value="Bicicleta blanca">Bicicleta blanca</option>
+                <option value="Cruce peligroso">Cruce peligroso</option>
+                <option value="Diseño urbano peligroso">Diseño urbano peligroso</option>
+                <option value="Condiciones peligrosas">Condiciones peligrosas</option>
+                <option value="Comercio/Servicio Bikefriendly">Comercio/Servicio Bikefriendly</option>
+                <option value="Colectivo/Punto de encuentro">Colectivo/Punto de encuentro</option>
+                <option value="Vehículos estacionados en carril confinado">Vehículos estacionados en carril confinado</option>
+                <option value="Vehículos en movimiento en carril confinado">Vehículos en movimiento en carril confinado</option>
+                <option value="Comercio en carril confinado">Comercio en carril confinado</option>
+                <option value="Invasión recurrente de banqueta">Invasión recurrente de banqueta</option>
+            </select>
+
+            <label for="routeTypeFilter">Mostrar rutas con motivo: </label>
+            <select class="selectpicker" id="routeTypeFilter"  multiple data-selected-text-format="count > 3" data-width="100%" data-actions-box="true" data-count-selected-text="{0} items seleccionados" data-deselect-all-text='Desmarcar todos' data-select-all-text="Marcar todos" data-none-selected-text="No mostrar rutas">
+                <option value="Ir al trabajo">Ir al trabajo</option>
+                <option value="Regreso a casa">Regreso a casa</option>
+                <option value="Desplazamientos de trabajo">Desplazamientos de trabajo</option>
+                <option value="Estudios">Estudios</option>
+                <option value="Visitas">Visitas</option>
+                <option value="Compras">Compras</option>
+                <option value="Paseo, turismo">Paseo, turismo</option>
+                <option value="Deporte">Deporte</option>
+                <option value="Comida">Comida</option>
+                <option value="Otra actividad">Otra actividad</option>
+            </select>
+
+            <label for="zoneTypeFilter">Mostrar zonas de características: </label>
+            <select class="selectpicker" id="zoneTypeFilter"  multiple data-selected-text-format="count > 3" data-width="100%" data-actions-box="true" data-count-selected-text="{0} items seleccionados" data-deselect-all-text='Desmarcar todos' data-select-all-text="Marcar todos" data-none-selected-text="No mostrar zonas">
+                <option value="zona_agradable">Agradable</option>
+                <option value="zona_desagradable">Desagradable, hostil</option>
+                <option value="zona_comoda">Cómoda, con buen diseño de calles y mobiliario</option>
+                <option value="zona_incomoda">Incomoda, con mal diseño de calles y mobiliario</option>
+                <option value="zona_comercio">Con concentración de comercios y servicios útiles</option>
+                <option value="zona_conectada">Bien conectada</option>
+                <option value="zona_no_conectada">Mal conectada</option>
+                <option value="zona_insegura">Insegura (a nivel personal)</option>
+                <option value="zona_no_iluminada">Mal iluminada</option>
+                <option value="zona_transito">Tránsito confuso y peligroso</option>
+                <option value="zona_no_mantenimiento">Mal mantenimiento (pavimento, instalaciones)</option>
+            </select>
+
+            <div class="pull-right" style="margin-top:5px;">
+                <button id="applyFilters" class="btn btn-primary">Aplicar filtros</button>
+                <button id="cleanFilters" class="btn btn-default">Limpiar filtros</button>
+            </div>
+        </div>
+
+
+
         <script src="resources/js/utils.js"></script>
-        
+
         <!--    Moment    -->
         <script src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        
+
         <!-- jQuery -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
-        <script>
-            /*global $*/$("#buttonCancelDraw").hide();
-        </script>
-        
+
         <!-- shape -->
         <script src="https://unpkg.com/shp-write@latest/shpwrite.js"></script>
-        
+
         <!-- FileSaver -->
         <script src="resources/plugins/fileSaver/FileSaver.min.js"></script>
-        
+
         <!-- jQuery-validator -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.js"></script>
-        
+
         <!-- socket.io -->
         <script src="https://cdn.socket.io/socket.io-1.3.7.js"></script>
-        
+
         <!-- Bootstrap -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
         <!--Bootstrap-datarangepicker-->
@@ -681,12 +744,14 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.2.0/bootstrap-slider.min.js"></script>
         <!--Bootstrap-confirmation-->
         <script src="resources/plugins/bootstrap.confirmation/bootstrap-confirmation.js"></script>
-        
+        <!-- Bootstrap-select -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.1/js/bootstrap-select.min.js"></script>
+
         <!-- Notify -->
         <script src="resources/plugins/notify/notify.min.js"></script>
-        
+
         <!-- Leaflet -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.js"></script>
+        <script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
         <!-- MapQuest Tiles -->
         <script src="https://www.mapquestapi.com/sdk/leaflet/v2.2/mq-map.js?key=ZJanp0xBDpPMOLftzxBrG1tzmNtsjPWF"></script>
         <!-- Leaflet.PruneCluster -->
@@ -694,15 +759,15 @@
         <!-- Leaflet-EasyButton -->
         <script src="resources/plugins/leaflet.EasyButton/easyButton.js"></script>
         <!--Draw-->
-        <script src="resources/plugins/leaflet.draw/leaflet.draw-src.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/0.4.10/leaflet.draw.js"></script>
         <!--GeoSearch-->
         <script src="resources/plugins/leaflet.GeoSearch/js/l.control.geosearch.js"></script>
         <script src="resources/plugins/leaflet.GeoSearch/js/l.geosearch.provider.openstreetmap.js"></script>
         <!-- Locate control-->
-        <script src="resources/plugins/leaflet.locatecontrol/L.Control.Locate.min.js" charset="utf-8"></script>
-        <!-- Editable-->
-        <script src="resources/plugins/leaflet.Editable/leaflet.Editable.js"></script>
-        
+        <script src="https://domoritz.github.io/leaflet-locatecontrol/dist/L.Control.Locate.min.js" charset="utf-8"></script>
+        <!-- sidebar-->
+        <script src="resources/plugins/leaflet.sidebar/L.Control.Sidebar.js"></script>
+
         <script src="resources/js/socket.js"></script>
         <script src="resources/js/app.js"></script>
         <script src="resources/js/point.js"></script>

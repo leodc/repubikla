@@ -3,12 +3,12 @@ $(function(){
     $.validator.addMethod("idName", function(value, element) {
         return this.optional(element) || /^[$A-Z_][0-9A-Z_$]*$/i.test(value);
     }, "El identificador contiene caracteres no permitidos.");
-    
+
     var today = moment();
     function cb(date) {
         $('#newPointDate').html(date.format('YYYY-MM-DD'));
     }
-    
+
     cb( today );
     $('#fecha').daterangepicker({
         "parentEl": "#modalPoint",
@@ -47,16 +47,16 @@ $(function(){
         maxDate: today,
         setDate: today
     }, cb);
-    
+
     $("#fecha").bind("updateDate", function(){
         cb(today);
     });
-    
+
     $(".addCustomRow").click(function(e){
         e.preventDefault();
-        
+
         var name = (Math.random() * 100000).toString();
-        
+
         var html = "";
         html += '<tr class="addedRow">';
         html += '<td>';
@@ -74,41 +74,41 @@ $(function(){
         html += '    </div>';
         html += '</td>';
         html += '</tr>';
-        
+
         $("#" + $(this).attr("target")).append(html);
     });
-    
+
     $('#frequencyNewRoute').slider({
         tooltip: "hide"
     });
-    
+
     $("#frequencyNewRoute").on("slide", function(slideEvt) {
         $("#frequencyNewRouteSliderLabel").text(getSliderText(slideEvt.value));
     });
-    
+
     $('[data-toggle=confirmation]').confirmation({
         rootSelector: '[data-toggle=confirmation]'
     });
-    
+
     $("textarea").keydown(function(e){
         if ( (e.keyCode == 13 && !e.shiftKey) || (e.keyCode == 50 && e.shiftKey) || (e.keyCode == 39 && !e.shiftKey)){
             e.preventDefault();
         }
     });
-    
-    
+
+
     $(".downloadButtons").click(function(evt){
         var target = $(this).attr("data-target");
         var filename = $(this).attr("data-file-name");
-        
+
         $.get( target , function (geojson) {
             var text = JSON.stringify(geojson);
-            
+
             var file = new File([text], filename, { type: "application/json;charset=utf-8" });
             saveAs(file);
         });
-        
-        
+
+
     });
     window.apiBaseUrl="http://www.dadevop.com:22345/api/v1";
 });
@@ -122,18 +122,18 @@ window.startDraw = function(type){
 window.endDraw = function(){
     $("#dropdownTools").show(100);
     $("#buttonCancelDraw").hide(100);
-    
+
     window.drawLayer.clearLayers();
     window.showPruneCluster();
-    
-    if( window.drawType === "point" ){
+
+    if( window.drawType === "marker" ){
         window.cancelNewPoint();
-    } else if( window.drawType === "zone" ){
+    } else if( window.drawType === "polygon" ){
         window.cancelNewZone();
-    } else if( window.drawType === "route" ){
+    } else if( window.drawType === "polyline" ){
         window.cancelNewRoute();
     }
-    
+
     window.drawType = "";
 };
 

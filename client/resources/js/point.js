@@ -17,7 +17,7 @@ window.pointDictionary = [
 
 var categorys = ["point-dark-red", "point-red", "point-black", "point-lightred", "point-purple", "point-orange", "point-other"];
 
-var drawPoint, drawAux, pruneCluster, addPointToLayer;
+var drawPoint, pruneCluster, addPointToLayer, markerList;
 
 window.hidePruneCluster = function(){
     window.map.removeLayer(pruneCluster);
@@ -34,9 +34,9 @@ window.showPruneCluster = function(){
 function buildPointPopup(properties, suffix){
     var html = "<b>" + properties.type + "</b><br>";
     html += "<span style='color': gray>" + properties.date + "</span><br>";
-    
+
     var excluded = ["type", "date", "georef", "lng", "lat", "x", "y", "c", "gid"];
-    
+
     for( var key in properties ){
         if( excluded.indexOf(key) < 0 ){
             if(window.isUrl(properties[key])){
@@ -49,23 +49,23 @@ function buildPointPopup(properties, suffix){
             html += "<br><b>" + key + ":</b> " + properties[key];
         }
     }
-    
+
     if(suffix) {
         return html + suffix;
     }
-    
+
     var text = properties.type + "%20" + properties.date;
     var urlToShare = window.baseUrl + "?p=" + properties.gid;
-    
+
     var urlPrefix = "https://twitter.com/intent/tweet?text=" + text + "&via=repubikla&url=";
     var urlFbPrefix = "https://www.facebook.com/sharer/sharer.php?u=";
-    
-    html += "<p class='text-right' >";
+
+    html += "<p class='text-right'>";
     html += '<i class="fa fa-share-alt" aria-hidden="true" style="color: rgba(128,128,128,.5); font-weight:normal;">&nbsp;</i>';
     html += '<a href="' + urlPrefix + urlToShare + '" class="btn btn-xs btn-social-icon btn-twitter" style="color: white"><span class="fa fa-twitter"></span></a>';
     html += '<a href="' + urlFbPrefix + urlToShare + '" class="btn btn-xs btn-social-icon btn-facebook" style="color: white" onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;"><span class="fa fa-facebook"></span></a>';
     html += "</p>";
-    
+
     return html;
 }
 
@@ -74,14 +74,14 @@ function buildPointPopup(properties, suffix){
  * Marker style
  * */
 window.getPointCategory = function(type){
-    
+
     var darkred = ["Incidente vial", "Asalto"];
     var red = ["Robo de bicicleta en estacionamiento", "Robo de bicicleta estacionada en la calle"];
     var black = ["Bicicleta blanca"];
     var lightred = ["Cruce peligroso", "Diseño urbano peligroso", "Condiciones peligrosas"];
     var purple = ["Comercio/Servicio Bikefriendly", "Colectivo/Punto de encuentro"];
     var orange = ["Vehículos estacionados en carril confinado", "Vehículos en movimiento en carril confinado", "Comercio en carril confinado", "Invasión recurrente de banqueta"];
-    
+
     if( darkred.indexOf(type) > - 1 ){
         return "point-dark-red";
     }else if( red.indexOf(type) > - 1 ){
@@ -97,14 +97,14 @@ window.getPointCategory = function(type){
     }else {
         return "point-other";
     }
-    
+
 };
 
 function setCustomMarker(){
-    
+
     var colors = [];
     var pi2 = Math.PI * 2;
-    
+
     for(var i = 0; i < categorys.length; i++){
         colors.push( $("." + categorys[i]).css("background-color") );
     }
@@ -175,17 +175,17 @@ function setCustomMarker(){
 
 window.insertedPoint = function(geojson){
     console.log("inserted point", geojson);
-    
+
     if( geojson.properties.gid !== -1){
         window.drawLayer.clearLayers();
         window.map.addLayer(pruneCluster);
         addPointToLayer(geojson);
-        
+
         drawPoint.bindPopup(L.popup().setContent("Gracias! Ahora tu información forma parte de Repubikla.")).openPopup();
-        
+
         $("#dropdownTools").show(100);
         $("#buttonCancelDraw").hide(100);
-        
+
         setTimeout(function(){
             cancelNewPoint();
         }, 2500);
@@ -196,35 +196,6 @@ window.insertedPoint = function(geojson){
 
 
 $(function(){
-    $("#drawPoint").click(function(e){
-        window.startDraw("point");
-        var map = window.map;
-        
-        window.hideZonesLayer();
-        window.hideRouteLayer();
-        map.removeLayer(pruneCluster);
-        
-        L.drawLocal.draw.handlers.marker.tooltip.start = "Ahora solo da clic donde quieras posicionar el marcador.";
-        
-        drawAux = new L.Draw.Marker(map, {});
-        drawAux.enable();
-        
-        map.on('draw:created', function (e) {
-            if( e.layerType !== "marker" ){
-                return;
-            }
-            
-            drawPoint = L.marker(e.layer.getLatLng(), {draggable: true, clickable: true});
-            drawPoint.on('dragend', function(e) {drawPoint.openPopup();}); // keep popup open
-            
-            window.drawLayer.clearLayers();
-            window.drawLayer.addLayer(drawPoint);
-            
-            $('#pointDataDialog').modal('show');
-        });
-    });
-    
-    
     $('#formPointData').validate({
         highlight: function(element) {
             $(element).closest('.form-group').addClass('has-error');
@@ -242,54 +213,54 @@ $(function(){
             }
         },
         submitHandler: function(form) {
-            
+
             var newPointData = {
                 type: $("#newPointMotivo").val(),
                 date : $("#newPointDate").html()
             };
-            
+
             var comment = $("#newPointComment").val();
             if( comment !== null && comment.length > 0 ){
                 newPointData["Comentario"] = comment;
             }
-                
+
             var customValues = $("input.newPointValue[type='text']");
             var key, value;
             for( var i = 0; i < customValues.length; i = i + 2 ){
                 key = customValues[i].value;
                 value = customValues[i+1].value;
-                
+
                 if(key !== null && key.length > 0){
                     newPointData[key] = value;
                 }
             }
-            
+
             $("#pointDataDialog").modal('hide');
-            
+
             var html = "<div style='margin-top: 5px;'><button class='btn btn-primary btn-sm' data-save-text='Guardando...' id='submitPoint'>Aceptar</button>&nbsp;<button class='btn btn-default btn-sm' data-toggle='modal' data-target='#pointDataDialog'>Modificar datos</button></div>";
 
             var popup = L.popup({
                     closeOnClick: false,
                     closeButton: false
                 }).setContent(buildPointPopup(newPointData, html));
-            
+
             drawPoint.bindPopup(popup).openPopup();
-            
+
             $("#submitPoint").click(function(evt){
                 $(this).button('save');
                 var geojson = drawPoint.toGeoJSON();
-                
+
                 for(var key in newPointData ){
                     geojson.properties[key] = newPointData[key];
                 }
-                
+
                 console.log("inserting point", geojson);
                 window.insertPoint(geojson);
             });
-            
+
         }
     });
-    
+
     $("#submitPointData").click(function(e){
         $('#formPointData').submit();
     });
@@ -299,39 +270,39 @@ $(function(){
 window.paintPoints = function(featureCollection){
     console.log("Painting points", featureCollection);
     var map = window.map;
-    
+
     var p = window.getUrlParameter("p");
     pruneCluster = new PruneClusterForLeaflet();
     pruneCluster.Cluster.Size = 10;
-    
+
     setCustomMarker();
-    
+
     pruneCluster.BuildLeafletClusterIcon = function(cluster) {
         var e = new L.Icon.MarkerCluster();
 
         e.stats = cluster.stats;
         e.population = cluster.population;
-        
+
         return e;
     };
-    
-    
+
+
     pruneCluster.BuildLeafletCluster = function(cluster, position) {
         var m = new L.Marker(position, {
             icon: pruneCluster.BuildLeafletClusterIcon(cluster)
         });
-        
+
         m.on('click', function() {
             // Compute the  cluster bounds (it's slow : O(n))
             var markersArea = pruneCluster.Cluster.FindMarkersInArea(cluster.bounds);
             var b = pruneCluster.Cluster.ComputeBounds(markersArea);
-            
+
             if (b) {
                 var bounds = new L.LatLngBounds(new L.LatLng(b.minLat, b.maxLng),new L.LatLng(b.maxLat, b.minLng));
-                
+
                 var zoomLevelBefore = pruneCluster._map.getZoom();
                 var zoomLevelAfter = pruneCluster._map.getBoundsZoom(bounds, false, new L.Point(20, 20, null));
-                
+
                 // If the zoom level doesn't change
                 if (zoomLevelAfter === zoomLevelBefore) {
                     // Send an event for the LeafletSpiderfier
@@ -341,7 +312,7 @@ window.paintPoints = function(featureCollection){
                         center: m.getLatLng(),
                         marker: m
                     });
-                    
+
                     pruneCluster._map.setView(position, zoomLevelAfter);
                 }
                 else {
@@ -349,7 +320,7 @@ window.paintPoints = function(featureCollection){
                 }
             }
         });
-        
+
         m.on('mouseover', function() {
             if( window.map.getZoom() > 9 ){
                 var markers = pruneCluster.Cluster.FindMarkersInArea(cluster.bounds);
@@ -358,65 +329,89 @@ window.paintPoints = function(featureCollection){
                 }
             }
         });
-        
+
         m.on('mouseout', function() {
             window.drawLayer.clearLayers();
         });
-        
+
         return m;
     };
-        
-    
+
+
     var geojson, marker, coordinates, category;
+    markerList = [];
     for(var i = 0; i < featureCollection.features.length; i++){
         geojson = featureCollection.features[i];
         coordinates = geojson.geometry.coordinates;
-        
+
         marker = new PruneCluster.Marker(coordinates[1], coordinates[0]);
-        
+
         category = window.getPointCategory(geojson.properties.type);
-        
+
         marker.data.icon = L.divIcon({className: "leaflet-div-icon-point " + category});
         marker.data.popup = buildPointPopup(geojson.properties);
         marker.category = categorys.indexOf(category);
-        
+
         pruneCluster.RegisterMarker(marker);
         if(featureCollection.features[i].properties.gid === Number(p)){
             console.log("Centering ... " + p);
-            
+
             map.setView([coordinates[1], coordinates[0]], 17);
-            
+
             //To Do: if necesary decluster and open popup
             marker.data.popup = L.popup().setLatLng([coordinates[1], coordinates[0]]).setContent(buildPointPopup(geojson.properties)).openOn(map);
         }
+
+        markerList.push(marker);
     }
-    
+
     window.layerControl.addOverlay(pruneCluster,"Puntos");
-    
+
     addPointToLayer = function(geojson){
         marker = new PruneCluster.Marker(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]);
         marker.data.icon = L.divIcon({className: "leaflet-div-icon-point " + window.getPointCategory(geojson.properties.type)});
         marker.data.popup = buildPointPopup(geojson.properties);
-        
+
         pruneCluster.RegisterMarker(marker);
         pruneCluster.ProcessView();
     };
-    
-    
+
+
     $("#chargingDialog").modal("hide");
-    
+
     if(window.getUrlParameter('r') || window.getUrlParameter('z')) return;
-    
+
     map.addLayer((pruneCluster));
 };
 
 function cancelNewPoint(){
-    drawAux.disable();
     $('#pointDataDialog').modal('hide');
-    
+
     $("#newPointComment").val("");
     $('.newPointValue').val("");
     $(".addedRow").remove();
 }
+
+window.filterPoints = function(show){
+    console.log("filtering points", show);
+
+    var marker;
+    for(var i = 0; i < markerList.length; i++){
+        marker = markerList[i];
+        marker.filtered = (show.indexOf(marker.data.type) < 0);
+    }
+
+    pruneCluster.ProcessView();
+    window.showPruneCluster();
+};
+
+window.clearFilterPoints = function(){
+    for(var i = 0; i < markerList.length; i++){
+        markerList[i].filtered = false;
+    }
+
+    pruneCluster.ProcessView();
+    window.showPruneCluster();
+};
 
 /* global $ L PruneClusterForLeaflet PruneCluster*/
