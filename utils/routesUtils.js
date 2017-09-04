@@ -1,26 +1,6 @@
 var motivosId =    ["ir_trabajo", "casa", "trabajo", "estudios", "visita", "compras", "turismo", "deporte", "comida", "otra"];
 var motivosText =  ["Ir al trabajo", "Regreso a casa", "Desplazamientos de trabajo", "Estudios", "Visitas", "Compras", "Paseo, turismo", "Deporte", "Comida", "Otra actividad"];
 
-function parseMotivo(expression){
-    
-    /**
-    var indexAux = motivosId.indexOf(expression);
-    if(indexAux > -1){
-        return motivosText[indexAux];
-    }
-    
-    indexAux = motivosText.indexOf(expression);
-    if(indexAux > -1){
-        return motivosId[indexAux];
-    }
-    
-    return "";
-    */
-    
-    return expression;
-}
-
-
 function parseFrecuencia(target){
     switch (target) {
         case 1:
@@ -57,6 +37,5 @@ function parseFrecuencia(target){
 
 
 module.exports = {
-    parseMotivo: parseMotivo,
     parseFrecuencia: parseFrecuencia
 };
