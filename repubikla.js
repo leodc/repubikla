@@ -8,61 +8,60 @@ var io = require('socket.io')(http);
 
 //setup
 app.set('port', process.env.PORT || 22345);
-app.use(express.static(path.join(__dirname, 'client'))); //make resources public
+app.use(express.static(path.join(__dirname, 'client')));
 
 
 //sockets
 io.on('connection', function(socket){
-    
+
     cartodb.getPoints(function(featureCollection){
         socket.emit("getPoints", featureCollection);
     });
-    
+
     cartodb.getRoutes(function(featureCollection){
         socket.emit("getRoutes", featureCollection);
     });
-    
+
     cartodb.getZones(function(featureCollection){
         socket.emit("getZones", featureCollection);
     });
-    
-    socket.on("downloadPoints", function(type){
+
+    socket.on("downloadPoints", function(type, callback){
         cartodb.getPoints(function(featureCollection){
-            socket.emit("downloadPoints", featureCollection);
+            callback(featureCollection);
         });
     });
-    
-    socket.on("downloadRoutes", function(type){
+
+    socket.on("downloadRoutes", function(type, callback){
         cartodb.getRoutes(function(featureCollection){
-            socket.emit("downloadRoutes", featureCollection);
+            callback(featureCollection);
         });
     });
-    
-    socket.on("downloadZones", function(type){
+
+    socket.on("downloadZones", function(type, callback){
         cartodb.getZones(function(featureCollection){
-            socket.emit("downloadZones", featureCollection);
+            callback(featureCollection);
         });
     });
-    
-    
-    socket.on("insertPoint", function(geojson){
+
+    socket.on("insertPoint", function(geojson, callback){
         cartodb.insertPoint(geojson, function(geojsonResponse){
-            socket.emit("insertedPoint", geojsonResponse);
+            callback(geojsonResponse);
         });
     });
-    
-    socket.on("insertRoute", function(geojson){
+
+    socket.on("insertRoute", function(geojson, callback){
         cartodb.insertRoute(geojson, function(geojsonResponse){
-            socket.emit("insertedRoute", geojsonResponse);
+            callback(geojsonResponse);
         });
     });
-    
-    socket.on("insertZone", function(geojson){
+
+    socket.on("insertZone", function(geojson, callback){
         cartodb.insertZone(geojson, function(geojsonResponse){
-            socket.emit("insertedZone", geojsonResponse);
+            callback(geojsonResponse);
         });
     });
-    
+
 });
 
 //start

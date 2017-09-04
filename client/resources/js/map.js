@@ -1,4 +1,4 @@
-var sidebarFilter, map, drawLayer;
+var sidebarFilter, sidebarDownload, map, drawLayer, layerControl;
 
 function initMap(id){
     /* Basemap Layers */
@@ -24,7 +24,7 @@ function initMap(id){
         editable: true
     });
 
-    window.layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}).addTo(map);
+    layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}).addTo(map);
     drawLayer = L.featureGroup().addTo(map);
 
     map.on("popupclose", function(){
@@ -50,10 +50,13 @@ function initMap(id){
         showMarker: false
     });
 
+    // sidebars
     sidebarFilter = L.control.sidebar('sidebarFilter', {
         closeButton: true,
         position: 'left'
     });
+
+    sidebarDownload = L.control.sidebar("sidebarDownload");
 
     // legend
     var legendControl = L.easyButton({
@@ -73,6 +76,7 @@ function initMap(id){
     var drawControl = buildDrawControl();
 
     map.addControl(sidebarFilter);
+    map.addControl(sidebarDownload);
 
     map.addControl(locateControl);
     map.addControl(drawControl);
@@ -131,14 +135,12 @@ function buildDrawControl(){
 
     map.on(L.Draw.Event.DRAWSTART, function(e){
         sidebarFilter.hide();
-        
         drawLayer.clearLayers();
 
         window.hideZonesLayer();
         window.hideRouteLayer();
         window.hidePruneCluster();
     });
-
 
     map.on(L.Draw.Event.CREATED, function (e) {
         window.startDraw(e.layerType);
@@ -270,7 +272,28 @@ function userLocationView(map){
 
 
 function showFilters(){
-    sidebarFilter.toggle();
+    if(!sidebarFilter.isVisible() && sidebarDownload.isVisible()){
+        sidebarDownload.hide();
+
+        setTimeout(()=>{
+            sidebarFilter.show();
+        }, 500);
+    }else{
+        sidebarFilter.toggle();
+    }
+}
+
+
+function showDownloadSidebar(){
+    if(!sidebarDownload.isVisible() && sidebarFilter.isVisible()){
+        sidebarFilter.hide();
+
+        setTimeout(()=>{
+            sidebarDownload.show();
+        }, 500);
+    }else{
+        sidebarDownload.toggle();
+    }
 }
 
 

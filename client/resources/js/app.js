@@ -107,10 +107,7 @@ $(function(){
             var file = new File([text], filename, { type: "application/json;charset=utf-8" });
             saveAs(file);
         });
-
-
     });
-    window.apiBaseUrl="http://www.dadevop.com:22345/api/v1";
 });
 
 window.startDraw = function(type){
