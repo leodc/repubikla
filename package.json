@@ -13,7 +13,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node repubikla.js"
+    "start": "node repubikla.js",
+    "web": "node repubikla.js"
   },
   "engines": {
     "node": "4.8.4"
