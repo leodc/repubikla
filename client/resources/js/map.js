@@ -1,4 +1,4 @@
-var sidebarFilter, sidebarDownload, map, drawLayer, layerControl;
+var map, drawLayer, layerControl, sidebars = {};
 
 function initMap(id){
     /* Basemap Layers */
@@ -51,12 +51,10 @@ function initMap(id){
     });
 
     // sidebars
-    sidebarFilter = L.control.sidebar('sidebarFilter', {
-        closeButton: true,
-        position: 'left'
-    });
-
-    sidebarDownload = L.control.sidebar("sidebarDownload");
+    sidebars.filters = L.control.sidebar('sidebarFilter');
+    sidebars.downloads = L.control.sidebar("sidebarDownload");
+    sidebars.about = L.control.sidebar("sidebarAbout");
+    // sidebars.indicators = L.control.sidebar("sidebarIndicators");
 
     // legend
     var legendControl = L.easyButton({
@@ -66,7 +64,7 @@ function initMap(id){
                 icon:      '<b>L</b>',
                 title:     'Leyenda',
                 onClick: function(btn, map) {
-                    sidebarFilter.hide();
+                    hideSidebars();
                     $('#legendDialog').modal('show');
                 }
             }
@@ -75,13 +73,17 @@ function initMap(id){
 
     var drawControl = buildDrawControl();
 
-    map.addControl(sidebarFilter);
-    map.addControl(sidebarDownload);
+
+    for(var key in sidebars){
+      map.addControl(sidebars[key]);
+    }
 
     map.addControl(locateControl);
     map.addControl(drawControl);
     map.addControl(geosearchControl);
     map.addControl(legendControl);
+
+    sidebars.about.show();
 }
 
 function buildDrawControl(){
@@ -134,7 +136,7 @@ function buildDrawControl(){
     };
 
     map.on(L.Draw.Event.DRAWSTART, function(e){
-        sidebarFilter.hide();
+        hideSidebars();
         drawLayer.clearLayers();
 
         window.hideZonesLayer();
@@ -235,22 +237,6 @@ function buildLegend(){
     html += "      </div>";
     html += "    </div>";
     html += "  </div>";
-
-    // zone accordion
-    /*
-    html += "  <div class='panel panel-default'>";
-    html += "    <div class='panel-heading'>";
-    html += "      <h4 class='panel-title'>";
-    html += "        <a data-toggle='collapse' data-parent='#legendAccordion' href='#collapse3'>";
-    html += "        Zonas</a>";
-    html += "      </h4>";
-    html += "    </div>";
-    html += "    <div id='collapse3' class='panel-collapse collapse'>";
-    html += "      <div class='panel-body'>";
-    html += "      </div>";
-    html += "    </div>";
-    html += "  </div>";
-    */
     html += "</div>";
 
     $("#legendContent").html(html);
@@ -271,31 +257,24 @@ function userLocationView(map){
 }
 
 
-function showFilters(){
-    if(!sidebarFilter.isVisible() && sidebarDownload.isVisible()){
-        sidebarDownload.hide();
-
-        setTimeout(()=>{
-            sidebarFilter.show();
-        }, 500);
-    }else{
-        sidebarFilter.toggle();
+function hideSidebars(sidebarToShow){
+  for(var key in sidebars){
+    if(sidebars[key].isVisible() && key != sidebarToShow){
+      sidebars[key].hide();
+      return true;
     }
+  }
 }
 
 
-function showDownloadSidebar(){
-    if(!sidebarDownload.isVisible() && sidebarFilter.isVisible()){
-        sidebarFilter.hide();
+function showSidebar(key){
+  // in case a sidebar is open we need to wait for the close animation to end before open the new sidebar
+  var timeWait = hideSidebars(key) ? 500:0;
 
-        setTimeout(()=>{
-            sidebarDownload.show();
-        }, 500);
-    }else{
-        sidebarDownload.toggle();
-    }
+  setTimeout(function(){
+    sidebars[key].show();
+  }, timeWait);
 }
-
 
 $(function(){
     window.baseUrl = "https://repubikla.herokuapp.com/";

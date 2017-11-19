@@ -4,10 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <!--     Movil
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        -->
-
         <title>Repubikla</title>
         <link rel="icon" href="resources/img/logo_clean.png">
 
@@ -97,56 +93,15 @@
 
                     <ul class="nav navbar-nav">
                         <!-- About us -->
-                        <li><a data-toggle="modal" href="#modalAbout">¿Qué es?</a></li>
-
-                        <!-- Tools -->
-                        <!-- <li class="dropdown" id="dropdownTools">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Herramientas de dibujo <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="#" id="drawPoint"><img src="resources/img/icons/point.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar punto</span></a></li>
-                                <li><a href="#" id="drawRoute"><img src="resources/img/icons/route.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar ruta</span></a></li>
-                                <li><a href="#" id="drawZone" ><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Dibujar zona</span></a></li>
-                            </ul>
-                        </li> -->
-                        <!-- <li><button type="button" class="btn btn-danger navbar-btn" data-placement="bottom" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No" id="buttonCancelDraw" >Cancelar dibujo</button></li> -->
-
-
-                        <!-- Download -->
-                        <!-- <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Descargar información <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><button class="btn btn-link" onclick="window.downloadPoints();"><img src="resources/img/icons/point.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Descargar puntos</span></button></li>
-                                <li><button class="btn btn-link" onclick="window.downloadRoutes();"><img src="resources/img/icons/route.png" width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Descargar rutas</span></button></li>
-                                <li><button class="btn btn-link" onclick="window.downloadZones();"><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Descargar zonas</span></button></li>
-                                <li class="divider"></li>
-                                <li><a href="https://repubikla.carto.com/datasets" target="_blank"><span class="glyphicon glyphicon-circle-arrow-right"></span>&nbsp;&nbsp;Ver datasets en CARTO</a></li>
-                            </ul>
-                        </li> -->
-
-                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showFilters()">Filtrar información</button></li>
-                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showDownloadSidebar()">Descargar información</button></li>
+                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('about')">Acerca del proyecto</button></li>
+                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('filters')">Filtrar datos</button></li>
+                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('downloads')">Descargar datos</button></li>
 
                         <li><a href="https://repubikla.carto.com/maps" target="_blank">Mapas temáticos</a></li>
-
-
                     </ul>
 
                     <!-- Right -->
-                    <ul class="nav navbar-nav navbar-right hidden-xs">
-                        <!-- facebook -->
-                        <li>
-                            <div class="content" style="margin-top:15px;">
-                                <div id="fb-root"></div>
-                                <div class="fb-like" data-href="https://www.facebook.com/repubikla" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="false"></div>
-                            </div>
-                        </li>
-
-                        <!-- twitter -->
-                        <li>
-                            <div class="content" style="margin-top:15px;">
-                                &nbsp;<a class="twitter-follow-button" href="https://twitter.com/repubikla">Follow @Repubikla</a>
-                            </div>
-                        </li>
+                    <ul class="nav navbar-nav navbar-right">
                         <li>
                             <a href="https://github.com/leodc/repubikla" target="_blank"><i class="fa fa-github" aria-hidden="true"></i>&nbsp;Nuestro github</a>
                         </li>
@@ -165,89 +120,6 @@
 
 
         <!-- Modals -->
-
-        <!-- About -->
-        <div id="modalAbout" class="modal fade" role="dialog">
-            <div class="modal-dialog modal-lg">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-
-                    <!-- Header -->
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Repubikla</h4>
-                    </div>
-
-                    <!-- Body -->
-                    <div class="modal-body">
-                        <div class="content">
-                            <!-- modal tabs -->
-                            <ul class="nav nav-tabs nav-justified" id="aboutTabs">
-                                <!-- about tab -->
-                                <li class="active"><a href="#about" data-toggle="tab">Acerca del proyecto</a></li>
-                                <!-- us tab -->
-                                <li><a href="#us" data-toggle="tab"><i class="fa fa-users"></i>&nbsp;Nosotros</a></li>
-                                <!-- how tab -->
-                                <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-question-circle"></i>&nbsp;¿Cómo funciona?</a></li>
-                            </ul>
-
-                            <!-- modal tabs content -->
-                            <div class="tab-content" id="aboutTabsContent">
-
-                                <!-- about tab -->
-                                <div class="tab-pane fade active in" id="about" >
-                                    <div class="row">
-                                        <img src="resources/img/logo_clean.png" alt="Repubikla" class="img-responsive col-sm-3 col-md-4"></img>
-                                        <p class="text-justify col-sm-9 col-md-8">Repubikla es una herramienta mexicana independiente que surge de la comunidad Openstreetmap México, en proceso de desarrollo, para la creación y la centralización de datos sobre la movilidad no motorizada, en cualquier parte del mundo. Repubikla.org es la plataforma de mapeo que alimentan los mismos ciudadanos.</p>
-                                        <p class="text-justify col-sm-12 col-md-8">Su objetivo es complementar una información oficial insuficiente sobre la movilidad no motorizada y empoderar los ciudadanos en la creación de información, mediante una base de datos que se fortalece cada día por todos y para todos. El resultado es un diagnóstico sobre el volumen y la diversidad de los desplazamientos ciclistas, la intermodalidad, la movilidad en grupo, la infraestructura, la siniestralidad y la inseguridad en el espacio público.</p>
-                                    </div>
-                                    <p class="text-justify">Los tomadores de decisión y la sociedad civil quedan dotados de una herramienta de diagnóstico para impulsar y diseñar mejores condiciones para una movilidad sustentable y segura.</p>
-                                    <p class="text-justify">En un futuro Repubikla se vinculará con aplicaciones para smartphone y alimentará herramientas de ayuda para la movilidad de los individuos.</p>
-                                    <p class="text-justify">Las noticias sobre el proyecto se publican <a href="http://www.openstreetmap.mx/repubikla/" target="_blank">aquí.</a></p>
-                                    <p class="text-justify">Contactanos en <a href="mailto:comments@repubikla.org?Subject=Contacto" target="_top">comments@repubikla.org</a> o en nuestras redes sociales:
-                                        <a class="btn btn-social-icon btn-twitter" href="https://twitter.com/repubikla?lang=es">
-                                            <span class="fa fa-twitter"></span>
-                                        </a>
-                                        &nbsp;
-                                        <a class="btn btn-social-icon btn-facebook" href="https://www.facebook.com/repubikla">
-                                            <span class="fa fa-facebook"></span>
-                                        </a>
-                                    </p>
-                                </div>
-
-                                <!-- us tab -->
-                                <div class="tab-pane fade" id="us" >
-                                    <div class="row">
-                                        <p class="text-justify col-sm-12 col-md-12">Somos una propuesta comunitaria para construir un sistema nervioso de movilidad en las ciudades. Somos un laboratorio y experimento ciudadano para generar soluciones voluntarias en el ámbito de la creación de datos públicos abiertos, que ayuden a mejorar las políticas públicas.</p>
-                                        <p class="text-justify col-sm-12 col-md-12">Actualmente impulsamos la participación, movilización y activación ciudadana, así como del sector público y privado; esto con la finalidad de crear un foro de reflexión metodológica que busque una permanente colaboración con la academia, dependencias de gobierno, instituciones de estadística, geografía, y la ciudadanía.</p>
-                                        <p class="text-justify col-sm-12 col-md-12">De esta forma y con una colaboración evolutiva y abierta, nos convertimos en sensores de movilidad activa por medio de la recolección y del análisis de datos, impulsando soluciones al rezago de datos públicos abiertos de calidad.</p>
-                                    </div>
-                                </div>
-
-                                <!-- how tab -->
-                                <div id="disclaimer" class="tab-pane fade">
-                                    <p>Sobre un mapa detallado de OpenStreetMap, los usuarios ingresan el dibujo de sus recorridos frecuentes, los puntos y las zonas donde señalan una información relevante respecto a su experiencia urbana. La información es ingresada mediante formularios sintéticos, con una parte predefinida y con la posibilidad de aportar campos personalizados. La información personalizada aparecerá automáticamente como columnas independientes al momento de descargar la base de datos.</p>
-                                    <p>Georeferenciada y acumulativa, la información permite en un instante generar mapas y descargar los datos.</p>
-                                    <p>La plataforma de mapeo es solo uno de los insumos de Repubikla. Se conectará también con aplicaciones existentes en el mercado, vinculando el conjunto a la misma base de datos dinámica y descargable.</p>
-                                    <div class="row">
-                                        <img src="resources/img/diagrama sistema.png" alt="Repubikla" class="img-responsive col-md-6 col-md-offset-3"></img>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-
 
         <!-- Point -->
         <div id="pointDataDialog" class="modal fade" role="dialog">
@@ -529,14 +401,6 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" id="submitRouteData">Siguiente</button>
                         <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
-
-                        <!--
-                        <button type="button" class="btn btn-default" onClick="$('#routeDataDialog').modal('hide')">Regresar al dibujo</button>
-                        -->
-
-                        <!--
-                        <button type="button" class="btn btn-default" data-on-confirm="window.endDraw" data-toggle="confirmation" data-title="¿Estas seguro que deseas eliminar el dibujo?" data-popout="true" data-btn-ok-label="Si" data-btn-cancel-label="No">Cancelar dibujo</button>
-                        -->
                     </div>
                 </div>
 
@@ -661,7 +525,7 @@
 
         <!-- sidebar-filters -->
         <div id="sidebarFilter">
-            <h1>Filtrar información</h1>
+            <h1>Filtrar datos</h1>
 
             <label for="pointTypeFilter">Mostrar puntos de tipo: </label>
             <select class="selectpicker" id="pointTypeFilter"  multiple data-selected-text-format="count > 3" data-width="100%" data-actions-box="true" data-count-selected-text="{0} items seleccionados" data-deselect-all-text='Desmarcar todos' data-select-all-text="Marcar todos" data-none-selected-text="No mostrar puntos">
@@ -721,9 +585,9 @@
         <div id="sidebarDownload">
             <h1>Descargar datos</h1>
 
-            <div class="checkbox">
+            <!-- <div class="checkbox">
                 <label><input type="checkbox" value="">Descargar solo información visible en el mapa.</label>
-            </div>
+            </div> -->
 
             <div class="text-center">
                 <div class="row">
@@ -736,6 +600,69 @@
 
                 <div class="row">
                     <button id="downloadZones" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" class="btn btn-primary" onclick="window.downloadData(this.id,'zonas');" style="width:180px;margin-top:3px;"><img src="resources/img/icons/zone.png"  width="20" class="img-responsive" style='display:inline-block;'><span style='display:inline-block;'>&nbsp;Descargar zonas</span></button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- sidebar-about -->
+        <div id="sidebarAbout">
+            <!-- <h3 class="lead">Acerca del proyecto</h3>
+
+            <div class="text-justify">
+              <img src="resources/img/logo_clean.png" alt="Repubikla" class="img-responsive" style="padding:20px;padding-top:0px;"></img>
+              <div id="fb-root"></div>
+              <div class="fb-like" data-href="https://www.facebook.com/repubikla" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true" style="margin-bottom:3px;"></div>
+              <a class="twitter-follow-button" href="https://twitter.com/repubikla">Follow @Repubikla</a>
+              <div class="clearfix"></div>
+              <p>Repubikla es una plataforma de mapeo alimentada por ciudadanos que con una estrategia de crowdsourcing busca generar y centralizar datos sobre la movilidad no motorizada en las ciudades.</p>
+              <p>Surge de la comunidad OpenStreetMap México con el objetivo de complementar información oficial y ofrecer un diagnóstico sobre el volumen y la diversidad de los desplazamientos ciclistas, la intermodalidad, la movilidad en grupo, la infraestructura, la siniestralidad y la inseguridad en el espacio público.</p>
+            </div> -->
+
+            <div>
+                <!-- modal tabs -->
+                <ul class="nav nav-tabs nav-justified" id="aboutTabs">
+                    <!-- about tab -->
+                    <li class="active"><a href="#about" data-toggle="tab">Acerca del proyecto</a></li>
+                    <!-- us tab -->
+                    <li><a href="#us" data-toggle="tab"><i class="fa fa-users"></i></a></li>
+                    <!-- how tab -->
+                    <li><a href="#disclaimer" data-toggle="tab"><i class="fa fa-question-circle"></i></a></li>
+                </ul>
+
+                <!-- modal tabs content -->
+                <div class="tab-content" id="aboutTabsContent">
+
+                    <!-- about tab -->
+                    <div class="tab-pane fade active in text-justify" id="about" >
+                        <img src="resources/img/logo_clean.png" alt="Repubikla" class="img-responsive" style="padding:20px;padding-top:5px;"></img>
+
+                        <div id="fb-root"></div>
+                        <div class="fb-like" data-href="https://www.facebook.com/repubikla" data-layout="button_count" data-action="like" data-size="small" data-show-faces="false" data-share="true" style="margin-bottom:3px;"></div>
+                        <a class="twitter-follow-button" href="https://twitter.com/repubikla">Follow @Repubikla</a>
+
+                        <div class="clearfix"></div>
+
+                        <p>Repubikla es una plataforma de mapeo alimentada por ciudadanos que con una estrategia de crowdsourcing busca generar y centralizar datos sobre la movilidad no motorizada en las ciudades.</p>
+                        <p>Surge de la comunidad OpenStreetMap México con el objetivo de complementar información oficial y ofrecer un diagnóstico sobre el volumen y la diversidad de los desplazamientos ciclistas, la intermodalidad, la movilidad en grupo, la infraestructura, la siniestralidad y la inseguridad en el espacio público. Así los tomadores de decisión y la sociedad civil quedan dotados de una herramienta de diagnóstico para impulsar y diseñar mejores condiciones para una movilidad sustentable y segura.</p>
+                        <p>Las noticias sobre el proyecto se publican <a href="http://www.openstreetmap.mx/repubikla/" target="_blank">aquí</a>.</p>
+                    </div>
+
+                    <!-- us tab -->
+                    <div class="tab-pane fade text-justify" id="us">
+                      <p>Somos una propuesta comunitaria para construir un sistema nervioso de movilidad en las ciudades. Somos un laboratorio y experimento ciudadano para generar soluciones voluntarias en el ámbito de la creación de datos públicos abiertos, que ayuden a mejorar las políticas públicas.</p>
+                      <p>Actualmente impulsamos la participación, movilización y activación ciudadana, así como del sector público y privado; esto con la finalidad de crear un foro de reflexión metodológica que busque una permanente colaboración con la academia, dependencias de gobierno, instituciones de estadística, geografía, y la ciudadanía.</p>
+                      <p>De esta forma y con una colaboración evolutiva y abierta, nos convertimos en sensores de movilidad activa por medio de la recolección y del análisis de datos, impulsando soluciones al rezago de datos públicos abiertos de calidad.</p>
+                    </div>
+
+                    <!-- how tab -->
+                    <div class="tab-pane fade text-justify" id="disclaimer">
+                        <p>Sobre un mapa detallado de OpenStreetMap, los usuarios ingresan el dibujo de sus recorridos frecuentes, los puntos y las zonas donde señalan una información relevante respecto a su experiencia urbana. La información es ingresada mediante formularios sintéticos, con una parte predefinida y con la posibilidad de aportar campos personalizados. La información personalizada aparecerá automáticamente como columnas independientes al momento de descargar la base de datos.</p>
+                        <p>Georeferenciada y acumulativa, la información permite en un instante generar mapas y descargar los datos.</p>
+                        <p>La plataforma de mapeo es solo uno de los insumos de Repubikla. Se conectará también con aplicaciones existentes en el mercado, vinculando el conjunto a la misma base de datos dinámica y descargable.</p>
+
+                        <img src="resources/img/diagrama sistema.png" alt="Repubikla" class="img-responsive"></img>
+                    </div>
                 </div>
             </div>
         </div>
