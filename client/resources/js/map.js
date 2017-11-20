@@ -1,4 +1,4 @@
-var map, drawLayer, layerControl, sidebars = {};
+var map, drawLayer, layerControl, indicatorsLayer, sidebars = {};
 
 function initMap(id){
     /* Basemap Layers */
@@ -25,7 +25,15 @@ function initMap(id){
     });
 
     layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}).addTo(map);
+
     drawLayer = L.featureGroup().addTo(map);
+    indicatorsLayer = L.geoJSON().bindPopup(function(layer){
+      var html = "Incidentes reportados: " + layer.feature.properties.counter;
+      html += "<br>Posición en el top: " + layer.feature.properties._index;
+
+
+      return html;
+    }).addTo(map);
 
     map.on("popupclose", function(){
         if(window.routeShared){
@@ -51,10 +59,12 @@ function initMap(id){
     });
 
     // sidebars
-    sidebars.filters = L.control.sidebar('sidebarFilter');
-    sidebars.downloads = L.control.sidebar("sidebarDownload");
-    sidebars.about = L.control.sidebar("sidebarAbout");
-    // sidebars.indicators = L.control.sidebar("sidebarIndicators");
+
+    var sidebarOptions = {autoPan: false};
+    sidebars.filters = L.control.sidebar("sidebarFilter", sidebarOptions);
+    sidebars.downloads = L.control.sidebar("sidebarDownload", sidebarOptions);
+    sidebars.about = L.control.sidebar("sidebarAbout", sidebarOptions);
+    sidebars.indicators = L.control.sidebar("sidebarIndicators", sidebarOptions);
 
     // legend
     var legendControl = L.easyButton({
@@ -83,7 +93,7 @@ function initMap(id){
     map.addControl(geosearchControl);
     map.addControl(legendControl);
 
-    sidebars.about.show();
+    sidebars.indicators.show();
 }
 
 function buildDrawControl(){
@@ -328,6 +338,5 @@ $(function(){
         $("#pointTypeFilter, #routeTypeFilter, #zoneTypeFilter").selectpicker("deselectAll");
     });
 });
-
 
 /*global $ L MQ*/

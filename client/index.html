@@ -99,6 +99,7 @@
                         <!-- About us -->
                         <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('about')">Acerca del proyecto</button></li>
                         <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('filters')">Filtrar datos</button></li>
+                        <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('indicators')">Indicadores</button></li>
                         <li><button type="button" class="btn btn-link navbar-btn" onClick="showSidebar('downloads')">Descargar datos</button></li>
 
                         <li><a href="https://repubikla.carto.com/maps" target="_blank">Mapas temáticos</a></li>
@@ -529,7 +530,7 @@
 
         <!-- sidebar-filters -->
         <div id="sidebarFilter">
-            <h1>Filtrar datos</h1>
+            <h3>Filtrar datos</h3>
 
             <label for="pointTypeFilter">Mostrar puntos de tipo: </label>
             <select class="selectpicker" id="pointTypeFilter"  multiple data-selected-text-format="count > 3" data-width="100%" data-actions-box="true" data-count-selected-text="{0} items seleccionados" data-deselect-all-text='Desmarcar todos' data-select-all-text="Marcar todos" data-none-selected-text="No mostrar puntos">
@@ -587,7 +588,7 @@
 
         <!-- sidebar-download -->
         <div id="sidebarDownload">
-            <h1>Descargar datos</h1>
+            <h3>Descargar datos</h3>
 
             <!-- <div class="checkbox">
                 <label><input type="checkbox" value="">Descargar solo información visible en el mapa.</label>
@@ -607,7 +608,6 @@
                 </div>
             </div>
         </div>
-
 
         <!-- sidebar-about -->
         <div id="sidebarAbout">
@@ -642,7 +642,7 @@
 
                     <!-- us tab -->
                     <div class="tab-pane fade text-justify" id="us">
-                      <h2 class="lead">Nosotros</h2>
+                      <h3>Nosotros</h3>
 
                       <p>Somos una propuesta comunitaria para construir un sistema nervioso de movilidad en las ciudades. Somos un laboratorio y experimento ciudadano para generar soluciones voluntarias en el ámbito de la creación de datos públicos abiertos, que ayuden a mejorar las políticas públicas.</p>
                       <p>Actualmente impulsamos la participación, movilización y activación ciudadana, así como del sector público y privado; esto con la finalidad de crear un foro de reflexión metodológica que busque una permanente colaboración con la academia, dependencias de gobierno, instituciones de estadística, geografía, y la ciudadanía.</p>
@@ -651,7 +651,7 @@
 
                     <!-- how tab -->
                     <div class="tab-pane fade text-justify" id="disclaimer">
-                      <h2 class="lead">¿Cómo funciona?</h2>
+                      <h3>¿Cómo funciona?</h3>
                         <p>Sobre un mapa detallado de OpenStreetMap, los usuarios ingresan el dibujo de sus recorridos frecuentes, los puntos y las zonas donde señalan una información relevante respecto a su experiencia urbana. La información es ingresada mediante formularios sintéticos, con una parte predefinida y con la posibilidad de aportar campos personalizados. La información personalizada aparecerá automáticamente como columnas independientes al momento de descargar la base de datos.</p>
                         <p>Georeferenciada y acumulativa, la información permite en un instante generar mapas y descargar los datos.</p>
                         <p>La plataforma de mapeo es solo uno de los insumos de Repubikla. Se conectará también con aplicaciones existentes en el mercado, vinculando el conjunto a la misma base de datos dinámica y descargable.</p>
@@ -663,6 +663,21 @@
         </div>
 
 
+        <!-- sidebar indicators -->
+        <div id="sidebarIndicators">
+          <h3>Indicadores</h3>
+          <p>Estos indicadores se generan con la extensión de la vista actual del mapa.</p>
+
+          <p class="lead" style="margin-bottom:0px;">Los 10 cruces con mayor numero de incidentes viales.</p>
+          <pre id="resultTopDangerous"></pre>
+
+          <small class="text-muted">* Este proceso consume recursos de tu computadora.</small>
+
+          <div class="pull-right">
+            <button type="button" class="btn btn-primary" onclick="getTopDangerous()">Generar</button>
+            <button type="button" class="btn btn-link" onclick="clearIndicators()">Limpiar</button>
+          </div>
+        </div>
 
         <script src="resources/js/utils.js"></script>
 
@@ -716,7 +731,11 @@
         <!-- sidebar-->
         <script src="resources/plugins/leaflet.sidebar/L.Control.Sidebar.js"></script>
 
+        <!-- turf -->
+        <script src="resources/plugins/turf.min.js"></script>
+
         <script src="resources/js/socket.js"></script>
+        <script src="resources/js/indicators.js"></script>
         <script src="resources/js/app.js"></script>
         <script src="resources/js/point.js"></script>
         <script src="resources/js/route.js"></script>
