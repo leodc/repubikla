@@ -93,7 +93,7 @@ function initMap(id){
     map.addControl(geosearchControl);
     map.addControl(legendControl);
 
-    sidebars.indicators.show();
+    sidebars.about.show();
 }
 
 function buildDrawControl(){
