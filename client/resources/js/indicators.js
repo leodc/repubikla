@@ -78,7 +78,7 @@ function getTopDangerous(){
 
 function reverseGeocoding(featureCollection, index, callback){
   if(index < featureCollection.features.length){
-    var url = "http://www.mapquestapi.com/geocoding/v1/reverse?key=ZJanp0xBDpPMOLftzxBrG1tzmNtsjPWF&location=" + featureCollection.features[index].geometry.coordinates[1] + "," + featureCollection.features[index].geometry.coordinates[0];
+    var url = "https://www.mapquestapi.com/geocoding/v1/reverse?key=ZJanp0xBDpPMOLftzxBrG1tzmNtsjPWF&location=" + featureCollection.features[index].geometry.coordinates[1] + "," + featureCollection.features[index].geometry.coordinates[0];
     var options = "&includeRoadMetadata=true&includeNearestIntersection=true";
 
     $.getJSON(url + options, function(data){
