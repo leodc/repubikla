@@ -36,7 +36,9 @@ var drawRoute, routeLayer;
 
 
 window.hideRouteLayer = function(){
-    window.map.removeLayer(routeLayer);
+    try{
+      window.map.removeLayer(routeLayer);
+    }catch(err){}
 };
 
 function getRouteStyle (motivo, sharedRoute){
@@ -325,11 +327,13 @@ window.cancelNewRoute = function(){
 window.filterRoutes = function(routes){
     console.log("filtering routes", routes);
 
-    routeLayer.eachLayer(function (layer) {
-        layer.setStyle({stroke: routes.includes(layer.feature.properties.ruta_motivo)});
-    });
+    try{
+      routeLayer.eachLayer(function (layer) {
+          layer.setStyle({stroke: routes.includes(layer.feature.properties.ruta_motivo)});
+      });
 
-    window.map.addLayer(routeLayer);
+      window.map.addLayer(routeLayer);
+    }catch(err){}
 };
 
 window.clearFilterRoutes = function(){
