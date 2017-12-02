@@ -1,5 +1,5 @@
 var map, drawLayer, layerControl, indicatorsLayer, sidebars = {};
-
+var layersLoaded = 0;
 function initMap(id){
     /* Basemap Layers */
     // mapbox
@@ -24,7 +24,7 @@ function initMap(id){
         editable: true
     });
 
-    layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}).addTo(map);
+    layerControl = L.control.layers({"Mapbox Tiles": mapboxTiles, "MapQuest Tiles": mapQuestTiles, "Mapbox Satellite": mapboxSatelliteTiles}, {}, {collapsed:false}).addTo(map);
 
     drawLayer = L.featureGroup().addTo(map);
     indicatorsLayer = L.geoJSON().bindPopup(function(layer){
@@ -41,6 +41,10 @@ function initMap(id){
             window.drawRoutes();
         }
     });
+
+    map.on("click", function(){
+      layerControl.collapse();
+    })
 
 
     // locate
