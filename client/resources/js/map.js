@@ -261,7 +261,7 @@ function userLocationView(map){
     if(window.getUrlParameter('p') || window.getUrlParameter('r') || window.getUrlParameter('z')) return;
 
     // set view
-    map.locate({setView: true, maxZoom: 17});
+    map.locate({setView: true, maxZoom: 16});
 
     // on error
     map.on('locationerror', function(error){
