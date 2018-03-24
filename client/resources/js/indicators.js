@@ -6,6 +6,7 @@ function getTopDangerous(){
 
   var maxResultSize = 10;
   var acceptedTypes = ["Incidente vial"];
+  var bufferSize = Number($("#topBufferSize").val()/1000) || 0.02;
 
   incidentes = {
     type: "FeatureCollection",
@@ -14,7 +15,7 @@ function getTopDangerous(){
 
   var pointBuffer, cluster, clusters = [];
   for(var feature of incidentes.features){
-    pointBuffer = turf.buffer(feature, 0.020, {units: "kilometers"});
+    pointBuffer = turf.buffer(feature, bufferSize, {units: "kilometers"});
     cluster = turf.within(incidentes, turf.featureCollection([pointBuffer]));
 
     clusters.push({
