@@ -147,6 +147,8 @@ window.paintRoutes = function(featureCollection){
 
     window.layerControl.addOverlay(routeLayer,"Rutas");
 
+    map.addLayer(routeLayer);
+    
     if(sharedRoute){
         console.log("searching for route...", sharedRoute);
 
@@ -157,7 +159,6 @@ window.paintRoutes = function(featureCollection){
 
             if(sharedRoute === Number(layer.feature.properties.gid)) {
                 map.fitBounds(layer.getBounds());
-                map.addLayer(routeLayer);
 
                 layer
                     .bringToFront()
