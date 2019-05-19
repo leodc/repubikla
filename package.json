@@ -1,0 +1,22 @@
+{
+  "name": "repubikla",
+  "version": "2.0.0",
+  "description": "Mapping platform powered by citizens that, with a crowdsourcing strategy, seeks to generate and centralize data on non-motorized mobility in any city.",
+  "main": "repubikla.js",
+  "scripts": {
+    "start": "node repubikla.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/imleo/repubikla.git"
+  },
+  "author": "Leonel Castañeda",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/imleo/repubikla/issues"
+  },
+  "homepage": "https://gitlab.com/imleo/repubikla#readme",
+  "dependencies": {
+    "express": "^4.17.0"
+  }
+}
