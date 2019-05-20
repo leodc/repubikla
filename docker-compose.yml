@@ -1,0 +1,12 @@
+version: "3"
+services:
+
+  repubikla:
+    build: .
+    image: imleo/repubikla:v2
+    ports:
+      - 50001:8080
+    restart: always
+    volumes:
+      - ./client:/usr/src/app/client
+
