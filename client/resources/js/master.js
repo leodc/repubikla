@@ -1,4 +1,6 @@
 $(function(){
+  $("#loadingModal").modal("show");
+
   var mapConfig = {
     view: [24.59, -103.14],
     zoom: 5,
@@ -61,6 +63,8 @@ $(function(){
           });
         }
       }
+
+      $("#loadingModal").modal("hide");
     }
   });
 
