@@ -27,17 +27,25 @@ $(function(){
       if( getUrlParameter("feature") ){
         var aux = getUrlParameter("feature").split("-");
 
+        var paddingX = 0;
+        for (var key in sidebars) {
+          if(sidebars[key].isVisible()){
+            paddingX = $("#" + key).width();
+            break;
+          }
+        }
+
         if( aux[0] == "p" ){
           for (var marker of markerList) {
             if(marker.data.gid == +aux[1]){
-              map.setView(marker.position, 17);
+              map.fitBounds(L.latLngBounds([marker.position]), {paddingTopLeft: [paddingX, 0]});
               marker.data.popup = L.popup().setLatLng(marker.position).setContent(marker.data.popup).openOn(map);
             }
           }
         }else if (aux[0] == "r") {
           window.layers.routes.eachLayer(function(layer){
             if( layer.feature.properties.gid == +aux[1] ){
-              map.fitBounds(layer.getBounds());
+              map.fitBounds(layer.getBounds(), {paddingTopLeft: [paddingX, 0]});
 
               layer.bindPopup(buildRoutePopup(layer)).openPopup();
             }
@@ -46,8 +54,8 @@ $(function(){
           window.layers.zones.eachLayer(function(layer){
             if( layer.feature.properties.gid == +aux[1] ){
               window.layers.zones.addTo(map);
-              
-              map.fitBounds(layer.getBounds());
+
+              map.fitBounds(layer.getBounds(), {paddingTopLeft: [paddingX, 0]});
               layer.bindPopup(buildZonePopup(layer)).openPopup();
             }
           });
@@ -173,8 +181,8 @@ function isUrl(s) {
 };
 
 function getHtmlShareContent(twitterText, type, gid){
-  var baseUrl = "https://www.repubikla.org/";
-  var urlToShare = baseUrl + "?feature=" + type + "-" + gid;
+  var baseUrl = window.location.origin;
+  var urlToShare = baseUrl + "/?feature=" + type + "-" + gid;
 
   var urlPrefix = "https://twitter.com/intent/tweet?text=" + twitterText + "&via=repubikla&url=";
   var urlFbPrefix = "https://www.facebook.com/sharer/sharer.php?u=";
@@ -188,7 +196,7 @@ function getHtmlShareContent(twitterText, type, gid){
   return html;
 }
 
-window.getUrlParameter = function(sParam) {
+function getUrlParameter(sParam) {
   var sPageURL = decodeURIComponent(window.location.search.substring(1)),
   sURLVariables = sPageURL.split('&'),
   sParameterName,
