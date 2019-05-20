@@ -9,4 +9,5 @@ services:
     restart: always
     volumes:
       - ./client:/usr/src/app/client
+      - ./views:/usr/src/app/views
 

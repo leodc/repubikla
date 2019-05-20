@@ -1,0 +1,104 @@
+doctype html
+head
+  meta(charset='utf-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1, shrink-to-fit=no')
+  
+  title Repubikla
+  link(rel='icon' href='/img/logo_clean.png')
+  
+  meta(property='og:url' content='https://repubikla.org')
+  meta(property='og:title' content='Repubikla')
+  meta(property='og:description' content='Plataforma de mapeo alimentada por ciudadanos que con una estrategia de crowdsourcing busca generar y centralizar datos sobre la movilidad no motorizada en las ciudades.')
+  
+  // Bootstrap CSS
+  link(rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css' integrity='sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T' crossorigin='anonymous')
+  // font-awesome
+  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.5.0/css/all.css' integrity='sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU' crossorigin='anonymous')
+  // leaflet
+  link(rel='stylesheet' href='https://unpkg.com/leaflet@1.5.1/dist/leaflet.css' integrity='sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==' crossorigin='')
+  link(rel='stylesheet' href='/libs/leaflet.sidebar/L.Control.Sidebar.css')
+  link(rel='stylesheet' href='/libs/PruneCluster/PruneCluster.js')
+  link(rel='stylesheet' href='/css/master.css')
+
+body
+  // navigation bar
+  nav.navbar.navbar-expand-lg.navbar-light.bg-light.fixed-top
+    a.navbar-brand(href='#')
+      img(alt='Brand' src='/img/logo_clean.png' width='40')
+    button.navbar-toggler(type='button' data-toggle='collapse' data-target='#navbarSupportedContent' aria-controls='navbarSupportedContent' aria-expanded='false' aria-label='Toggle navigation')
+      span.navbar-toggler-icon
+    #navbarSupportedContent.collapse.navbar-collapse
+      ul.navbar-nav.mr-auto
+        li.nav-item
+          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarAbout')") Acerca del proyecto
+        li.nav-item
+          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarFilter')") Filtrar datos
+        li.nav-item
+          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarIndicators')") Indicadores
+        li.nav-item
+          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarDownload')") Descargar datos
+        li.nav-item
+          a.btn.btn-link.text-secondary(href='https://repubikla.carto.com/maps' target='_blank') Mapas tem&aacute;ticos
+      a.btn.btn-link.text-secondary(href='https://gitlab.com/imleo/repubikla' target='_blank')
+        i.fab.fa-github-alt
+        | &nbsp;Nuestro github
+
+  // content
+  #map
+
+  // sidebars
+  include sidebar.pug
+
+  // modals
+  include loading.pug
+
+  // fb and twitter buttons
+  script.
+    window.twttr = (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0],
+    t = window.twttr || {};
+    if (d.getElementById(id)) return t;
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://platform.twitter.com/widgets.js";
+    fjs.parentNode.insertBefore(js, fjs);
+    t._e = [];
+    t.ready = function(f) {
+    t._e.push(f);
+    };
+    return t;
+    }(document, "script", "twitter-wjs"));
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.7";
+    fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+    
+  // jQuery first, then Popper.js, then Bootstrap JS
+  script(src='https://code.jquery.com/jquery-3.4.1.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js' integrity='sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1' crossorigin='anonymous')
+  script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
+  // leaflet
+  script(src='https://unpkg.com/leaflet@1.5.1/dist/leaflet.js' integrity='sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==' crossorigin='')
+  script(src='https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.65.1/src/L.Control.Locate.min.js')
+  script(src='/libs/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.js')
+  script(src='/libs/leaflet-dialog/Leaflet.Dialog.js')
+  script(src='/libs/leaflet-sidebar-v2/leaflet-sidebar.js')
+  script(src='/libs/leaflet.sidebar/L.Control.Sidebar.js')
+  script(src='/libs/leaflet-heat.js')
+  script(src='/libs/leaflet-hash.js')
+  script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js')
+  script(src='/libs/PruneCluster/PruneCluster.js')
+  // spin
+  script(src='/libs/spin.js/spin.js')
+  script(src='/libs/spin.js/leaflet.spin.min.js')
+  // locale
+  script(src='/libs/leaflet.draw.locale.es.js')
+  script(src='/js/carto.js' charset='utf-8')
+  script(src='/js/point.js' charset='utf-8')
+  script(src='/js/route.js' charset='utf-8')
+  script(src='/js/zone.js' charset='utf-8')
+  script(src='/js/map.js' charset='utf-8')
+  script(src='/js/master.js' charset='utf-8')

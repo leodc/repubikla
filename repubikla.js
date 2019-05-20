@@ -7,6 +7,12 @@ var path = require("path");
 //setup
 app.set("port", process.env.PORT || 8080);
 app.use(express.static(path.join(__dirname, "client")));
+app.set("view engine", "pug");
+
+// routing
+app.get("/", function (req, res) {
+  res.render("index");
+});
 
 //start
 http.listen(app.get("port"), function(){
