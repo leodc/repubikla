@@ -18,6 +18,7 @@ head
   link(rel='stylesheet' href='https://unpkg.com/leaflet@1.5.1/dist/leaflet.css' integrity='sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==' crossorigin='')
   link(rel='stylesheet' href='/libs/leaflet.sidebar/L.Control.Sidebar.css')
   link(rel='stylesheet' href='/libs/PruneCluster/PruneCluster.js')
+  
   link(rel='stylesheet' href='/css/master.css')
 
 body
@@ -30,13 +31,13 @@ body
     #navbarSupportedContent.collapse.navbar-collapse
       ul.navbar-nav.mr-auto
         li.nav-item
-          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarAbout')") Acerca del proyecto
+          button#sidebarAboutTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarAbout')") Acerca del proyecto
         li.nav-item
-          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarFilter')") Filtrar datos
+          button#sidebarFilterTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarFilter')") Filtrar datos
         li.nav-item
-          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarIndicators')") Indicadores
+          button#sidebarIndicatorsTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarIndicators')") Indicadores
         li.nav-item
-          button.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarDownload')") Descargar datos
+          button#sidebarDownloadTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarDownload')") Descargar datos
         li.nav-item
           a.btn.btn-link.text-secondary(href='https://repubikla.carto.com/maps' target='_blank') Mapas tem&aacute;ticos
       a.btn.btn-link.text-secondary(href='https://gitlab.com/imleo/repubikla' target='_blank')
@@ -96,6 +97,7 @@ body
   script(src='/libs/spin.js/leaflet.spin.min.js')
   // locale
   script(src='/libs/leaflet.draw.locale.es.js')
+  
   script(src='/js/carto.js' charset='utf-8')
   script(src='/js/point.js' charset='utf-8')
   script(src='/js/route.js' charset='utf-8')

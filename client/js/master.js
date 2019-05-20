@@ -14,6 +14,10 @@ $(function(){
         ids: ["sidebarFilter", "sidebarDownload", "sidebarAbout", "sidebarIndicators"],
         options: {
           // autoPan: false
+        },
+        afterCloseCallback: function(e){
+          $(".btn-nav").removeClass("btn-selected");
+          $(".btn-nav").addClass("btn-link text-secondary");
         }
       }
     }
@@ -41,7 +45,7 @@ $(function(){
           for (var marker of markerList) {
             if(marker.data.gid == +aux[1]){
               map.fitBounds(L.latLngBounds([marker.position]), {paddingTopLeft: [paddingX, 0]});
-              marker.data.popup = L.popup().setLatLng(marker.position).setContent(marker.data.popup).openOn(map);
+              L.popup().setLatLng(marker.position).setContent(marker.data.popup).openOn(map);
             }
           }
         }else if (aux[0] == "r") {
@@ -68,10 +72,22 @@ $(function(){
     }
   });
 
-  sidebars.sidebarAbout.show();
+  showSidebar("sidebarAbout");
 });
 
 function loadData(callback){
+  getRoutes(function(data){
+    window.layers.routes.addData(data);
+
+    callback();
+  });
+
+  getZones(function(data){
+    window.layers.zones.addData(data);
+
+    callback();
+  });
+
   getPoints(function(featureCollection){
     var pruneCluster = window.layers.points;
 
@@ -98,18 +114,6 @@ function loadData(callback){
     window.markerList = markerList;
 
     pruneCluster.ProcessView();
-
-    callback();
-  });
-
-  getRoutes(function(data){
-    window.layers.routes.addData(data);
-
-    callback();
-  });
-
-  getZones(function(data){
-    window.layers.zones.addData(data);
 
     callback();
   });
@@ -154,14 +158,19 @@ function createLayers(){
 
 
 function showSidebar(key){
-  // in case a sidebar is open we need to wait for the close animation to end before open the new sidebar
   if( hideSidebars(key) ){
+    // in case a sidebar is open we need to wait for the close animation to end before open the new sidebar
     setTimeout(function(){
       sidebars[key].show();
     }, 500);
   }else{
     sidebars[key].show();
   }
+
+  $("#" + key + "Trigger").removeClass("btn-link text-secondary");
+  $("#" + key + "Trigger").addClass("btn-selected");
+
+  $("#" + key + "Trigger").blur();
 }
 
 
@@ -169,6 +178,9 @@ function hideSidebars(sidebarToShow){
   for(var key in sidebars){
     if(sidebars[key].isVisible() && key != sidebarToShow){
       sidebars[key].hide();
+
+      $("#" + key + "Trigger").removeClass("btn-selected");
+      $("#" + key + "Trigger").addClass("btn-link text-secondary");
       return true;
     }
   }

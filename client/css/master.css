@@ -8,6 +8,16 @@ body {
   padding-top: 55px;
 }
 
+.btn-selected{
+  background-color: #1FB261;
+  color: white;
+}
+
+.btn-selected:hover{
+  color: white;
+}
+
+/* prune cluster */
 .leaflet-div-icon-point{
   border:1px solid white;
   color:blue;
@@ -17,22 +27,18 @@ body {
 }
 
 .point-dark-red{
-    /*background: #FF0000;*/
     background: #b82e2e;
 }
 .point-red{
-    /*background: #FF4500;*/
     background: #dc3912;
 }
 .point-black{
     background: #000000;
 }
 .point-lightred{
-    /*background: #FF4500;*/
     background: #ff9900;
 }
 .point-purple{
-    /*background: #6A5ACD;*/
     background: #990099;
 }
 .point-orange{

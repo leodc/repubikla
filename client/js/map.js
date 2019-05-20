@@ -297,12 +297,17 @@ function buildSidebar(map, options){
   var sidebar;
   if(options.v1){
     var sidebars = {};
+
     for (var id of options.v1.ids) {
       sidebar = L.control.sidebar(id, options.v1.options);
 
       map.addControl(sidebar);
 
       sidebars[id] = sidebar;
+    }
+
+    if (options.v1.afterCloseCallback){
+      $(".close").on("click", options.v1.afterCloseCallback);
     }
 
     window.sidebars = sidebars;
