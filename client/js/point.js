@@ -21,11 +21,11 @@ var colors = ["#b82e2e", "#dc3912", "#000000", "#ff9900", "#990099", "#FF6347", 
 var addPointToLayer;
 
 function hidePruneCluster(){
-  window.map.removeLayer(pruneCluster);
+  window.map.removeLayer(layers.points);
 };
 
 function showPruneCluster(){
-  window.map.addLayer(pruneCluster);
+  window.map.addLayer(layers.points);
 };
 
 /**
@@ -216,3 +216,29 @@ function buildPruneCluster(){
 
   return pruneCluster;
 }
+
+
+////////
+////////
+// FILTERS
+function filterPoints(show){
+    console.log("filtering points", show);
+
+    var marker;
+    for(var i = 0; i < window.markerList.length; i++){
+        marker = window.markerList[i];
+        marker.filtered = (show.indexOf(marker.data.type) < 0);
+    }
+
+    window.layers.points.ProcessView();
+    showPruneCluster();
+};
+
+function cleanPointsFilters(){
+    for(var i = 0; i < window.markerList.length; i++){
+        window.markerList[i].filtered = false;
+    }
+
+    window.layers.points.ProcessView();
+    showPruneCluster();
+};

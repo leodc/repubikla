@@ -72,7 +72,11 @@ $(function(){
     }
   });
 
-  showSidebar("sidebarAbout");
+  // showSidebar("sidebarAbout");
+  showSidebar("sidebarFilter");
+
+  $("select").chosen();
+
 });
 
 function loadData(callback){
@@ -204,9 +208,9 @@ function getHtmlShareContent(twitterText, type, gid){
   var urlFbPrefix = "https://www.facebook.com/sharer/sharer.php?u=";
 
   var html = "<p class='text-right'>";
-  html += '<i class="fas fa-share-alt" style="color: rgba(128,128,128,.5);">&nbsp;</i>';
-  html += '<a href="' + urlPrefix + urlToShare + '"><i class="fab fa-twitter"></i></a>';
-  html += '<a href="' + urlFbPrefix + urlToShare + '" onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;"><i class="fab fa-facebook"></i></a>';
+  html += '<i class="fas fa-share-alt share-button" style="color: rgba(128,128,128,.5);">&nbsp;</i>';
+  html += '<a href="' + urlPrefix + urlToShare + '"><i class="fab fa-twitter share-button"></i></a>';
+  html += '<a href="' + urlFbPrefix + urlToShare + '" onclick="javascript:window.open(this.href, \'\', \'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600\');return false;"><i class="fab fa-facebook share-button"></i></a>';
   html += "</p>";
 
   return html;

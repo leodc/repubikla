@@ -11,7 +11,7 @@ function getZoneStyle(zoneProperties){
 function buildZonePopup(layer){
   var properties = layer.feature.properties;
   var suffix = null;
-  
+
   var excluded = ["Comentario","the_geom","cartodb_id","the_geom_webmercator","created_at","updated_at","geojson", "date", "gid"];
 
   var topItems = "<b>Fecha: </b>" + properties.date;
@@ -85,3 +85,48 @@ function buildZonePopup(layer){
 
   return topItems + bodyItems + footItems;
 }
+
+////////
+////////
+// FILTERS
+function filterZones(zones){
+  console.log("filtering zones", zones);
+
+  var style, properties, i;
+  window.layers.zones.eachLayer(function (layer) {
+      style = {
+          fill: false,
+          stroke: false
+      };
+
+      properties = layer.feature.properties;
+
+      propertySearch:
+      for( i = 0; i < zones.length; i++){
+          if( properties[zones[i]] ){
+              style.fill = true;
+              style.stroke = true;
+
+              break propertySearch;
+          }
+      }
+
+      layer.setStyle(style);
+  });
+
+  window.map.addLayer(window.layers.zones);
+};
+
+
+function cleanZonesFilters(zones){
+  console.log("filtering zones", zones);
+  var style = {
+      fill: true,
+      stroke: true
+  };
+  window.layers.zones.eachLayer(function (layer) {
+      layer.setStyle(style);
+  });
+
+  window.map.addLayer(window.layers.zones);
+};

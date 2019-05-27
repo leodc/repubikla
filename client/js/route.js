@@ -53,6 +53,7 @@ function buildRoutePopup(layer){
 
   var excluded = ["comment","the_geom","cartodb_id","the_geom_webmercator","created_at","updated_at","geojson", "date","gid"];
 
+  var shareText = "";
   var bodyPreffix = "<br><br><b>Esta ruta es: </b>";
 
   var topItems = "";
@@ -113,7 +114,29 @@ function buildRoutePopup(layer){
     return topItems + bodyItems + footItems + suffix;
   }
 
+  properties.date
   footItems += getHtmlShareContent("texto", "r", properties.gid);
 
   return topItems + bodyItems + footItems;
 }
+
+////////
+////////
+// FILTERS
+function filterRoutes(routes){
+  console.log("filtering routes", routes);
+
+  window.layers.routes.eachLayer(function (layer) {
+      layer.setStyle({stroke: routes.includes(layer.feature.properties.ruta_motivo)});
+  });
+
+  window.map.addLayer(window.layers.routes);
+};
+
+function cleanRoutesFilters(){
+  window.layers.routes.eachLayer(function (layer) {
+      layer.setStyle({stroke: true});
+  });
+
+  window.map.addLayer(window.layers.routes);
+};

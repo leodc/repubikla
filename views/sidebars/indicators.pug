@@ -1,0 +1,15 @@
+#sidebarIndicators
+  h3 Indicadores
+  h4.text-primary
+    | Estos indicadores se generan con la extensi&oacute;n de la vista actual del mapa y su procesamiento consume recursos de tu computadora.
+  hr
+  h4 Los 10 cruces con mayor n&uacute;mero de incidentes viales.
+  .form-group.form-inline
+    label(for='topBufferSize') Tama&ntilde;o del buffer (metros):
+    input#topBufferSize.form-control(type='number' value='20')
+  button#downloadTopDangerous.btn.btn-link.btn-xs.hidden(type='button' onclick='downloadTopDangerousResults()') Descargar resultados
+  pre#resultTopDangerous.
+
+  .pull-right
+    button.btn.btn-primary(type='button' onclick='getTopDangerous()') Generar
+    button.btn.btn-link(type='button' onclick='clearIndicators()') Limpiar

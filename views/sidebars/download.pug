@@ -1,0 +1,15 @@
+#sidebarDownload
+  h3 Descargar datos
+  .text-center
+    .row
+      button#downloadPoints.btn.btn-primary(data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" onclick="window.downloadData(this.id,'puntos');" style='width:180px;margin-top:3px;')
+        img.img-responsive(src='/img/icons/point.png' width='20' style='display:inline-block;')
+        span(style='display:inline-block;') &nbsp;Descargar puntos
+    .row
+      button#downloadRoutes.btn.btn-primary(data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" onclick="window.downloadData(this.id,'rutas');" style='width:180px;margin-top:3px;')
+        img.img-responsive(src='/img/icons/route.png' width='20' style='display:inline-block;')
+        span(style='display:inline-block;') &nbsp;Descargar rutas
+    .row
+      button#downloadZones.btn.btn-primary(data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i>" onclick="window.downloadData(this.id,'zonas');" style='width:180px;margin-top:3px;')
+        img.img-responsive(src='/img/icons/zone.png' width='20' style='display:inline-block;')
+        span(style='display:inline-block;') &nbsp;Descargar zonas
