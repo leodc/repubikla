@@ -53,7 +53,7 @@ function buildRoutePopup(layer){
 
   var excluded = ["comment","the_geom","cartodb_id","the_geom_webmercator","created_at","updated_at","geojson", "date","gid"];
 
-  var shareText = "";
+  var shareText = "Ruta para ";
   var bodyPreffix = "<br><br><b>Esta ruta es: </b>";
 
   var topItems = "";
@@ -67,6 +67,8 @@ function buildRoutePopup(layer){
         case "ruta_motivo":
         topItems += "<b>Motivo de la ruta: </b>" + properties[key];
         topItems += "<br><b>Fecha: </b>" + properties.date;
+
+        shareText += properties[key];
         break;
         case "ruta_tiempo":
         topItems += "<br><b>Tiempo del recorrido (minutos): </b>" + properties[key];
@@ -114,8 +116,7 @@ function buildRoutePopup(layer){
     return topItems + bodyItems + footItems + suffix;
   }
 
-  properties.date
-  footItems += getHtmlShareContent("texto", "r", properties.gid);
+  footItems += getHtmlShareContent(shareText, "r", properties.gid);
 
   return topItems + bodyItems + footItems;
 }
