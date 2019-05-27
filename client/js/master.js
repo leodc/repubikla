@@ -72,18 +72,11 @@ $(function(){
     }
   });
 
-  showSidebar("sidebarIndicators");
+  showSidebar("sidebarAbout");
 
   $("select").chosen();
 
 });
-
-
-function downloadCsv(filename, csvContent){
-  var blob = new Blob([csvContent], {type: "text/plain;charset=utf-8"});
-  saveAs(blob, filename + ".csv");
-}
-
 
 function loadData(callback){
   getRoutes(function(data){
