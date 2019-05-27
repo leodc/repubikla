@@ -1,15 +1,30 @@
 #sidebarIndicators
   h3 Indicadores
-  h4.text-primary
-    | Estos indicadores se generan con la extensi&oacute;n de la vista actual del mapa y su procesamiento consume recursos de tu computadora.
+  
+  .card
+    .card-body.bg-secondary.text-white.text-uppercase.p-1
+      p Estos indicadores se generan con la extensión de la vista actual del mapa y su procesamiento consume recursos de tu computadora.
+      p.mb-0 Te recomendamos empezar con una sección pequeña del mapa :)
+      
   hr
-  h4 Los 10 cruces con mayor n&uacute;mero de incidentes viales.
-  .form-group.form-inline
-    label(for='topBufferSize') Tama&ntilde;o del buffer (metros):
-    input#topBufferSize.form-control(type='number' value='20')
-  button#downloadTopDangerous.btn.btn-link.btn-xs.hidden(type='button' onclick='downloadTopDangerousResults()') Descargar resultados
-  pre#resultTopDangerous.
+  
+  h5 Los 10 cruces con mayor número de incidentes viales.
+  .input-group.mb-0
+    .input-group-prepend
+      span.input-group-text Radio del buffer:
+    input#topBufferSize.form-control(type="number" value="20")
+    .input-group-append
+      span.input-group-text metros
+  
+  
+  .form-group
+    textarea#resultTopDangerous.form-control(style="white-space: pre;" disabled="" rows="5")
+      
+  div.float-right
+    button#downloadTopDangerous.btn.btn-outline-info.btn-xs(type='button' onclick='downloadTopDangerousResults()' hidden="") Descargar resultados
+  
+  .clearfix.mb-2
 
-  .pull-right
-    button.btn.btn-primary(type='button' onclick='getTopDangerous()') Generar
-    button.btn.btn-link(type='button' onclick='clearIndicators()') Limpiar
+  .float-right
+    button.btn.btn-success.bg-repu.mr-1(type='button' onclick='getTopDangerous()') Generar
+    button.btn.btn-secondary(type='button' onclick='clearIndicators()') Limpiar

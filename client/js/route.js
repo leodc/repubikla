@@ -31,6 +31,10 @@ window.motivosProperties = {
     }
 };
 
+function hideRouteLayer(){
+  window.map.removeLayer(window.layers.routes);
+}
+
 
 function getRouteStyle (feature){
   var motivo = feature.properties.ruta_motivo;

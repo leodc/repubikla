@@ -7,6 +7,10 @@ function getZoneStyle(zoneProperties){
   };
 }
 
+function hideZonesLayer(){
+  window.map.removeLayer(window.layers.zones);
+}
+
 
 function buildZonePopup(layer){
   var properties = layer.feature.properties;

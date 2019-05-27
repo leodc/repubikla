@@ -85,6 +85,9 @@ body
   script(src='https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js' integrity='sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM' crossorigin='anonymous')
   script(src='/libs/chosen/chosen.jquery.min.js')
   
+  // filesaver
+  script(src='/libs/FileSaver.min.js')
+  
   // leaflet
   script(src='https://unpkg.com/leaflet@1.5.1/dist/leaflet.js' integrity='sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==' crossorigin='')
   script(src='https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.65.1/src/L.Control.Locate.min.js')
@@ -96,6 +99,9 @@ body
   script(src='/libs/leaflet-hash.js')
   script(src='https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js')
   script(src='/libs/PruneCluster/PruneCluster.js')
+  
+  // turf
+  script(src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js")
   
   // spin
   script(src='/libs/spin.js/spin.js')
@@ -110,6 +116,7 @@ body
   include sidebars/indicators.pug
   include sidebars/download.pug
   
+  script(src='/js/indicators.js' charset='utf-8')
   script(src='/js/carto.js' charset='utf-8')
   script(src='/js/point.js' charset='utf-8')
   script(src='/js/route.js' charset='utf-8')

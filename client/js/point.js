@@ -242,3 +242,35 @@ function cleanPointsFilters(){
     window.layers.points.ProcessView();
     showPruneCluster();
 };
+
+
+////////
+////////
+// INDICATORS
+// @types -> array, null for all
+function getPointsInView(acceptedTypes){
+  var features = [];
+
+  var mapBounds = map.getBounds();
+  var counter = 0;
+  for( var marker of markerList ){
+    if(acceptedTypes && acceptedTypes.indexOf(marker.data.type) < 0){
+        continue;
+    }
+
+    if(mapBounds.contains(L.latLng(marker.position))){
+      features.push({
+        "type": "Feature",
+        "geometry": {
+          "type": "Point",
+          "coordinates": [marker.position.lng, marker.position.lat]
+        },
+        "properties": {
+          "_index": counter++
+        }
+      });
+    }
+  }
+
+  return features;
+}

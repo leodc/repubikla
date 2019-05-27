@@ -72,12 +72,18 @@ $(function(){
     }
   });
 
-  // showSidebar("sidebarAbout");
-  showSidebar("sidebarFilter");
+  showSidebar("sidebarIndicators");
 
   $("select").chosen();
 
 });
+
+
+function downloadCsv(filename, csvContent){
+  var blob = new Blob([csvContent], {type: "text/plain;charset=utf-8"});
+  saveAs(blob, filename + ".csv");
+}
+
 
 function loadData(callback){
   getRoutes(function(data){
@@ -157,6 +163,11 @@ function createLayers(){
       content: buildZonePopup,
       options: {}
     }
+  });
+
+  map.createLayer({
+    id: "indicators",
+    initOnView: true
   });
 }
 
