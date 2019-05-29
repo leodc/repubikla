@@ -129,6 +129,24 @@ function createLayers(){
     initOnView: true,
     controlLabel: {
       text: "Puntos"
+    },
+    legend: {
+      html: `
+<i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Incidente vial<br>
+<i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Asalto<br>
+<i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta en estacionamiento<br>
+<i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta estacionada en la calle<br>
+<i class="point-black">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Bicicleta blanca<br>
+<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Cruce peligroso<br>
+<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Diseño urbano peligroso<br>
+<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Condiciones peligrosas<br>
+<i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio/Servicio Bikefriendly<br>
+<i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Colectivo/Punto de encuentro<br>
+<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos estacionados en carril confinado<br>
+<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos en movimiento en carril confinado<br>
+<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio en carril confinado<br>
+<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Invasión recurrente de banqueta<br>
+      `
     }
   });
 
@@ -142,6 +160,9 @@ function createLayers(){
     popup: {
       content: buildRoutePopup,
       options: {}
+    },
+    legend: {
+      html: ""
     }
   });
 
@@ -155,6 +176,9 @@ function createLayers(){
     popup: {
       content: buildZonePopup,
       options: {}
+    },
+    legend: {
+      html: ""
     }
   });
 

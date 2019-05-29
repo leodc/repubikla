@@ -26,56 +26,77 @@ function buildMap(config){
   // base layers & control
   var layerControl = config.groupedLayers ? buildBaseLayersAndControl(map, config.layerControl):buildSimpleLayerControl(map, config.layerControl);
 
-  map.addCustomLayer = function(options){
-    var id=options.id;
-    var controlLabel=options.controlLabel;
-
-    delete options.id;
-    delete options.controlLabel;
-
+  map._addNewLayer = function(layer, options){
     if(options.initOnView){
-      map.addLayer(options.layer);
+      map.addLayer(layer);
     }
 
-    if(controlLabel){
-      layerControl.publishLayer(options.layer, controlLabel);
+    if(options.controlLabel){
+      layerControl.publishLayer(layer, options.controlLabel);
     }
 
-    window.layers[id] = options.layer;
+    if(options.legend){
+      console.log("adding legend");
+
+      var layerObj = {
+          name: options.controlLabel.text,
+          layer: layer,
+          elements: [{
+              html: options.legend.html
+          }]
+      };
+
+      if(!map.htmlLegendControl){
+        var htmlLegend = L.control.htmllegend({
+          position: 'bottomright',
+          legends: [layerObj],
+          detectStretched: true,
+          // collapsedOnInit: true,
+          // defaultOpacity: 0.7,
+          // visibleIcon: 'icon icon-eye',
+          // hiddenIcon: 'icon icon-eye-slash'
+        });
+        map.addControl(htmlLegend);
+
+        map.htmlLegendControl = htmlLegend;
+      }else{
+        map.htmlLegendControl.addLegend(layerObj);
+      }
+
+    }
+
+    window.layers[options.id] = layer;
+  }
+
+  map.addCustomLayer = function(options){
+    var layer = options.layer;
+    delete options.layer;
+
+    map._addNewLayer(layer, options);
   };
 
   map.createWmsLayer = function(options){
     var service = options.wmsOptions.service;
-    var initOnView = (options.initOnView != null) ? options.initOnView:true;
-
-    delete options.wmsOptions.service;
-    delete options.initOnView;
 
     var wmsOptions = {
       transparent: true,
       format: "image/png",
       opacity: .8
     }
-
     for(var key in options.wmsOptions){
       wmsOptions[key] = options.wmsOptions[key];
     }
-
-    // var wmsLayer = L.tileLayer.betterWms(service, wmsOptions);
-    var wmsLayer = L.tileLayer.wms(service, wmsOptions);
-    if(initOnView){
-      wmsLayer.addTo(map);
-    }
-
     if(options.cql_filter){
       wmsLayer.setParams({cql_filter: options.cql_filter});
+      delete options.cql_filter;
     }
 
-    if(options.controlLabel){
-      layerControl.publishLayer(wmsLayer, options.controlLabel);
-    }
+    delete options.wmsOptions.service;
+    delete options.wmsOptions;
 
-    window.layers[options.id] = wmsLayer;
+    var wmsLayer = L.tileLayer.wms(service, wmsOptions);
+
+    map._addNewLayer(wmsLayer, options);
   };
 
 
@@ -86,42 +107,17 @@ function buildMap(config){
   // blur - amount of blur, 15 by default
   // gradient - color gradient config, e.g. {0.4: 'blue', 0.65: 'lime', 1: 'red'}
   map.createHeatmapLayer = function(options){
-    var id=options.id;
-    var controlLabel=options.controlLabel;
-
-    delete options.id;
-    delete options.controlLabel;
-
     var heat = L.heatLayer([], options).addTo(map);
-
-    if(controlLabel){
-      layerControl.publishLayer(heat, controlLabel);
-    }
-
     if(options.data){
       heat.setLatLngs(options.data);
+      delete options.data;
     }
 
-    window.layers[id] = heat;
-    return heat;
+    map._addNewLayer(heat, options);
   }
 
   map.createLayer = function(options){
-    var id=options.id;
-    var controlLabel=options.controlLabel;
-
-    delete options.id;
-    delete options.controlLabel;
-
     var layer = L.geoJSON(null, options);
-
-    if(options.initOnView){
-      layer.addTo(map)
-    }
-
-    if(controlLabel){
-      layerControl.publishLayer(layer, controlLabel);
-    }
 
     if(options.popup){
       layer.bindPopup(options.popup.content, options.popup.options);
@@ -137,8 +133,7 @@ function buildMap(config){
       layer.addData(options.data);
     }
 
-    window.layers[id] = layer;
-    return layer;
+    map._addNewLayer(layer, options);
   }
 
   $(window).on("resize", function(){
