@@ -23,6 +23,10 @@ function buildMap(config){
     var hash = new L.Hash(map);
   }
 
+  if(config.legend){
+    buildLegend(map, config.legend);
+  }
+
   // base layers & control
   var layerControl = config.groupedLayers ? buildBaseLayersAndControl(map, config.layerControl):buildSimpleLayerControl(map, config.layerControl);
 
@@ -33,36 +37,6 @@ function buildMap(config){
 
     if(options.controlLabel){
       layerControl.publishLayer(layer, options.controlLabel);
-    }
-
-    if(options.legend){
-      console.log("adding legend");
-
-      var layerObj = {
-          name: options.controlLabel.text,
-          layer: layer,
-          elements: [{
-              html: options.legend.html
-          }]
-      };
-
-      if(!map.htmlLegendControl){
-        var htmlLegend = L.control.htmllegend({
-          position: 'bottomright',
-          legends: [layerObj],
-          detectStretched: true,
-          // collapsedOnInit: true,
-          // defaultOpacity: 0.7,
-          // visibleIcon: 'icon icon-eye',
-          // hiddenIcon: 'icon icon-eye-slash'
-        });
-        map.addControl(htmlLegend);
-
-        map.htmlLegendControl = htmlLegend;
-      }else{
-        map.htmlLegendControl.addLegend(layerObj);
-      }
-
     }
 
     window.layers[options.id] = layer;
@@ -360,4 +334,18 @@ function buildDialogControl(map, dialogConfig){
   map.showDialog = function(){
     dialog.open();
   }
+}
+
+
+function buildLegend(map, options){
+  var legend = L.control({position: 'bottomright'});
+
+  legend.onAdd = function (map) {
+    var div = L.DomUtil.create('div', 'info legend');
+    div.innerHTML += options.html;
+
+    return div;
+  };
+
+  legend.addTo(map);
 }

@@ -1,5 +1,5 @@
 $(function(){
-  $("#loadingModal").modal("show");
+  // $("#loadingModal").modal("show");
 
   var mapConfig = {
     view: [24.59, -103.14],
@@ -20,6 +20,63 @@ $(function(){
           $(".btn-nav").addClass("btn-link text-secondary");
         }
       }
+    },
+    legend: {
+      html: `
+      <div class="accordion" id="legendContent">
+        <div class="card">
+          <div class="card-header p-0" id="headingOne">
+            <h2 class="mb-0">
+              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" style="color:#1FB261;font-weight:bolder;">
+                Puntos
+              </button>
+            </h2>
+          </div>
+
+          <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#legendContent">
+            <div class="card-body">
+              <i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Incidente vial<br>
+              <i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Asalto<br>
+              <i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta en estacionamiento<br>
+              <i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta estacionada en la calle<br>
+              <i class="point-black">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Bicicleta blanca<br><i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Cruce peligroso<br>
+              <i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Diseño urbano peligroso<br>
+              <i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Condiciones peligrosas<br>
+              <i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio/Servicio Bikefriendly<br>
+              <i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Colectivo/Punto de encuentro<br>
+              <i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos estacionados en carril confinado<br>
+              <i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos en movimiento en carril confinado<br>
+              <i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio en carril confinado<br>
+              <i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Invasión recurrente de banqueta<br>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header p-0" id="headingTwo">
+            <h2 class="mb-0">
+              <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" style="color:#1FB261;font-weight:bolder;">
+                Rutas
+              </button>
+            </h2>
+          </div>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#legendContent">
+            <div class="card-body">
+            <i style="background-color:#3366cc;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Ir al trabajo<br>
+            <i style="background-color:#ff9900;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Regreso a casa<br>
+            <i style="background-color:#990099;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Desplazamientos de trabajo<br>
+            <i style="background-color:#dd4477;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Estudios<br>
+            <i style="background-color:#66aa00;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Visitas<br>
+            <i style="background-color:#b82e2e;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Compras<br>
+            <i style="background-color:#316395;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Paseo, turismo<br>
+            <i style="background-color:#994499;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Deporte<br>
+            <i style="background-color:#22aa99;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comida<br>
+            <i style="background-color:#3b3eac;">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Otra actividad<br>
+            </div>
+          </div>
+        </div>
+      </div>
+      `
     }
   }
 
@@ -27,9 +84,8 @@ $(function(){
 
   createLayers();
 
-  window.auxCounter = 0;
-  loadData(function(){
-    if( ++auxCounter == 3){
+  loadData(function(auxCounter){
+    if( auxCounter == 3){
       if( getUrlParameter("feature") ){
         var aux = getUrlParameter("feature").split("-");
 
@@ -79,16 +135,19 @@ $(function(){
 });
 
 function loadData(callback){
+  var auxCounter = 0;
+
+
   getRoutes(function(data){
     window.layers.routes.addData(data);
 
-    callback();
+    callback(++auxCounter);
   });
 
   getZones(function(data){
     window.layers.zones.addData(data);
 
-    callback();
+    callback(++auxCounter);
   });
 
   getPoints(function(featureCollection){
@@ -118,7 +177,7 @@ function loadData(callback){
 
     pruneCluster.ProcessView();
 
-    callback();
+    callback(++auxCounter);
   });
 }
 
@@ -129,24 +188,6 @@ function createLayers(){
     initOnView: true,
     controlLabel: {
       text: "Puntos"
-    },
-    legend: {
-      html: `
-<i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Incidente vial<br>
-<i class="point-dark-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Asalto<br>
-<i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta en estacionamiento<br>
-<i class="point-red">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Robo de bicicleta estacionada en la calle<br>
-<i class="point-black">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Bicicleta blanca<br>
-<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Cruce peligroso<br>
-<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Diseño urbano peligroso<br>
-<i class="point-lightred">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Condiciones peligrosas<br>
-<i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio/Servicio Bikefriendly<br>
-<i class="point-purple">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Colectivo/Punto de encuentro<br>
-<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos estacionados en carril confinado<br>
-<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Vehículos en movimiento en carril confinado<br>
-<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Comercio en carril confinado<br>
-<i class="point-orange">&nbsp;&nbsp;&nbsp;&nbsp;</i>&nbsp;Invasión recurrente de banqueta<br>
-      `
     }
   });
 
@@ -160,9 +201,6 @@ function createLayers(){
     popup: {
       content: buildRoutePopup,
       options: {}
-    },
-    legend: {
-      html: ""
     }
   });
 
@@ -176,9 +214,6 @@ function createLayers(){
     popup: {
       content: buildZonePopup,
       options: {}
-    },
-    legend: {
-      html: ""
     }
   });
 
