@@ -11,7 +11,7 @@ $(function(){
     },
     sidebar: {
       v1: {
-        ids: ["sidebarFilter", "sidebarDownload", "sidebarAbout", "sidebarIndicators"],
+        ids: ["sidebarFilter", "sidebarAbout", "sidebarIndicators"],
         options: {
           // autoPan: false
         },
@@ -130,27 +130,27 @@ $(function(){
 
   showSidebar("sidebarAbout");
 
-  $("select").chosen();
+  $(".selectFilter").chosen();
 
 });
 
 function loadData(callback){
   var auxCounter = 0;
+  var bounds = null;
 
-
-  getRoutes(function(data){
+  getRoutes(bounds, function(data){
     window.layers.routes.addData(data);
 
     callback(++auxCounter);
   });
 
-  getZones(function(data){
+  getZones(bounds, function(data){
     window.layers.zones.addData(data);
 
     callback(++auxCounter);
   });
 
-  getPoints(function(featureCollection){
+  getPoints(bounds, function(featureCollection){
     var pruneCluster = window.layers.points;
 
     var geojson, marker, coordinates, category;

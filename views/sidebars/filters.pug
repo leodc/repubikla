@@ -5,7 +5,7 @@
     .card-header.bg-secondary
       h5.text-white Puntos
     .card-body
-      select#pointTypeFilter.pl-2(data-placeholder=' Mostrar de tipo...' multiple='multiple')
+      select#pointTypeFilter.selectFilter.pl-2(data-placeholder=' Mostrar de tipo...' multiple='multiple')
         option(value='Incidente vial') Incidente vial
         option(value='Asalto') Asalto
         option(value='Robo de bicicleta en estacionamiento') Robo de bicicleta en estacionamiento
@@ -25,7 +25,7 @@
     .card-header.bg-secondary
       h5.text-white Rutas 
     .card-body
-      select#routeTypeFilter(data-placeholder=' Mostrar con motivo de...' multiple='multiple')
+      select#routeTypeFilter.selectFilter(data-placeholder=' Mostrar con motivo de...' multiple='multiple')
         option(value='Ir al trabajo') Ir al trabajo
         option(value='Regreso a casa') Regreso a casa
         option(value='Desplazamientos de trabajo') Desplazamientos de trabajo
@@ -41,7 +41,7 @@
     .card-header.bg-secondary
       h5.text-white Zonas
     .card-body
-      select#zoneTypeFilter(data-placeholder=' Mostrar con características...' multiple='multiple')
+      select#zoneTypeFilter.selectFilter(data-placeholder=' Mostrar con características...' multiple='multiple')
         option(value='zona_agradable') Agradable
         option(value='zona_desagradable') Desagradable, hostil
         option(value='zona_comoda') C&oacute;moda, con buen dise&ntilde;o de calles y mobiliario

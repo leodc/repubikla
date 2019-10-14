@@ -42,7 +42,7 @@ body
         li.nav-item
           button#sidebarIndicatorsTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarIndicators')") Indicadores
         li.nav-item
-          button#sidebarDownloadTrigger.btn-nav.btn.btn-link.text-secondary(type='button' onclick="showSidebar('sidebarDownload')") Descargar datos
+          button#sidebarDownloadTrigger.btn-nav.btn.btn-link.text-secondary(type='button' data-toggle="modal" data-target="#downloadModal") Descargar datos
         li.nav-item
           a.btn.btn-link.text-secondary(href='https://repubikla.carto.com/maps' target='_blank') Mapas tem&aacute;ticos
       a.btn.btn-link.text-secondary(href='https://gitlab.com/imleo/repubikla' target='_blank')
@@ -51,9 +51,6 @@ body
 
   // content
   #map
-
-  // modals
-  include loading.pug
 
   // fb and twitter buttons
   script.
@@ -114,7 +111,10 @@ body
   include sidebars/about.pug
   include sidebars/filters.pug
   include sidebars/indicators.pug
-  include sidebars/download.pug
+  
+  // modals
+  include loading.pug
+  include download.pug
   
   script(src='/js/indicators.js' charset='utf-8')
   script(src='/js/carto.js' charset='utf-8')
