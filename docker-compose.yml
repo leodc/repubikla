@@ -7,7 +7,9 @@ services:
     ports:
       - 8080:8080
     restart: always
+    environment:
+      - CARTO_USER=
+      - CARTO_API_KEY=
     volumes:
       - ./client:/usr/src/app/client
       - ./views:/usr/src/app/views
-
