@@ -21,7 +21,7 @@
 
             .col-8
               p.mb-2 Extensión:
-              #downloadMap.w-100(style="height:500px;")
+              #downloadMapDiv.w-100(style="height:500px;")
 
 script.
   $("#downloadModal").on("show.bs.modal", function(){
@@ -29,11 +29,13 @@ script.
   });
   
   $("#downloadModal").on("shown.bs.modal", function(){
-    window.downloadMap = L.map("downloadMap", {});
-    
-    var wikimedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
-      attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'
-    }).addTo(downloadMap);
+    if( !window.downloadMap ){
+      window.downloadMap = L.map("downloadMapDiv", {});
+        
+      var wikimedia = L.tileLayer('https://maps.wikimedia.org/osm-intl/{z}/{x}/{y}{r}.png', {
+        attribution: '<a href="https://wikimediafoundation.org/wiki/Maps_Terms_of_Use">Wikimedia</a>'
+      }).addTo(downloadMap);
+    }
     
     downloadMap.fitBounds( map.getBounds() );
     downloadMap.zoomIn();
