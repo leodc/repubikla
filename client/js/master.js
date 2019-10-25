@@ -1,6 +1,7 @@
 $(function(){
   // $("#loadingModal").modal("show");
 
+  var drawLayerId = "drawedFeatures";
   var mapConfig = {
     view: [24.59, -103.14],
     zoom: 5,
@@ -19,6 +20,49 @@ $(function(){
           $(".btn-nav").removeClass("btn-selected");
           $(".btn-nav").addClass("btn-link text-secondary");
         }
+      }
+    },
+    drawControl: {
+      layerId: drawLayerId,
+      edit: {
+        edit: false,
+        remove: false
+      },
+      features: {
+        rectangle: false,
+        circle: false
+      },
+      drawStart: function(){
+        hideSidebars();
+
+        layers[ drawLayerId ].clearLayers();
+
+        window.hideZonesLayer();
+        window.hideRouteLayer();
+        window.hidePruneCluster();
+      },
+      drawAction: function(drawedLayer, type){
+        window.drawType = type;
+
+        if( type === "marker" ){
+          window.drawPoint = L.marker(drawedLayer.getLatLng(), {draggable: true, clickable: true});
+          drawPoint.on("dragend", function(e) {drawPoint.openPopup();}); // keep popup open
+
+          layers[ drawLayerId ].addLayer(drawPoint);
+          $("#pointDataDialog").modal("show");
+        }
+
+      },
+      popup: function(layer){
+        // var content = "<b>" + layer.type + "</b><br><br>";
+        // for(var key in layer.prop){
+        //   if( layer.prop[key] != ""){
+        //     content += "<b>" + key + ":</b> " + layer.prop[key] + "<br>";
+        //   }
+        // }
+        //
+        // return content;
+        return "adsadasdasdas";
       }
     },
     legend: {
@@ -132,7 +176,58 @@ $(function(){
 
   $(".selectFilter").chosen();
 
+  $(".addCustomRow").click(function(e){
+        e.preventDefault();
+
+        var name = (Math.random() * 100000).toString();
+
+        var html = "";
+        html += '<tr class="addedRow">';
+        html += '<td>';
+        html += '    <div class="form-group mb-1">';
+        html += '        <div class="input-group">';
+        html += '            <input class="form-control form-control-sm  ' + $(this).attr("additional-class") + '" name="' + name + '" data-rule-idName="true" type="text" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo">';
+        html += '        </div>';
+        html += '    </div>';
+        html += '</td>';
+        html += '<td>';
+        html += '    <div class="form-group mb-1">';
+        html += '        <div class="input-group">';
+        html += '            <input class="form-control form-control-sm  ' + $(this).attr("additional-class") + '" type="text">';
+        html += '        </div>';
+        html += '    </div>';
+        html += '</td>';
+        html += '</tr>';
+
+        $("#" + $(this).attr("target")).append(html);
+    });
+
+  $("[data-toggle=confirmation]").confirmation({
+    rootSelector: "[data-toggle=confirmation]",
+    btnOkClass: "btn btn-sm btn-outline-secondary",
+    btnCancelClass: "btn btn-sm btn-outline-secondary",
+    btnOkLabel: "Si",
+    btnCancelLabel: "No"
+  });
 });
+
+window.endDraw = function(){
+    $("#dropdownTools").show(100);
+    $("#buttonCancelDraw").hide(100);
+
+    window.layers.drawedFeatures.clearLayers();
+    window.showPruneCluster();
+
+    if( window.drawType === "marker" ){
+        window.cancelNewPoint();
+    } else if( window.drawType === "polygon" ){
+        window.cancelNewZone();
+    } else if( window.drawType === "polyline" ){
+        window.cancelNewRoute();
+    }
+
+    window.drawType = "";
+};
 
 function loadData(callback){
   var auxCounter = 0;

@@ -34,6 +34,14 @@ body {
   color: #1FB261;
 }
 
+.btn-outline-repu{
+  border-color: #1FB261;
+}
+
+.btn-outline-repu:hover{
+  background-color: #1FB261;
+}
+
 .btn-selected{
   background-color: #1FB261;
   color: white;
@@ -72,4 +80,8 @@ body {
 }
 .point-other{
     background: #C0C0C0;
+}
+
+.data-new-feature:hover {
+  cursor: pointer;
 }

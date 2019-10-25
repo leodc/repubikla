@@ -132,7 +132,7 @@ function buildMap(config){
 
 
   if(config.drawControl){
-    addDrawControl(map, config);
+    addDrawControl(map, config.drawControl);
   }
 
   window.map = map;
@@ -152,24 +152,24 @@ function buildMap(config){
   }
 }
 
-function addDrawControl(map, config){
-  var layerId = config.drawControl.layerId;
+function addDrawControl(map, drawControlConfig){
+  var layerId = drawControlConfig.layerId;
   window.layers[layerId] = new L.FeatureGroup().addTo(map);
 
-  if(config.drawControl.popup){
-    window.layers[layerId].bindPopup(config.drawControl.popup, {maxHeight: "300", minWidth: "100"});
+  if(drawControlConfig.popup){
+    window.layers[layerId].bindPopup(drawControlConfig.popup, {maxHeight: "300", minWidth: "100"});
+  }
+
+  var editOptions = {
+    featureGroup: window.layers[layerId]
+  };
+  for (var prop in drawControlConfig.edit) {
+    editOptions[prop] = drawControlConfig.edit[prop];
   }
 
   var drawControl = new L.Control.Draw({
-    edit: {
-      featureGroup: window.layers[layerId]
-    },
-    draw: {
-      polygon: false,
-      polyline: false,
-      rectangle: false,
-      circle: false
-    }
+    edit: editOptions,
+    draw: drawControlConfig.features
   });
 
   map.addControl(drawControl);
@@ -177,8 +177,12 @@ function addDrawControl(map, config){
   map.on(L.Draw.Event.CREATED, function (e) {
     var type = e.layerType, layer = e.layer;
 
-    config.drawControl.drawAction(layer);
+    drawControlConfig.drawAction(layer, type);
   });
+
+  if( drawControlConfig.drawStart ){
+    map.on(L.Draw.Event.DRAWSTART, drawControlConfig.drawStart);
+  }
 }
 
 
