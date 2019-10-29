@@ -3,17 +3,20 @@ var express = require("express");
 var app = express();
 var http = require("http").Server(app);
 var path = require("path");
-var io = require('socket.io')(http);
+var io = require("socket.io")(http);
 var carto = require("./config/carto");
+var ejs = require("ejs");
 
 //setup
 app.set("port", process.env.PORT || 8080);
 app.use(express.static(path.join(__dirname, "client")));
-app.set("view engine", "pug");
+app.set("view engine", "ejs");
+
+console.log(process.env.CARTO_API_QUERY_HOST);
 
 // routing
 app.get("/", function (req, res) {
-  res.render("index");
+  res.render("index", { CARTO_API_QUERY_HOST: process.env.CARTO_API_QUERY_HOST });
 });
 
 // sockets
@@ -21,17 +24,9 @@ io.on('connection', function(socket){
 
   socket.on("insertPoint", carto.insertPoint);
 
-  socket.on("insertRoute", function(geojson, callback){
-    carto.insertRoute(geojson, function(geojsonResponse){
-      callback(geojsonResponse);
-    });
-  });
+  socket.on("insertRoute", carto.insertRoute);
 
-  socket.on("insertZone", function(geojson, callback){
-    carto.insertZone(geojson, function(geojsonResponse){
-      callback(geojsonResponse);
-    });
-  });
+  socket.on("insertZone", carto.insertZone);
 
 });
 
