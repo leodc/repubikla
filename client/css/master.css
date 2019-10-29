@@ -60,6 +60,11 @@ body {
   border-radius:50%;
 }
 
+.leaflet-container .btn-link {
+    color: #0078A8;
+}
+
+
 .point-dark-red{
     background: #b82e2e;
 }
