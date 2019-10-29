@@ -5,11 +5,12 @@ services:
     build: .
     image: imleo/repubikla:v2
     ports:
-      - 8080:8080
+      - 30000:8080
     restart: always
     environment:
       - CARTO_USER=
       - CARTO_API_KEY=
+      - CARTO_API_QUERY_HOST=https://user.carto.com/api/v2/sql?q=
     volumes:
       - ./client:/usr/src/app/client
       - ./views:/usr/src/app/views
