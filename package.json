@@ -18,9 +18,9 @@
   "homepage": "https://gitlab.com/imleo/repubikla#readme",
   "dependencies": {
     "cartodb": "^0.5.1",
+    "ejs": "^2.7.1",
     "express": "^4.17.0",
     "geojson-validation": "^0.2.1",
-    "pug": "^2.0.3",
     "socket.io": "^2.3.0"
   }
 }
