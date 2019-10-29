@@ -39,7 +39,7 @@ $(function(){
 
         window.hideZonesLayer();
         window.hideRouteLayer();
-        window.hidePruneCluster();
+        // window.hidePruneCluster();
       },
       drawAction: function(drawedLayer, type){
         window.drawType = type;
@@ -49,20 +49,12 @@ $(function(){
           drawPoint.on("dragend", function(e) {drawPoint.openPopup();}); // keep popup open
 
           layers[ drawLayerId ].addLayer(drawPoint);
-          $("#pointDataDialog").modal("show");
+          $("#pointDataDialog").modal({keyboard: false, show: true, backdrop: "static"});
         }
 
       },
       popup: function(layer){
-        // var content = "<b>" + layer.type + "</b><br><br>";
-        // for(var key in layer.prop){
-        //   if( layer.prop[key] != ""){
-        //     content += "<b>" + key + ":</b> " + layer.prop[key] + "<br>";
-        //   }
-        // }
-        //
-        // return content;
-        return "adsadasdasdas";
+        return "Default popup";
       }
     },
     legend: {
@@ -212,9 +204,6 @@ $(function(){
 });
 
 window.endDraw = function(){
-    $("#dropdownTools").show(100);
-    $("#buttonCancelDraw").hide(100);
-
     window.layers.drawedFeatures.clearLayers();
     window.showPruneCluster();
 

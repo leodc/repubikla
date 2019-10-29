@@ -18,8 +18,6 @@ window.pointDictionary = [
 var categorys = ["point-dark-red", "point-red", "point-black", "point-lightred", "point-purple", "point-orange", "point-other"];
 var colors = ["#b82e2e", "#dc3912", "#000000", "#ff9900", "#990099", "#FF6347", "#C0C0C0"]
 
-var addPointToLayer;
-
 function hidePruneCluster(){
   window.map.removeLayer(layers.points);
 };
@@ -205,13 +203,13 @@ function buildPruneCluster(){
     return m;
   };
 
-  addPointToLayer = function(geojson){
+  pruneCluster.addPointToLayer = function(geojson){
     marker = new PruneCluster.Marker(geojson.geometry.coordinates[1], geojson.geometry.coordinates[0]);
     marker.data.icon = L.divIcon({className: "leaflet-div-icon-point " + window.getPointCategory(geojson.properties.type)});
     marker.data.popup = buildPointPopup(geojson.properties);
 
-    pruneCluster.RegisterMarker(marker);
-    pruneCluster.ProcessView();
+    this.RegisterMarker(marker);
+    this.ProcessView();
   };
 
   return pruneCluster;
