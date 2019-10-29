@@ -1,0 +1,209 @@
+<div class="modal fade" id="pointDataDialog" role="dialog" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title text-secondary">Cuéntanos acerca del punto que deseas agregar</h5>
+        <!-- <button class="close" type="button" data-dismiss="modal">&times;</button> -->
+      </div>
+
+      <div class="modal-body">
+        <form id="formPointData">
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-6 right-separator">
+                <div class="form-group mb-1">
+                  <label class="col-form-label col-form-label-sm" for="newPointMotivo">¿Qué indica este punto?</label>
+                  <select class="form-control form-control-sm" id="newPointMotivo">
+                    <option value="Cruce peligroso">Cruce peligroso</option>
+                    <option value="Diseño urbano peligroso">Diseño urbano peligroso</option>
+                    <option value="Condiciones peligrosas">Condiciones peligrosas</option>
+                    <option value="Bicicleta blanca">Bicicleta blanca</option>
+                    <optgroup label="Suceso">
+                      <option value="Asalto">Asalto</option>
+                      <option value="Incidente vial">Incidente vial</option>
+                      <option value="Robo de bicicleta en estacionamiento">Robo de bicicleta en estacionamiento</option>
+                      <option value="Robo de bicicleta estacionada en la calle">Robo de bicicleta estacionada en la calle</option>
+                    </optgroup>
+                    <optgroup label="Invasión de ciclovía o carril confinado por:">
+                      <option value="Vehículos estacionados en carril confinado">Vehículos estacionados</option>
+                      <option value="Vehículos en movimiento en carril confinado">Vehículos en movimiento</option>
+                      <option value="Comercio en carril confinado">Comercio</option>
+                      <option value="Otro">Otro</option>
+                    </optgroup>
+                    <optgroup label="Bikefriendly">
+                      <option value="Comercio/Servicio Bikefriendly">Comercio/Servicio Bikefriendly</option>
+                      <option value="Colectivo/Punto de encuentro">Colectivo/Punto de encuentro</option>
+                    </optgroup>
+                  </select>
+                </div>
+
+                <div class="form-group mb-1">
+                  <label class="col-form-label col-form-label-sm" for="newPointDate">Fecha</label>
+                  <input class="form-control form-control-sm data-new-feature" id="newPointDate" data-provide="datepicker" data-date-today-highlight="true" data-date-language="es" data-date-autoclose="true" data-date-clear-btn="true" data-date-container="#pointDataDialog" data-date-format="yyyy-mm-dd" data-date-end-date="0d" readonly="readonly" />
+                </div>
+
+                <div class="form-group mb-1">
+                  <label class="col-form-label col-form-label-sm" for="newPointComment">Comentario</label>
+                  <textarea class="form-control form-control-sm" id="newPointComment" rows="4" placeholder="Indica información puntual para caracterizar con mayor profundidad el elemento"></textarea>
+                </div>
+              </div>
+
+              <div class="col-sm-6" style="border-left:1px solid black;">
+                <h5>Información personalizada</h5>
+                <p class="small">Agrega tantos pares como necesites, si no ocupas alguno solo déjalo vacío.</p>
+                <table class="table table-striped table-sm">
+                  <thead>
+                    <tr>
+                      <th>Categoría</th>
+                      <th>Valor</th>
+                    </tr>
+                  </thead>
+                  <tbody id="pointCustomInfo">
+                    <tr>
+                      <td>
+                        <div class="form-group mb-1">
+                          <div class="input-group">
+                            <input class="form-control form-control-sm newPointValue" type="text" data-date-end-date="0d" data-rule-minlength="3" data-rule-maxlength="25" data-msg-minlength="Muy corto" data-msg-maxlength="Muy largo" data-rule-idname="true" />
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <div class="form-group mb-1">
+                          <div class="input-group">
+                            <input class="form-control form-control-sm newPointValue" type="text" />
+                          </div>
+                        </div>
+                      </td>
+
+                      <td>
+                        <i class='fas fa-times' style='color:red;'></i>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <button class="btn btn-secondary pull-right btn-sm addCustomRow" target="pointCustomInfo" additional-class="newPointValue">Añadir Categoría</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Footer-->
+      <div class="modal-footer">
+        <button class="btn btn-success bg-repu" id="submitPointData" type="button">Siguiente</button>
+        <button class="cancel-btn btn btn-secondary" type="button" data-confirmation-event="END_DRAW" data-toggle="confirmation" data-title="¿Deseas eliminar el marcador?" data-popout="true">Cancelar dibujo</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+  $(".cancel-btn").on("END_DRAW", function(){
+    window.endDraw();
+  });
+
+  $("#pointDataDialog").on("shown.bs.modal", function(){
+    var today = new Date();
+
+    var strDate = 'yyyy-mm-dd'
+    .replace('yyyy', today.getFullYear())
+    .replace('mm', today.getMonth()+1)
+    .replace('dd', today.getDate());
+
+    $("#newPointDate").datepicker("setDate", strDate);
+
+    $("#submitPointData").click(function(e){
+      $("#formPointData").submit();
+    });
+
+    $('#formPointData').validate({
+      highlight: function(element) {
+        $(element).closest('.form-group').addClass('has-error');
+      },
+      unhighlight: function(element) {
+        $(element).closest('.form-group').removeClass('has-error');
+      },
+      errorElement: 'span',
+      errorClass: 'help-block',
+      errorPlacement: function(error, element) {
+        if(element.parent('.input-group').length) {
+          error.insertAfter(element.parent());
+        } else {
+          error.insertAfter(element);
+        }
+      },
+      submitHandler: function(form) {
+        window.newPointData = {
+          type: $("#newPointMotivo").val(),
+          date : $("#newPointDate").val()
+        };
+
+        var comment = $("#newPointComment").val();
+        if( comment !== null && comment.length > 0 ){
+          newPointData["Comentario"] = comment;
+        }
+
+        var customValues = $("input.newPointValue[type='text']");
+        var key, value;
+        for( var i = 0; i < customValues.length; i = i + 2 ){
+          key = customValues[i].value;
+          value = customValues[i+1].value;
+
+          if(key !== null && key.length > 0){
+            newPointData[key] = value;
+          }
+        }
+
+        $("#pointDataDialog").modal('hide');
+
+        var html = "<div style='margin-top: 5px;'><button class='btn btn-success btn-sm bg-repu' onclick='insertPoint();' id='submitPoint'>Aceptar</button>&nbsp;<button class='btn btn-secondary btn-sm' data-toggle='modal' data-target='#pointDataDialog'>Modificar datos</button></div>";
+
+        var popup = L.popup({
+          closeOnClick: false,
+          closeButton: false
+        }).setContent(buildPointPopup(newPointData, html));
+
+        drawPoint.bindPopup(popup).openPopup();
+      }
+    });
+  });
+
+  window.insertPoint = function(){
+    $("#submitPoint").prop("disabled", true);
+
+    var geojson = drawPoint.toGeoJSON();
+
+    for(var key in newPointData ){
+      geojson.properties[key] = newPointData[key];
+    }
+
+    console.log("inserting point", geojson);
+    socket.emit("insertPoint", geojson, function(err, geojson){
+      if(err){
+        console.log("Error inserting point", geojson, err);
+      }else{
+        drawPoint.bindPopup(L.popup().setContent("¡ Gracias ! Ahora tu información forma parte de Repubikla.")).openPopup();
+        setTimeout(function(){
+          $("#submitPoint").prop("disabled", false);
+          cancelNewPoint();
+        }, 2500);
+
+        window.layers.points.addPointToLayer(geojson);
+        showPruneCluster();
+      }
+    });
+  };
+
+  function cancelNewPoint(){
+    window.layers.drawedFeatures.clearLayers();
+
+    $("#pointDataDialog").modal('hide');
+
+    $("#newPointComment").val("");
+    $(".newPointValue").val("");
+    $(".addedRow").remove();
+  }
+</script>

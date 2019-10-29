@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Repubikla</title>
+  <link rel="icon" href="/img/logo_clean.png">
+  <meta property="og:url" content="https://repubikla.org">
+  <meta property="og:title" content="Repubikla">
+  <meta property="og:description" content="Plataforma de mapeo alimentada por ciudadanos que con una estrategia de crowdsourcing busca generar y centralizar datos sobre la movilidad no motorizada en las ciudades.">
+  <!-- bootstrap-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+  <!-- multiselect-->
+  <link rel="stylesheet" href="/libs/chosen/chosen.min.css">
+  <!-- font-awesome-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+  <!-- leaflet-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="">
+  <link rel="stylesheet" href="/libs/leaflet.sidebar/L.Control.Sidebar.css">
+  <link rel="stylesheet" href="/libs/PruneCluster/PruneCluster.css">
+  <link rel="stylesheet" href="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.css">
+  <link rel="stylesheet" href="/css/master.css">
+</head>
+
+<body>
+  <!-- navigation bar-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top"><a class="navbar-brand" href="#"><img alt="Brand" src="/img/logo_clean.png" width="40"></a><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+    aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item"><button class="btn-nav btn btn-link text-secondary" id="sidebarAboutTrigger" type="button" onclick="showSidebar('sidebarAbout')">Acerca del proyecto</button></li>
+        <li class="nav-item"><button class="btn-nav btn btn-link text-secondary" id="sidebarFilterTrigger" type="button" onclick="showSidebar('sidebarFilter')">Filtrar datos</button></li>
+        <li class="nav-item"><button class="btn-nav btn btn-link text-secondary" id="sidebarIndicatorsTrigger" type="button" onclick="showSidebar('sidebarIndicators')">Indicadores</button></li>
+        <li class="nav-item"><button class="btn-nav btn btn-link text-secondary" id="sidebarDownloadTrigger" type="button" data-toggle="modal" data-target="#downloadModal">Descargar datos</button></li>
+        <li class="nav-item"><a class="btn btn-link text-secondary" href="https://repubikla.carto.com/maps" target="_blank">Mapas temáticos</a></li>
+      </ul>
+
+      <a class="btn btn-link text-secondary" href="https://gitlab.com/imleo/repubikla" target="_blank"><i class="fab fa-gitlab"></i>&nbsp;Gitlab del proyecto</a></div>
+    </nav>
+
+    <!-- content-->
+    <div id="map"></div>
+
+    <script type="text/javascript">
+      window.twttr = (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0],
+      t = window.twttr || {};
+      if (d.getElementById(id)) return t;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "https://platform.twitter.com/widgets.js";
+      fjs.parentNode.insertBefore(js, fjs);
+      t._e = [];
+      t.ready = function(f) {
+      t._e.push(f);
+      };
+      return t;
+      }(document, "script", "twitter-wjs"));
+      (function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/es_LA/sdk.js#xfbml=1&version=v2.7";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));
+    </script>
+
+    <!-- socket.io-->
+    <script src="/socket.io/socket.io.js"></script>
+    <!-- jQuery first, then Popper.js, then Bootstrap JS-->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="/libs/chosen/chosen.jquery.min.js"></script>
+    <!-- datepicker-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.es.min.js"></script>
+    <!-- jquery-validator -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.15.1/jquery.validate.js"></script>
+    <!-- bootstrap-confirm-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-confirmation2/dist/bootstrap-confirmation.min.js"></script>
+    <!-- filesaver-->
+    <script src="/libs/FileSaver.min.js"></script>
+    <!-- leaflet-->
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol@0.65.1/src/L.Control.Locate.min.js"></script>
+    <script src="/libs/leaflet-groupedlayercontrol/leaflet.groupedlayercontrol.min.js"></script>
+    <script src="/libs/leaflet-dialog/Leaflet.Dialog.js"></script>
+    <script src="/libs/leaflet-sidebar-v2/leaflet-sidebar.js"></script>
+    <script src="/libs/leaflet.sidebar/L.Control.Sidebar.js"></script>
+    <script src="/libs/leaflet-heat.js"></script>
+    <script src="/libs/leaflet-hash.js"></script>
+    <script src="/libs/PruneCluster/PruneCluster.js"></script>
+    <!-- draw-->
+    <script src="https://api.mapbox.com/mapbox.js/plugins/leaflet-draw/v0.4.10/leaflet.draw.js"></script>
+    <script src="/libs/leaflet.draw.locale.es.js"></script>
+    <!-- turf-->
+    <script src="https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js"></script>
+    <!-- spin-->
+    <script src="/libs/spin.js/spin.js"></script>
+    <script src="/libs/spin.js/leaflet.spin.min.js"></script>
+
+    <!-- sidebars-->
+    <% include sidebars/about %>
+    <% include sidebars/filters %>
+    <% include sidebars/indicators %>
+
+    <!-- modals -->
+    <% include modals/loading %>
+    <% include modals/download %>
+    <% include modals/newPoint %>
+
+    <script type="text/javascript">
+      // globals
+      window.socket = io();
+      window.CARTO_API_QUERY_HOST= "<%= CARTO_API_QUERY_HOST %>";
+    </script>
+
+    <script src="/js/features/utils.js" charset="utf-8"></script>
+    <script src="/js/indicators.js" charset="utf-8"></script>
+    <script src="/js/carto.js" charset="utf-8"></script>
+    <script src="/js/point.js" charset="utf-8"></script>
+    <script src="/js/route.js" charset="utf-8"></script>
+    <script src="/js/zone.js" charset="utf-8"></script>
+    <script src="/js/map.js" charset="utf-8"></script>
+    <script src="/js/master.js" charset="utf-8"></script>
+
+</body>

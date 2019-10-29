@@ -1,0 +1,22 @@
+<div id="sidebarIndicators">
+  <h3>Indicadores</h3>
+  <div class="card">
+    <div class="card-body bg-secondary text-white text-uppercase p-1">
+      <p>Estos indicadores se generan con la extensión de la vista actual del mapa y su procesamiento consume recursos de tu computadora.</p>
+      <p class="mb-0">Te recomendamos empezar con una sección pequeña del mapa :)</p>
+    </div>
+  </div>
+  <hr/>
+  
+  <h5>Los 10 cruces con mayor número de incidentes viales.</h5>
+
+  <div class="input-group mb-0">
+    <div class="input-group-prepend"><span class="input-group-text">Radio del buffer:</span></div><input class="form-control" id="topBufferSize" type="number" value="20" />
+    <div class="input-group-append"><span class="input-group-text">metros</span></div>
+  </div>
+
+  <div class="form-group"><textarea class="form-control" id="resultTopDangerous" style="white-space: pre;" disabled="" rows="5"></textarea></div>
+  <div class="float-right"><button class="btn btn-outline-info btn-xs" id="downloadTopDangerous" type="button" onclick="downloadTopDangerousResults()" hidden="">Descargar resultados</button></div>
+  <div class="clearfix mb-2"></div>
+  <div class="float-right"><button class="btn btn-success bg-repu mr-1" type="button" onclick="getTopDangerous()">Generar</button><button class="btn btn-secondary" type="button" onclick="clearIndicators()">Limpiar</button></div>
+</div>
